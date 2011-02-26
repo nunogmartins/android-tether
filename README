@@ -1,0 +1,17 @@
+Wireless Tether for Root Users
+Open Garden Release 2.0.6.Pre (Chihuahua)
+* 02/20/2011 - 2.0.6 base + updated Internationalization DE, JP, PT-rBR 
+* 01/27/2011 - 2.0.5 posted source @ http://opengarden.com/source
+* 12/21/2010 - 2.0.1 Wireless interface set up in AdHoc-Mode. 
+--------------------------------------------------------------
+Proof-of-Technology - OG Mesh Protocol. 
+Open Garden Wifi Tether shares the handset network connection (GPRS/EDGE/UMTS/HSDPA), creating an ad-hoc Wifi Access HotSpot.
+--------------------------------------------------------------
+This program enables ad-hoc tethering (wifi and bluetooth).
+*** Requirements:
+*** This application requires root-permission ***
+*** on the device
+--------------------------------------------------------------
+Credits/Thanks:
+* http://code.google.com/p/android-wifi-tether/
+* android-wifi-tether 2.0.6 by Harrald Muller
