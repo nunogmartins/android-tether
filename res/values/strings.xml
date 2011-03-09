@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_application_name">Open Garden Wifi Tether</string>
+	<string name="global_application_name">Open Garden WiFi Tether</string>
 	<string name="global_application_installed">Open Garden config-files installed!</string>
 	<string name="global_application_error_restartsecwifi">Unable to restart secured wifi!</string>
 	<string name="global_application_tethering_running">Tethering is currently running ...</string>
@@ -12,7 +12,7 @@
     <string name="main_activity_about">About</string>
     <string name="main_activity_donate">Donate</string>
     <string name="main_activity_close">Close</string>
-    <string name="main_activity_notroot">Not Root!</string>
+    <string name="main_activity_notroot">Device not Root enabled!</string>
     <string name="main_activity_nonetfilter">No Netfilter!</string>
     <string name="main_activity_noaccesscontrol">No Access Control!</string>
     <string name="main_activity_accesscontrol_disabled">Access-Control disabled.</string>
@@ -28,8 +28,8 @@
     <string name="main_activity_start_summary">Please wait while starting...</string>
     <string name="main_activity_start_errors">Tethering started with errors! Please check \'Show log\'.</string>
     <string name="main_activity_start_unable">Unable to start tethering. Is your device \'rooted\'?</string>
-    <string name="main_activity_start_wiredtethering_running">Wired-tethering seems to be running at the moment. Please disable first!</string>
-    <string name="main_activity_start_usbtethering_running"><![CDATA[USB-tethering seems to be running at the moment. Please disable it first: Settings -> Wireless & network setting -> Internet tethering.]]></string>
+    <string name="main_activity_start_wiredtethering_running">Wired-tethering appears be running. Please disable wired-tethering first!</string>
+    <string name="main_activity_start_usbtethering_running"><![CDATA[USB-tethering appears to be running. Please disable it through: Settings -> Wireless & network setting -> Internet tethering.]]></string>
     <string name="main_activity_start_unknownstate">Your phone is currently in an unknown state - try to reboot!</string>
     <string name="main_activity_stop">Stop Tethering</string>
     <string name="main_activity_stop_summary">Please wait while stopping...</string> 
@@ -38,8 +38,8 @@
     <string name="main_activity_trackball_pressed_start">Trackball pressed. Confirm tether start.</string>
     <string name="main_activity_trackball_pressed_stop">Trackball pressed. Confirm tether stop.</string>
     <string name="log_activity_nologfile">Unable to open log-File. File does not exist!</string>
-    <string name="main_layout_presstostart">- Start Open Garden Tethering. -</string> 
-    <string name="main_layout_presstostop">- Press to stop tethering. -</string> 
+    <string name="main_layout_presstostart">- Start Open Garden -</string> 
+    <string name="main_layout_presstostop">- Stop Tethering -</string> 
     <string name="main_layout_download">Download</string> 
     <string name="main_layout_upload">Upload</string> 
     <string name="main_layout_lock">Lock</string> 
@@ -96,7 +96,7 @@
 	<string name="setup_layout_discoverable">Discoverable</string>
 	<string name="setup_layout_discoverable_summary">Make device discoverable for 120 seconds on start-up</string>
 	<string name="setup_layout_wifiencryption">Enable WiFi-Encryption</string>
-	<string name="setup_layout_wifiencryption_summary">Turn on wifi-encrytion</string>
+	<string name="setup_layout_wifiencryption_summary">Turn on WiFi-Encryption</string>
 	<string name="setup_layout_encryptionsetup">Encryption setup method</string>
 	<string name="setup_layout_encryptionsetup_summary">Change WiFi-Ecryption setup method</string>
 	<string name="setup_layout_passphrase">Change Passphrase</string>
@@ -141,21 +141,21 @@
 	<string name="clientrow_layout_macaddress">MAC-Address:</string>
 	<string name="clientrow_layout_name">Name:</string>
 	<string name="clientrow_layout_ipaddress">IP-Address:</string>
-	<string name="donate_layout_line1">Open Garden Foundation promotes Net Neutraility. Please consider a donation to help with this project.</string>
-	<string name="donate_layout_line2">By donating you provide support to an open-source project.</string>
-	<string name="donate_layout_line3">Donations are used to advocate for Net Neutrality and eInclusion.</string>
+	<string name="donate_layout_line1">Open Garden Foundation promotes Net Neutrality. Please consider a donation to help with this project.</string>
+	<string name="donate_layout_line2">By donating you support an Open Source project.</string>
+	<string name="donate_layout_line3">Donations are used to advocate Net Neutrality.</string>
 	<string name="donate_layout_line4">You can also donate later through the \'About\' dialog.</string>
-	<string name="donate_layout_line5">Thanks for the support. Follow on Twitter @OpenGardening</string>
-	<string name="noaccesscontrol_layout_line1">Sorry, but your kernel does not have all necessary features for the Access Control feature of this application. Access Control will be disabled.</string>
-	<string name="noaccesscontrol_layout_line2">Please see the FAQ http://opengarden.net/faq/og.android.tether</string>
-	<string name="nonetfilter_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
-	<string name="nonetfilter_layout_line2">Please see the http://opengarden.net/faq/og.android.tether</string>
-	<string name="noroot_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
-	<string name="update_layout_line1">There is an update available!</string>
-	<string name="update_layout_line2">Do you want to install this Open Garden Wifi Tether update now?</string>
-	<string name="bt_warning_line1">This method of bluetooth-tethering (PAN) is known only work on some device/android-platforms. Not all (sorry).</string>
+	<string name="donate_layout_line5">Thank you very much for the support! Please check Twitter @OpenGardening for updates on Open Garden.</string>
+	<string name="noaccesscontrol_layout_line1">Sorry, your Operating System does not have necessary for Access Control feature of this application. Access Control will be disabled.</string>
+	<string name="noaccesscontrol_layout_line2">Please see the FAQ: http://opengarden.net/og.wifi-tether/FAQ</string>
+	<string name="nonetfilter_layout_line1">Sorry, your Operating System does not have all necessary features for running this application.</string>
+	<string name="nonetfilter_layout_line2">Please see the FAQ: http://opengarden.net/og.wifi-tether/FAQ</string>
+	<string name="noroot_layout_line1">Sorry, your Operating System does not have necessary features for running this application.</string>
+	<string name="update_layout_line1">There is an Open Garden WiFi Tether application update available!</string>
+	<string name="update_layout_line2">Install the Open Garden WiFi Tether update now?</string>
+	<string name="bt_warning_line1">Bluetooth-tethering (PAN) may not work on all devices or android-platforms.</string>
 	<string name="bt_warning_line2">This function might not work on your device!</string>
-	<string name="txpower_warning_line1">The ability to reduce the wifi-transmit power depends on the wifi-chip.</string>
+	<string name="txpower_warning_line1">The ability to reduce wifi-transmit power depends on the wifi-chip in your device.</string>
 	<string name="txpower_warning_line2">This function might not work on your device!</string>
 
     <string-array name="notificationmodenames">  
@@ -190,7 +190,7 @@
 	<!-- Below values don't need to be translated -->
 	<string name="main_activity_temperatureunit_celsius">°C</string>
 	<string name="main_activity_temperatureunit_fahrenheit">°F</string>
-	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=PCLDW6XV6F244</string>
+	<string name="paypalUrl">https://opengarden.net/donate</string>
     <string-array name="notificationmodevalues">  
 		<item>0</item>  
 		<item>1</item>  

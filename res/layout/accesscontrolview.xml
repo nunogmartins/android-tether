@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/background">
+    android:background="@drawable/background_og">
 	<RelativeLayout android:id="@+id/layoutHeaderAC"
 		android:layout_width="fill_parent"
 		android:layout_height="40dp"
@@ -18,8 +18,7 @@
 			android:layout_marginTop="15px"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentLeft="true"
-			android:textStyle="bold"
-			android:textColor="#ffffff" />
+			android:textStyle="bold" android:textColor="#000033"/>
 		<ToggleButton android:id="@+id/buttonAC"
 		    android:layout_width="80dp"
 		    android:layout_height="fill_parent"
@@ -39,7 +38,7 @@
 		android:layout_marginBottom="5px"
 		android:layout_marginLeft="10px"
 		android:textStyle="bold"
-		android:textColor="#FFFFFFFF" />	
+		android:textColor="#000033" />	
     <ListView android:id="@id/android:list"
         android:layout_width="fill_parent" 
         android:layout_height="fill_parent"

@@ -6,7 +6,8 @@
 	<ScrollView
 		android:orientation="vertical"
 		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent">    
+		android:layout_height="fill_parent"
+	    android:background="@drawable/background_og">    
 		<LinearLayout
 		    android:orientation="vertical"
 		    android:layout_width="fill_parent"
@@ -19,7 +20,7 @@
 				android:paddingRight="15px"
 				android:textStyle="bold"
 				android:gravity="center_vertical|center_horizontal"
-				android:textColor="#ffffff" />
+				android:textColor="#000033" />
 			<TextView android:text="@string/nonetfilter_layout_line2"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
@@ -28,7 +29,7 @@
 				android:paddingRight="15px"
 				android:autoLink="web"
 				android:gravity="center_vertical|center_horizontal"
-				android:textColor="#ffffff" />				
+				android:textColor="#000033" />				
 			</LinearLayout>
 		</ScrollView>			
 </LinearLayout>

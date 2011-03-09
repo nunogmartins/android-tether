@@ -6,7 +6,8 @@
 	<ScrollView android:id="@+id/scrollViewUpdate" 
 		android:orientation="vertical"
 		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent">    
+		android:layout_height="fill_parent"
+        android:background="@drawable/background_og">    
 		<LinearLayout
 		    android:orientation="vertical"
 		    android:layout_width="fill_parent"
@@ -19,7 +20,7 @@
 				android:paddingLeft="15px"
 				android:paddingRight="15px"
 				android:textStyle="bold"
-				android:textColor="#ffffff" />
+				android:textColor="#000033" />
 			<TextView android:text=""
 				android:id="@+id/updateMessage"
 				android:layout_width="fill_parent" 
@@ -30,7 +31,7 @@
 				android:paddingRight="15px"
 				android:textStyle="bold"
 				android:autoLink="web"
-				android:textColor="#ffffaa" />	
+				android:textColor="#000033" />	
 			<TextView android:text="@string/update_layout_line2"
 				android:id="@+id/updateNowText"
 				android:layout_width="fill_parent" 
@@ -40,7 +41,7 @@
 				android:paddingLeft="15px"
 				android:paddingRight="15px"
 				android:textStyle="bold"
-				android:textColor="#ffffff" />		
+				android:textColor="#000033" />		
 			</LinearLayout>
 		</ScrollView>	
 </LinearLayout>

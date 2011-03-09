@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FF000000"
+    android:background="@drawable/background_og"
     android:paddingTop="10dp"
     android:paddingBottom="10dp">
 	<TableLayout
@@ -27,35 +27,35 @@
 					<TextView
 						android:text="@string/clientrow_layout_macaddress"
 				    	android:textStyle="bold"
-						android:textColor="#FFFFFFFF"/>
+						android:textColor="#000033"/>
 				    <TextView android:id="@+id/macaddress"
 				    	android:layout_width="140dp"
 				    	android:textStyle="bold"
-						android:textColor="#FFFFFFFF"
+						android:textColor="#000033"
 						android:paddingLeft="5px" />
 				</TableRow>
 				<TableRow android:layout_width="fill_parent">
 					<TextView
 						android:text="@string/clientrow_layout_name"
 				    	android:textStyle="bold"
-						android:textColor="#FFFFFFFF" />
+						android:textColor="#000033" />
       				<TextView android:id="@+id/clientname"
       					android:layout_width="140dp"
 						android:text="- Unknown -" 
 				    	android:textStyle="bold"
-						android:textColor="#FFFFFFFF" 
+						android:textColor="#000033" 
 						android:paddingLeft="5dp" />
 				</TableRow>
 				<TableRow android:layout_width="fill_parent">
 					<TextView
 						android:text="@string/clientrow_layout_ipaddress"
 				    	android:textStyle="bold"
-						android:textColor="#FFFFFFFF" />
+						android:textColor="#000033" />
       				<TextView android:id="@+id/ipaddress"
       					android:layout_width="140dp"
 						android:text="- Not connected -" 
 				    	android:textStyle="bold"
-						android:textColor="#FFFFFFFF"
+						android:textColor="#000033"
        					android:paddingLeft="5dp" />	
 				</TableRow>
 			</TableLayout>
