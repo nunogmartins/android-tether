@@ -142,6 +142,8 @@ public class MainActivity extends Activity {
         animation.setRepeatCount(1);
         animation.setRepeatMode(Animation.REVERSE);
 
+        this.application.reportStats();
+
         // Startup-Check
         if (this.application.startupCheckPerformed == false) {
 	        this.application.startupCheckPerformed = true;

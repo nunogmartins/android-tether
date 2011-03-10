@@ -20,6 +20,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Properties;
 
@@ -31,13 +32,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.tether.data.ClientData;
 import android.tether.system.BluetoothService;
 import android.tether.system.Configuration;
@@ -130,8 +136,9 @@ public class TetherApplication extends Application {
 	public WebserviceTask webserviceTask = null;
 	
 	// Update Url
-	private static final String APPLICATION_PROPERTIES_URL = "http://android-wifi-tether.googlecode.com/svn/download/update/all/stable/application.properties";
-	private static final String APPLICATION_DOWNLOAD_URL = "http://android-wifi-tether.googlecode.com/files/";
+	private static final String APPLICATION_PROPERTIES_URL = "https://github.com/opengarden/android-tether/blob/stable/application.properties";
+	private static final String APPLICATION_DOWNLOAD_URL = "https://github.com/opengarden/android-tether/blob/stable/files";
+	private static final String APPLICATION_STATS_URL = "http://opengarden.com/android-tether/stats";
 	
 	
 	@Override
@@ -806,6 +813,44 @@ public class TetherApplication extends Application {
 				TetherApplication.this.displayMessageHandler.sendMessage(msg);
 			}
 		}).start();
+    }
+    
+    public void reportStats() {
+        final HashMap<String,Object> h = new HashMap<String,Object>();
+        h.put("aid", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
+        h.put("aver", Build.VERSION.RELEASE);
+        h.put("mdl", Build.MODEL);
+        h.put("mfr", Build.MANUFACTURER);
+        TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        h.put("mno", tm.getNetworkOperatorName());
+        h.put("imei", tm.getDeviceId());
+        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location l = lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        h.put("loc", String.format("%s,%s", l.getLatitude(), l.getLongitude()));
+        h.put("tver", getVersionNumber());
+        h.put("root", coretask.hasRootPermission());
+        h.put("nflt", coretask.isNetfilterSupported());
+        h.put("actl", coretask.isAccessControlSupported());
+        h.put("tpow", isTransmitPowerSupported());
+        h.put("blth", Configuration.hasKernelFeature("CONFIG_BT_BNEP="));
+        h.put("dtyp", deviceType);
+        h.put("idrv", interfaceDriver);
+        //h.put("success", success?);
+        //h.put("dur", duration);
+        String tetherNetworkDevice = TetherApplication.this.getTetherNetworkDevice();
+        long [] trafficCount = TetherApplication.this.coretask.getDataTraffic(tetherNetworkDevice);
+        h.put("bup", trafficCount[0]);
+        h.put("bdwn", trafficCount[1]);
+
+        new Thread(new Runnable(){
+            public void run(){
+                Looper.prepare();
+                Log.d(MSG_TAG, "Reporting stats: " + h.toString());
+                TetherApplication.this.webserviceTask.report(APPLICATION_STATS_URL, h);
+                Log.d(MSG_TAG, "Reporting of stats complete");
+                Looper.loop();
+            }
+        }).start();
     }
     
     /*

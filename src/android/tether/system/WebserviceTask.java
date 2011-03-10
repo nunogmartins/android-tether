@@ -18,7 +18,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.http.HttpEntity;
@@ -26,7 +31,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.os.Message;
 import android.tether.MainActivity;
@@ -39,6 +46,30 @@ public class WebserviceTask {
 	public static final String BLUETOOTH_FILEPATH = "/sdcard/android.tether";
 	
 	public MainActivity mainActivity;
+	
+	public void report(String url, HashMap<String, Object> paramMap) {
+		HttpClient client = new DefaultHttpClient();
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		Set<Entry<String, Object>> a = paramMap.entrySet();
+		for (Entry<String, Object> e: a) {
+			params.add(new BasicNameValuePair(e.getKey(), e.getValue().toString()));
+		}
+		String paramString = URLEncodedUtils.format(params, "utf-8");
+		Log.d(MSG_TAG, url + "?" + paramString);
+		HttpGet request = new HttpGet(url + "?" + paramString);
+		try {
+			HttpResponse response = client.execute(request);
+
+			StatusLine status = response.getStatusLine();
+			Log.d(MSG_TAG, "Request returned status " + status);
+			if (status.getStatusCode() == 200) {
+				HttpEntity entity = response.getEntity();
+				Log.d(MSG_TAG, "Request returned: " + entity.getContent());
+			}
+		} catch (Exception e) {
+			Log.d(MSG_TAG, "Can't report stats '"+url+"' (" + e.toString() + ").");
+		}
+	}
 	
 	public Properties queryForProperty(String url) {
 		Properties properties = null; 
