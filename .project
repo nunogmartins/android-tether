@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>OG_2.0.6-Pre</name>
+	<name>opengarden-android-tether</name>
 	<comment></comment>
 	<projects>
-		<project>2.0.6-A</project>
+		<project>android-tether</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
