@@ -826,7 +826,9 @@ public class TetherApplication extends Application {
         h.put("imei", tm.getDeviceId());
         LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         Location l = lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        h.put("loc", String.format("%s,%s", l.getLatitude(), l.getLongitude()));
+        if (l != null) {
+            h.put("loc", String.format("%s,%s", l.getLatitude(), l.getLongitude()));
+        }
         h.put("tver", getVersionNumber());
         h.put("root", coretask.hasRootPermission());
         h.put("nflt", coretask.isNetfilterSupported());
