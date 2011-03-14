@@ -815,7 +815,7 @@ public class TetherApplication extends Application {
 		}).start();
     }
     
-    public void reportStats() {
+    public void reportStats(int status) {
         final HashMap<String,Object> h = new HashMap<String,Object>();
         h.put("aid", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
         h.put("aver", Build.VERSION.RELEASE);
@@ -837,7 +837,8 @@ public class TetherApplication extends Application {
         h.put("blth", Configuration.hasKernelFeature("CONFIG_BT_BNEP="));
         h.put("dtyp", deviceType);
         h.put("idrv", interfaceDriver);
-        //h.put("success", success?);
+        h.put("bin", binariesExists());
+        h.put("stat", status);
         //h.put("dur", duration);
         String tetherNetworkDevice = TetherApplication.this.getTetherNetworkDevice();
         long [] trafficCount = TetherApplication.this.coretask.getDataTraffic(tetherNetworkDevice);
@@ -1226,6 +1227,7 @@ public class TetherApplication extends Application {
    			}
 			Message message = Message.obtain();
 			message.what = MainActivity.MESSAGE_TRAFFIC_END;
+			TetherApplication.this.reportStats(message.what);
 			MainActivity.currentInstance.viewUpdateHandler.sendMessage(message); 
    		}
    	}

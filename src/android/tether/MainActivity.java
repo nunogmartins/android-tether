@@ -142,7 +142,7 @@ public class MainActivity extends Activity {
         animation.setRepeatCount(1);
         animation.setRepeatMode(Animation.REVERSE);
 
-        this.application.reportStats();
+        this.application.reportStats(-1);
 
         // Startup-Check
         if (this.application.startupCheckPerformed == false) {
@@ -220,6 +220,7 @@ public class MainActivity extends Activity {
 								message.what = MESSAGE_CHECK_LOG;
 							}
 						}
+						MainActivity.this.application.reportStats(message.what);
 						MainActivity.this.viewUpdateHandler.sendMessage(message); 
 					}
 				}).start();
