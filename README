@@ -1,27 +1,28 @@
-********************************************************************************
-* Open Garden Wifi Tether (Android)
-* Version 2.0.7_CANDIDATE
+*******************************************************************************
+* Open Garden Wifi Tether (Android)                                           
+* Version 2.0.7                                                                
 * Package: og.android.tether 
-* Cert Key = og.key 01122011
+* Cert Key = og.key
 * Manifest version: 27
 * APK = opengarden-android-tether.apk
-********************************************************************************
+*******************************************************************************
 *! TASKS: TO DO
 *! 1.0 update Internationalization with current text-context
 *! 2.0 Refactor / test
-*! 3.0 Update README
-********************************************************************************
+*******************************************************************************
 * Version History:
 * 03/08/2011 - 2.0.7 base update, extended user interface
 * 02/20/2011 - 2.0.6 + updated Internationalization
-* 01/27/2011 - 2.0.5 http://opengarden.net/FAQ/og.wifi-tether/source [***Fix this URL-TRO]
+*! 01/27/2011 - 2.0.5 http://opengarden.net/FAQ/og.wifi-tether/source [***Fix
 * 12/21/2010 - 2.0.1 Wireless interface set up in AdHoc-Mode. 
-********************************************************************************
-* Open Garden Wifi Tether shares the handset network connection (GPRS/EDGE/UMTS/HSDPA), creating an ad-hoc Wifi Access HotSpot.
-********************************************************************************
-*** This program enables ad-hoc tethering (wifi and bluetooth).
-*** This application requires root-permission ***
-*** on the device
-********************************************************************************
+*******************************************************************************
+* This program enables ad-hoc tethering (wifi and bluetooth).
+* This application requires root-permission on the device
+*******************************************************************************
+* Open Garden Wifi Tether shares the handset network connection 
+* (GPRS/EDGE/UMTS/HSDPA), creating an ad-hoc Wifi Access HotSpot.
+*******************************************************************************
 * Credits/Thanks: http://code.google.com/p/android-wifi-tether/
-* "You are the network!"
+* OPEN GARDEN FOUNDATION - http://opengarden.net
+*           "You are the network!"
+*******************************************************************************
