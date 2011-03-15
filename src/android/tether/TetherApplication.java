@@ -860,7 +860,14 @@ public class TetherApplication extends Application {
         h.put("aid", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
         h.put("aver", Build.VERSION.RELEASE);
         h.put("mdl", Build.MODEL);
-        h.put("mfr", getDeclaredField("android.os.Build", "MANUFACTURER"));
+        Field mfr = getDeclaredField("android.os.Build", "MANUFACTURER");
+        if (mfr != null) {
+            try {
+                h.put("mfr", mfr.get(null));
+            } catch (IllegalArgumentException e) {
+            } catch (IllegalAccessException e) {
+            }
+        }
         TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         h.put("mno", tm.getNetworkOperatorName());
         h.put("imei", tm.getDeviceId());
