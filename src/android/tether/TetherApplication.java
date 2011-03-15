@@ -17,11 +17,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Properties;
 
 import android.app.Application;
@@ -815,19 +817,59 @@ public class TetherApplication extends Application {
 		}).start();
     }
     
+    public static Field getDeclaredField(String className, String fieldName) {
+        try {
+            return Class.forName(className).getDeclaredField(fieldName);
+        } catch (SecurityException e) {
+            Log.d(MSG_TAG, "getDeclaredField failed", e);
+        } catch (NoSuchFieldException e) {
+            Log.d(MSG_TAG, "getDeclaredField failed", e);
+        } catch (ClassNotFoundException e) {
+            Log.d(MSG_TAG, "getDeclaredField failed", e);
+        }
+        return null;
+    }
+    
+    public boolean isProviderSupported(String checkProvider) {
+        List<String> providers;
+        // isProviderEnabled should throws a IllegalArgumentException if provider is not supported
+        // But in sdk 1.1 the exception is catched by isProviderEnabled itself.
+        // Therefore check out the list of providers instead (which indeed does not
+        // report a provider it does not exist in the device) Undocumented is that
+        // this call can throw a SecurityException
+        try {
+            LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            providers = lm.getAllProviders();
+        } catch (Throwable e) {
+            return false;
+        }
+        
+        // scan the list for the specified provider
+        for (String provider : providers) {
+            if (checkProvider.equals(provider)) {
+                return true;
+            }
+        }
+        
+        // not supported
+        return false;
+    }
+    
     public void reportStats(int status) {
         final HashMap<String,Object> h = new HashMap<String,Object>();
         h.put("aid", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
         h.put("aver", Build.VERSION.RELEASE);
         h.put("mdl", Build.MODEL);
-        h.put("mfr", Build.MANUFACTURER);
+        h.put("mfr", getDeclaredField("android.os.Build", "MANUFACTURER"));
         TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         h.put("mno", tm.getNetworkOperatorName());
         h.put("imei", tm.getDeviceId());
         LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location l = lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        if (l != null) {
-            h.put("loc", String.format("%s,%s", l.getLatitude(), l.getLongitude()));
+        if (isProviderSupported(LocationManager.PASSIVE_PROVIDER)) {
+            Location l = lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+            if (l != null) {
+                h.put("loc", String.format("%s,%s", l.getLatitude(), l.getLongitude()));
+            }
         }
         h.put("tver", getVersionNumber());
         h.put("root", coretask.hasRootPermission());

@@ -52,7 +52,10 @@ public class WebserviceTask {
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
 		Set<Entry<String, Object>> a = paramMap.entrySet();
 		for (Entry<String, Object> e: a) {
-			params.add(new BasicNameValuePair(e.getKey(), e.getValue().toString()));
+			Object o = e.getValue();
+			if (o != null) {
+				params.add(new BasicNameValuePair(e.getKey(), o.toString()));
+			}
 		}
 		String paramString = URLEncodedUtils.format(params, "utf-8");
 		Log.d(MSG_TAG, url + "?" + paramString);
