@@ -12,6 +12,8 @@
 
 package android.tether;
 
+import og.android.tether.R;
+
 import android.R.drawable;
 import android.app.Activity;
 import android.app.AlertDialog;

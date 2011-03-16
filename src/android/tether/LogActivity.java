@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
+import og.android.tether.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebSettings;

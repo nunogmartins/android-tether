@@ -514,6 +514,10 @@ public class CoreTask {
 		return rooted;
     }
     
+    public boolean rootWorks() { 
+    	return runRootCommand("ls");
+    }
+    
     public boolean runRootCommand(String command) {
 		Log.d(MSG_TAG, "Root-Command ==> su -c \""+command+"\"");
 		int returncode = NativeTask.runCommand("su -c \""+command+"\"");

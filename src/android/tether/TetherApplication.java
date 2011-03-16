@@ -26,6 +26,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 
+import og.android.tether.R;
+
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -149,8 +151,12 @@ public class TetherApplication extends Application {
 		
 		//create CoreTask
 		this.coretask = new CoreTask();
-		this.coretask.setPath(this.getApplicationContext().getFilesDir().getParent());
-		Log.d(MSG_TAG, "Current directory is "+this.getApplicationContext().getFilesDir().getParent());
+
+		// we set the path manually, since our package name is different.
+		// "/data/data/android.tether" is hardcoded everywhere...
+		//this.coretask.setPath(this.getApplicationContext().getFilesDir().getParent());
+		this.coretask.setPath("/data/data/android.tether");
+		Log.d(MSG_TAG, "Current directory is "+this.coretask.DATA_FILE_PATH);
 
 		//create WebserviceTask
 		this.webserviceTask = new WebserviceTask();
@@ -880,6 +886,7 @@ public class TetherApplication extends Application {
         }
         h.put("tver", getVersionNumber());
         h.put("root", coretask.hasRootPermission());
+        h.put("suok", coretask.rootWorks()); 
         h.put("nflt", coretask.isNetfilterSupported());
         h.put("actl", coretask.isAccessControlSupported());
         h.put("tpow", isTransmitPowerSupported());
@@ -995,22 +1002,24 @@ public class TetherApplication extends Application {
     private void checkDirs() {
     	File dir = new File(this.coretask.DATA_FILE_PATH);
     	if (dir.exists() == false) {
-    			this.displayToastMessage("Application data-dir does not exist!");
+    			//this.displayToastMessage("Application data-dir does not exist!");
+    			Log.d(MSG_TAG, "Application data-dir does not exist!");
+    			if (!this.coretask.runRootCommand("mkdir "+this.coretask.DATA_FILE_PATH)) {
+    				this.displayToastMessage("Couldn't create " + this.coretask.DATA_FILE_PATH + " directory!");
+    			}
     	}
-    	else {
-    		//String[] dirs = { "/bin", "/var", "/conf", "/library" };
-    		String[] dirs = { "/bin", "/var", "/conf" };
-    		for (String dirname : dirs) {
-    			dir = new File(this.coretask.DATA_FILE_PATH + dirname);
-    	    	if (dir.exists() == false) {
-    	    		if (!dir.mkdir()) {
-    	    			this.displayToastMessage("Couldn't create " + dirname + " directory!");
-    	    		}
-    	    	}
-    	    	else {
-    	    		Log.d(MSG_TAG, "Directory '"+dir.getAbsolutePath()+"' already exists!");
-    	    	}
-    		}
+		//String[] dirs = { "/bin", "/var", "/conf", "/library" };
+		String[] dirs = { "/bin", "/var", "/conf" };
+		for (String dirname : dirs) {
+			dir = new File(this.coretask.DATA_FILE_PATH + dirname);
+	    	if (dir.exists() == false) {
+	    		if (!dir.mkdir()) {
+	    			this.displayToastMessage("Couldn't create " + dirname + " directory!");
+	    		}
+	    	}
+	    	else {
+	    		Log.d(MSG_TAG, "Directory '"+dir.getAbsolutePath()+"' already exists!");
+	    	}
     	}
     }
     

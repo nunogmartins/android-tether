@@ -14,6 +14,8 @@ package android.tether;
 
 import java.io.IOException;
 
+import og.android.tether.R;
+
 import android.R.drawable;
 import android.app.AlertDialog;
 import android.app.Dialog;

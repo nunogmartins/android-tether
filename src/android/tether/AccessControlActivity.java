@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import og.android.tether.R;
+
 import android.R.drawable;
 import android.app.ListActivity;
 import android.os.Bundle;

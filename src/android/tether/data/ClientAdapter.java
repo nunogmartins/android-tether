@@ -14,9 +14,10 @@ package android.tether.data;
 
 import java.util.ArrayList;
 
+import og.android.tether.R;
+
 import android.graphics.Color;
 import android.tether.AccessControlActivity;
-import android.tether.R;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
