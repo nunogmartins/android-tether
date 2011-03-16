@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_application_name">Open Garden Wifi Tether</string>
+	<string name="global_application_name">Open Garden WiFi Tether</string>
 	<string name="global_application_installed">Programm- und Konfigurationsdateien installiert!</string>
 	<string name="global_application_error_restartsecwifi">"Fehler beim Neustart (Sicherheitseinstellungen)!"</string>
     <string name="global_application_tethering_running">Tethering ist aktiviert ...</string>
@@ -38,7 +38,7 @@
     <string name="main_activity_trackball_pressed_start">Trackball wurde gedrückt. Bestätigung für \"Tether-Start\" benötigt.</string>
     <string name="main_activity_trackball_pressed_stop">Trackball wurde gedrückt. Bestätigung für \"Tether-Stop\" benötigt</string>
     <string name="log_activity_nologfile">Kann Log-Datei nicht öffnen. Datei existiert nicht!</string>
-    <string name="main_layout_presstostart">- Drücken um Tether Wifi Open Garden zu starten. -</string> 
+    <string name="main_layout_presstostart">- Drücken um Tether WiFi Open Garden zu starten. -</string> 
     <string name="main_layout_presstostop">- Drücken um Tethering zu stoppen. -</string> 
     <string name="main_layout_download">Download</string> 
     <string name="main_layout_upload">Upload</string>     
@@ -146,9 +146,9 @@
 	<string name="donate_layout_line4">Sollten Sie zu einem späteren Zeitpunkt spenden wollen, dann können Sie das über den \'Über\'-Menüpunkt nachholen.</string>
 	<string name="donate_layout_line5">Vielen Dank!</string>
 	<string name="noaccesscontrol_layout_line1">Entschuldigen Sie bitte, aber der installierte Kernel unterstützt notwendige Funktionen für die \'Zugangskontrolle\' nicht. Die \'Zugangskontrolle\' wird deaktiviert.</string>
-	<string name="noaccesscontrol_layout_line2">FAQ: http://opengarden.net/faq/og.android.tether</string>
+	<string name="noaccesscontrol_layout_line2">FAQ: http://opengarden.net/og-android-tether/wiki/FAQ</string>
 	<string name="nonetfilter_layout_line1">Entschuldigen Sie bitte, aber der installierte Kernel unterstützt notwendige Funktionen.</string>
-	<string name="nonetfilter_layout_line2">FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="nonetfilter_layout_line2">FAQ: http://opengarden.net/og-android-tether/wiki/FAQ</string>
 	<string name="noroot_layout_line1">Entschuldigen Sie bitte, aber sie haben keine Root-Rechte.</string>
 	<string name="update_layout_line1">Eine Aktualisiserung steht zur Verfügung!</string>
 	<string name="update_layout_line2">Wollen Sie diese Aktualisierung nun durchführen?</string>

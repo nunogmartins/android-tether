@@ -36,7 +36,7 @@
 				android:paddingRight="15px"
 				android:textStyle="bold"
 				android:textColor="#000033" />
-			<TextView android:text="http://opengarden.net/og.android-wifi-tether"
+			<TextView android:text="http://opengarden.net/og-android-tether/wiki/FAQ"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:autoLink="web"

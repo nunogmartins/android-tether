@@ -127,7 +127,7 @@
 							android:paddingTop="10px"
 							android:layout_gravity="center_vertical"
 							android:textStyle="bold"
-							android:textColor="#FFFFFFFF" />
+							android:textColor="#000033" />
 					</TableRow>
 				</TableLayout>					
 			</TableRow>	
