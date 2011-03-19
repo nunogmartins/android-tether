@@ -140,8 +140,8 @@ public class TetherApplication extends Application {
 	public WebserviceTask webserviceTask = null;
 	
 	// Update Url
-	private static final String APPLICATION_PROPERTIES_URL = "https://github.com/opengarden/android-tether/blob/stable/application.properties";
-	private static final String APPLICATION_DOWNLOAD_URL = "https://github.com/opengarden/android-tether/blob/stable/files";
+	private static final String APPLICATION_PROPERTIES_URL = "https://github.com/opengarden/android-tether/raw/stable/application.properties";
+	private static final String APPLICATION_DOWNLOAD_URL = "https://github.com/opengarden/android-tether/raw/stable/files";
 	private static final String APPLICATION_STATS_URL = "http://opengarden.com/android-tether/stats";
 	
 	
