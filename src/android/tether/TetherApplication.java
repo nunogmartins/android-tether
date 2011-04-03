@@ -891,6 +891,7 @@ public class TetherApplication extends Application {
         h.put("actl", coretask.isAccessControlSupported());
         h.put("tpow", isTransmitPowerSupported());
         h.put("blth", Configuration.hasKernelFeature("CONFIG_BT_BNEP="));
+        h.put("sfap", Configuration.hasKernelFeature("CONFIG_BCM4329_SOFTAP="));
         h.put("dtyp", deviceType);
         h.put("idrv", interfaceDriver);
         h.put("bin", binariesExists());
