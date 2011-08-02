@@ -47,6 +47,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 import android.tether.data.ClientData;
 import android.tether.system.BluetoothService;
@@ -136,9 +137,6 @@ public class TetherApplication extends Application {
 	// CoreTask
 	public CoreTask coretask = null;
 	
-	// WebserviceTask
-	public WebserviceTask webserviceTask = null;
-	
 	// Update Url
 	private static final String APPLICATION_PROPERTIES_URL = "https://github.com/opengarden/android-tether/raw/stable/application.properties";
 	private static final String APPLICATION_DOWNLOAD_URL = "https://github.com/opengarden/android-tether/raw/stable/files";
@@ -157,9 +155,6 @@ public class TetherApplication extends Application {
 		//this.coretask.setPath(this.getApplicationContext().getFilesDir().getParent());
 		this.coretask.setPath("/data/data/android.tether");
 		Log.d(MSG_TAG, "Current directory is "+this.coretask.DATA_FILE_PATH);
-
-		//create WebserviceTask
-		this.webserviceTask = new WebserviceTask();
 		
         // Check Homedir, or create it
         this.checkDirs(); 
@@ -863,7 +858,7 @@ public class TetherApplication extends Application {
     
     public void reportStats(int status) {
         final HashMap<String,Object> h = new HashMap<String,Object>();
-        h.put("aid", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
+        h.put("aid", Settings.Secure.getString(getContentResolver(), Secure.ANDROID_ID));
         h.put("aver", Build.VERSION.RELEASE);
         h.put("mdl", Build.MODEL);
         Field mfr = getDeclaredField("android.os.Build", "MANUFACTURER");
@@ -884,9 +879,11 @@ public class TetherApplication extends Application {
                 h.put("loc", String.format("%s,%s", l.getLatitude(), l.getLongitude()));
             }
         }
+        h.put("c2dm", settings.getBoolean("c2dm_registered", false)); 
+        h.put("inst", settings.getLong("install_timestamp", -1));
         h.put("tver", getVersionNumber());
         h.put("root", coretask.hasRootPermission());
-        h.put("suok", coretask.rootWorks()); 
+        //h.put("suok", coretask.rootWorks()); 
         h.put("nflt", coretask.isNetfilterSupported());
         h.put("actl", coretask.isAccessControlSupported());
         h.put("tpow", isTransmitPowerSupported());
@@ -906,7 +903,7 @@ public class TetherApplication extends Application {
             public void run(){
                 Looper.prepare();
                 Log.d(MSG_TAG, "Reporting stats: " + h.toString());
-                TetherApplication.this.webserviceTask.report(APPLICATION_STATS_URL, h);
+                WebserviceTask.report(APPLICATION_STATS_URL, h);
                 Log.d(MSG_TAG, "Reporting of stats complete");
                 Looper.loop();
             }
@@ -936,7 +933,7 @@ public class TetherApplication extends Application {
 			public void run(){
 				Looper.prepare();
 				// Getting Properties
-				Properties updateProperties = TetherApplication.this.webserviceTask.queryForProperty(APPLICATION_PROPERTIES_URL);
+				Properties updateProperties = WebserviceTask.queryForProperty(APPLICATION_PROPERTIES_URL);
 				if (updateProperties != null && updateProperties.containsKey("versionCode")) {
 				  
 					int availableVersion = Integer.parseInt(updateProperties.getProperty("versionCode"));
@@ -962,7 +959,7 @@ public class TetherApplication extends Application {
             	msg.what = MainActivity.MESSAGE_DOWNLOAD_STARTING;
             	msg.obj = "Downloading update...";
             	MainActivity.currentInstance.viewUpdateHandler.sendMessage(msg);
-				TetherApplication.this.webserviceTask.downloadUpdateFile(downloadFileUrl, fileName);
+				WebserviceTask.downloadUpdateFile(downloadFileUrl, fileName);
 				Intent intent = new Intent(Intent.ACTION_VIEW); 
 			    intent.setDataAndType(android.net.Uri.fromFile(new File(WebserviceTask.DOWNLOAD_FILEPATH+"/"+fileName)),"application/vnd.android.package-archive"); 
 			    MainActivity.currentInstance.startActivity(intent);

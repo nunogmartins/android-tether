@@ -29,6 +29,7 @@ import java.util.zip.GZIPInputStream;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -45,10 +46,15 @@ public class WebserviceTask {
 	public static final String DOWNLOAD_FILEPATH = "/sdcard/download";
 	public static final String BLUETOOTH_FILEPATH = "/sdcard/android.tether";
 	
-	public MainActivity mainActivity;
-	
-	public void report(String url, HashMap<String, Object> paramMap) {
+	public static HttpResponse makeRequest(String url, List<BasicNameValuePair> params) throws ClientProtocolException, IOException {
 		HttpClient client = new DefaultHttpClient();
+		String paramString = URLEncodedUtils.format(params, "utf-8");
+		Log.d(MSG_TAG, url + "?" + paramString);
+		HttpGet request = new HttpGet(url + "?" + paramString);
+		return client.execute(request);
+	}
+	
+	public static void report(String url, HashMap<String, Object> paramMap) {
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
 		Set<Entry<String, Object>> a = paramMap.entrySet();
 		for (Entry<String, Object> e: a) {
@@ -57,11 +63,8 @@ public class WebserviceTask {
 				params.add(new BasicNameValuePair(e.getKey(), o.toString()));
 			}
 		}
-		String paramString = URLEncodedUtils.format(params, "utf-8");
-		Log.d(MSG_TAG, url + "?" + paramString);
-		HttpGet request = new HttpGet(url + "?" + paramString);
 		try {
-			HttpResponse response = client.execute(request);
+			HttpResponse response = makeRequest(url, params);
 
 			StatusLine status = response.getStatusLine();
 			Log.d(MSG_TAG, "Request returned status " + status);
@@ -74,7 +77,7 @@ public class WebserviceTask {
 		}
 	}
 	
-	public Properties queryForProperty(String url) {
+	public static Properties queryForProperty(String url) {
 		Properties properties = null; 
 		HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(String.format(url));
@@ -94,7 +97,7 @@ public class WebserviceTask {
 		return properties;
 	}
 	
-	public boolean downloadUpdateFile(String downloadFileUrl, String destinationFilename) {
+	public static boolean downloadUpdateFile(String downloadFileUrl, String destinationFilename) {
 		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED) == false) {
 			return false;
 		}
@@ -108,10 +111,10 @@ public class WebserviceTask {
 				downloadFile.delete();
 			}
 		}
-		return this.downloadFile(downloadFileUrl, DOWNLOAD_FILEPATH, destinationFilename);
+		return downloadFile(downloadFileUrl, DOWNLOAD_FILEPATH, destinationFilename);
 	}
 	
-	public boolean downloadBluetoothModule(String downloadFileUrl, String destinationFilename) {
+	public static boolean downloadBluetoothModule(String downloadFileUrl, String destinationFilename) {
 		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED) == false) {
 			return false;
 		}
@@ -119,7 +122,7 @@ public class WebserviceTask {
 		if (bluetoothDir.exists() == false) {
 			bluetoothDir.mkdirs();
 		}
-		if (this.downloadFile(downloadFileUrl, "", destinationFilename) == true) {
+		if (downloadFile(downloadFileUrl, "", destinationFilename) == true) {
 			try {
 				FileOutputStream out = new FileOutputStream(new File(destinationFilename.replace(".gz", "")));
 				FileInputStream fis = new FileInputStream(destinationFilename);
@@ -143,7 +146,7 @@ public class WebserviceTask {
 			return false;
 	}
 	
-	public boolean downloadFile(String url, String destinationDirectory, String destinationFilename) {
+	public static boolean downloadFile(String url, String destinationDirectory, String destinationFilename) {
 		boolean filedownloaded = true;
 		HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(String.format(url));

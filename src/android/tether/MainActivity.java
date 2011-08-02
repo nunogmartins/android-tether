@@ -12,6 +12,8 @@
 
 package android.tether;
 
+import com.google.android.c2dm.C2DMessaging;
+
 import og.android.tether.R;
 
 import android.R.drawable;
@@ -149,7 +151,21 @@ public class MainActivity extends Activity {
         // Startup-Check
         if (this.application.startupCheckPerformed == false) {
 	        this.application.startupCheckPerformed = true;
-	        
+	    	
+	    	if (this.application.settings.getLong("install_timestamp", -1) == -1) {
+	    		long t = System.currentTimeMillis()/1000;
+	    		this.application.preferenceEditor.putLong("install_timestamp", t);
+	    	}
+	    	
+	    	String regId = C2DMessaging.getRegistrationId(this);
+	    	boolean registered = this.application.settings.getBoolean("c2dm_registered", false);
+	    	if (!registered || regId == null || "".equals(regId)) {
+	    		Log.d(MSG_TAG, "C2DM Registering");
+	    		C2DMessaging.register(this, DeviceRegistrar.SENDER_ID);
+	    	} else {
+	    		Log.d(MSG_TAG, "C2DM already registered");
+	    	}
+	    	
 	    	// Check if required kernel-features are enabled
 	    	if (!this.application.coretask.isNetfilterSupported()) {
 	    		this.openNoNetfilterDialog();
