@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background_og"
+    android:background="#A0909090"
     android:paddingTop="10dp"
     android:paddingBottom="10dp">
 	<TableLayout
