@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      android:versionCode="26" android:versionName="2.0.7" package="og.android.tether">
+      android:versionCode="28" android:versionName="2.0.8" package="og.android.tether">
     <uses-sdk android:minSdkVersion="3" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
