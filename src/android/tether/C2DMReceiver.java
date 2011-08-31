@@ -80,7 +80,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
     }
 
     public static void generateNotification(Context context, String msg, String title, Intent intent) {
-        int icon = R.drawable.start_notification;
+        int icon = R.drawable.icon_og_bev;
         long when = System.currentTimeMillis();
 
         Notification notification = new Notification(icon, title, when);
