@@ -111,9 +111,9 @@ public class ClientAdapter extends BaseAdapter {
 		macaddress.setText(row.getMacAddress());
         if (row.isConnected()) {
         	// Change textcolor to green
-        	macaddress.setTextColor(Color.rgb(0, 182, 39));
-        	clientname.setTextColor(Color.rgb(0, 182, 39));
-        	ipaddress.setTextColor(Color.rgb(0, 182, 39));       	
+        	macaddress.setTextColor(Color.rgb(0, 128, 5));
+        	clientname.setTextColor(Color.rgb(0, 128, 5));
+        	ipaddress.setTextColor(Color.rgb(0, 128, 5));       	
         	if (row.getIpAddress() != null) {
         		ipaddress.setText(row.getIpAddress());
         	}
