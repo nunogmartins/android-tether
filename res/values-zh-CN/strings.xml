@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="global_application_name">开放花园WiFi共享</string>
+	<string name="global_application_installed">开放花园文件安装!</string>
+	<string name="global_application_error_restartsecwifi">无法重启wifi!</string>
+	<string name="global_application_tethering_running">共享当前运行的 ...</string>
+	<string name="global_application_accesscontrol_disabled">禁止访问控制</string>
+	<string name="global_application_accesscontrol_authorized">授权</string>
+	<string name="global_application_accesscontrol_unauthorized">未经授权</string>
+	<string name="global_application_connected">连接</string>
+    <string name="main_activity_settings">设置</string>
+    <string name="main_activity_about">关于</string>
+    <string name="main_activity_donate">捐赠</string>
+    <string name="main_activity_close">关闭</string>
+    <string name="main_activity_notroot">启用设备!</string>
+    <string name="main_activity_nonetfilter">没有安装过滤器!!</string>
+    <string name="main_activity_noaccesscontrol">没有访问控制!</string>
+    <string name="main_activity_accesscontrol_disabled">禁止访问控制.</string>
+    <string name="main_activity_exit">退出</string>
+    <string name="main_activity_ignore">忽略</string>
+    <string name="main_activity_yes">是</string>
+    <string name="main_activity_no">否</string>
+    <string name="main_activity_ok">确定</string>
+    <string name="main_activity_locked">系绳被共享!</string>
+    <string name="main_activity_showlog">显示日志</string>
+    <string name="main_activity_accesscontrol">访问控制</string>
+    <string name="main_activity_start">开始共享</string>
+    <string name="main_activity_start_summary">开始时，请稍等...</string>
+    <string name="main_activity_start_errors">共享开始失败! 请检查 \'显示日志\'.</string>
+    <string name="main_activity_start_unable">无法启动共享. 是不是您的设备 \'根保护\'?</string>
+    <string name="main_activity_start_wiredtethering_running">有线网络出现运行。请禁用有线网络第一条!</string>
+    <string name="main_activity_start_usbtethering_running"><![CDATA[USB-tethering appears to be running. Please disable it through: Settings -> 无线 &网络设置 -> 网络共享.]]></string>
+    <string name="main_activity_start_unknownstate">您的手机目前处于未知的状态-尝试重新启动!</string>
+    <string name="main_activity_stop">停止共享</string>
+    <string name="main_activity_stop_summary">停止时，请稍等...</string> 
+    <string name="main_activity_confirm">确认</string>
+    <string name="main_activity_cancel">取消</string>
+    <string name="main_activity_trackball_pressed_start">轨迹球按下，确认共享已启动.</string>
+    <string name="main_activity_trackball_pressed_stop">轨迹球按下，确认共享已启动.</string>
+    <string name="log_activity_nologfile">无法打开日志文件。文件不存在！</string>
+    <string name="main_layout_presstostart">- Start Open Garden Tethering -</string> 
+    <string name="main_layout_presstostop">- 停止无线共享 -</string> 
+    <string name="main_layout_download">下载</string> 
+    <string name="main_layout_upload">上传</string> 
+    <string name="main_layout_lock">共享</string> 
+    <string name="accesscontrol_activity_reloadclientlist">刷新客户名单</string>
+    <string name="accesscontrol_activity_applysettings">应用设置</string>
+    <string name="accesscontrol_activity_enabled">启用访问控制.</string>
+    <string name="accesscontrol_activity_disabled">禁止访问控制.</string>
+    <string name="accesscontrol_activity_is_enabled">访问控制已启用.</string>
+    <string name="accesscontrol_activity_is_disabled">访问控制已禁用.</string>
+    <string name="accesscontrol_activity_error_save_whitelistfile">无法保存白名单文件!</string>
+    <string name="accesscontrol_activity_error_remove_whitelistfile">无法删除白名单文件!</string>
+    <string name="accesscontrol_activity_error_read_leasefile">无法读取租赁的文件!</string>
+    <string name="accesscontrol_activity_config_saved">访问控制配置保存!</string>
+    <string name="accesscontrol_activity_not_connected">- 没有连接 -</string>
+    <string name="accesscontrol_layout_connectedclients">连接/授权的客户端:</string>
+	<string name="accesscontrol_layout_apply">应用</string>
+	<string name="accesscontrol_layout_enable">启用</string>
+	<string name="accesscontrol_layout_disable">禁用</string>
+    <string name="setup_activity_reinstall">(Re)-安装二进制文件/配置</string>
+    <string name="setup_activity_restart_tethering_title">重启共享</string>
+    <string name="setup_activity_restart_tethering_message">重启中，请稍等...</string>
+    <string name="setup_activity_error_passphrase_invalidchars">口令中包含无效字符,不保存!</string>
+    <string name="setup_activity_error_passphrase_tooshort">口令密码过短! 新值不保存.</string>
+    <string name="setup_activity_error_passphrase_toolong">口令密码过短!新值不保存.</string>
+    <string name="setup_activity_error_restart_tethering">无法重新启动共享!</string>
+    <string name="setup_activity_error_passphrase_info">密码必须是8至30个字符!</string>
+	<string name="setup_activity_error_passphrase_13chars">密码必须是13个字符（ASCII）!</string>
+	<string name="setup_activity_error_ssid_invalidchars">SSID，包含无效字符</string>
+	<string name="setup_activity_error_ssid_empty">新的SSID不能为空</string>
+	<string name="setup_activity_error_ssid_notsaved">, 不保存.</string>
+	<string name="setup_activity_info_ssid_changedto">SSID 改变至 </string>
+	<string name="setup_activity_info_channel_changedto">频道更改至</string>
+	<string name="setup_activity_info_passphrase_changedto">口令密码更改为</string>
+	<string name="setup_activity_info_txpower_changedto">发送功率改变至</string>
+	<string name="setup_activity_info_lan_changedto">LAN-network changed to </string>
+	<string name="setup_activity_info_wakelock_disabled">唤醒锁已禁用.</string>
+	<string name="setup_activity_info_wakelock_enabled">唤醒锁已启用.</string>
+	<string name="setup_activity_info_accesscontrol_disabled">禁止访问控制.</string>
+	<string name="setup_activity_info_accesscontrol_enabled">启用访问控制.</string>
+	<string name="setup_activity_bt_warning_title">警告: 蓝牙</string>
+	<string name="setup_activity_bt_warning_ok">确定</string>
+	<string name="setup_activity_txpower_warning_title">警告: 发射功率</string>
+	<string name="setup_activity_txpower_warning_ok">确定</string>	
+	<string name="setup_layout_category_bluetooth">蓝牙</string>
+	<string name="setup_layout_category_wifi">Wifi</string>
+	<string name="setup_layout_category_security">安全</string>
+	<string name="setup_layout_category_lan">LAN</string>
+	<string name="setup_layout_category_notifications">通知</string>
+	<string name="setup_layout_category_misc">杂项</string>
+	<string name="setup_layout_usebluetooth">使用蓝牙</string>
+	<string name="setup_layout_usebluetooth_summary">用蓝牙无线上网代替WiFi</string>
+	<string name="setup_layout_dontdisablewifi">不要禁用WIFI</string>
+	<string name="setup_layout_dontdisablewifi_summary">离开WiFi状态</string>
+	<string name="setup_layout_discoverable">发现</string>
+	<string name="setup_layout_discoverable_summary">在设备启动120秒时可见</string>
+	<string name="setup_layout_wifiencryption">启用WiFi加密</string>
+	<string name="setup_layout_wifiencryption_summary">打开WiFi加密</string>
+	<string name="setup_layout_encryptionsetup">加密设置方法</string>
+	<string name="setup_layout_encryptionsetup_summary">更改WiFi加密设置方法</string>
+	<string name="setup_layout_passphrase">更改口令</string>
+	<string name="setup_layout_passphrase_summary">为WiFi的加密更改密码</string>
+	<string name="setup_layout_passphrase_dialog_title">输入口令</string>
+	<string name="setup_layout_ssid">更改SSID</string>
+	<string name="setup_layout_ssid_summary">更改SSID</string>
+	<string name="setup_layout_ssid_dialog_title">输入SSID</string>
+	<string name="setup_layout_ssid_dialog_message">只有字母数字字符 \'.\', \'_\' 被允许!</string>
+	<string name="setup_layout_channel">更改频道</string>
+	<string name="setup_layout_channel_summary">无线频率通道</string>
+	<string name="setup_layout_channel_dialog_title">选择频道</string>
+	<string name="setup_layout_txpower">发送功率</string>
+	<string name="setup_layout_txpower_summary">减少发射功率</string>
+	<string name="setup_layout_txpower_dialog_title">降低功耗</string>
+	<string name="setup_layout_accesscontrol">启用访问控制</string>
+	<string name="setup_layout_accesscontrol_summary">打开访问控制</string>	
+	<string name="setup_layout_lan">更改LAN</string>
+	<string name="setup_layout_lan_summary">LAN 网络设置</string>
+	<string name="setup_layout_lan_dialog_title">选择LAN网络</string>
+	<string name="setup_layout_notification">客户端通知模式</string>
+	<string name="setup_layout_notification_summary">客户端通知模式设置</string>
+	<string name="setup_layout_notification_dialog_title">选择客户端通知模式</string>	
+	<string name="setup_layout_vibrate">振动对接</string>
+	<string name="setup_layout_vibrate_summary">当客户端连接上时振动</string>
+	<string name="setup_layout_ringtone">铃声通知</string>
+	<string name="setup_layout_ringtone_summary">铃声使用通知</string>
+	<string name="setup_layout_updatecheck">禁用更新检查</string>
+	<string name="setup_layout_updatecheck_summary">关闭在启动过程中的检查更新</string>
+	<string name="setup_layout_wakelock">禁用唤醒锁</string>
+	<string name="setup_layout_wakelock_summary">共享过程中关闭唤醒锁</string>
+	<string name="setup_layout_battery">电池温度</string>
+	<string name="setup_layout_battery_summary">配置电池的温度信息</string>
+	<string name="setup_layout_lockscreen">禁用屏幕锁定</string>
+	<string name="setup_layout_lockscreen_summary">隐藏下面的锁屏按钮</string>	
+	<string name="about_layout_version">版本:</string>
+	<string name="about_layout_projecthome">项目首页:</string>
+	<string name="about_layout_license">许可证:</string>
+	<string name="about_layout_authors">作者:</string>
+	<string name="about_layout_contributors">捐助:</string>
+	<string name="about_layout_software">第三方软件:</string>
+	<string name="clientrow_layout_macaddress">MAC地址:</string>
+	<string name="clientrow_layout_name">姓名:</string>
+	<string name="clientrow_layout_ipaddress">IP地址:</string>
+	<string name="donate_layout_line1">开放花园基金会保证网络的中立性，请考虑捐助我们这个项目.</string>
+	<string name="donate_layout_line2">通过捐赠支持一个开源的项目.</string>
+	<string name="donate_layout_line3">捐款用于倡导网络中立.</string>
+	<string name="donate_layout_line4">你也可以通过看 \'关于\' 对话框进行捐助.</string>
+	<string name="donate_layout_line5">非常感谢您的支持!请检查微博 @OpenGardening 更新开放花园.</string>
+	<string name="noaccesscontrol_layout_line1">对不起，您的操作系统是无法使用此应用程序的访问控制功能。访问控制将被禁用.</string>
+	<string name="noaccesscontrol_layout_line2">请参阅常见问题: http://opengarden.net/og-android-tether/wiki/FAQ</string>
+	<string name="nonetfilter_layout_line1">对不起，您的操作系统部会出现运行此应用程序所有必须的功能.</string>
+	<string name="nonetfilter_layout_line2">请参阅常见问题: http://opengarden.net/og-android-tether/wiki/FAQ</string>
+	<string name="noroot_layout_line1">对不起，您的操作系统没有运行此应用程序所需的所有功能</string>
+	<string name="update_layout_line1">有一个可用的开放花园无线共享的应用程序可以更新!</string>
+	<string name="update_layout_line2">现在安装开放花园更新程序?</string>
+	<string name="bt_warning_line1">蓝牙共享 (PAN)可能无法在所有的设备或者安卓平台上正常工作.</string>
+	<string name="bt_warning_line2">此功能可能无法在所有设备上正常工作！</string>
+	<string name="txpower_warning_line1">按照您的设备的能力，减少的WiFi发射功率取决于WIFI芯片的类型.</string>
+	<string name="txpower_warning_line2">此功能可能无法在所有设备上正常工作!</string>
+
+    <string-array name="notificationmodenames">  
+		<item>没有</item>  
+		<item>未经授权的客户端</item>  
+		<item>所有客户端</item>
+	</string-array>
+
+    <string-array name="powernames">  
+		<item>Disabled</item>
+		<item>3 mW (5 dBm)</item>  
+		<item>5 mW (7 dBm)</item>  
+		<item>10 mW (10 dBm)</item>  
+		<item>15 mW (12 dBm)</item>  
+		<item>20 mW (13 dBm)</item>  
+		<item>25 mW (14 dBm)</item>  
+		<item>30 mW (15 dBm)</item>  
+	</string-array>
+	
+	<string-array name="encsetupnames">  
+		<item>自动</item>
+		<item>iw配置</item>  
+		<item>WAP请求</item>  
+	</string-array>	 
+	
+    <string-array name="batterytempnames">  
+		<item>禁止</item>  
+		<item>摄氏</item>  
+		<item>华氏</item>  
+	</string-array>		
+	
+	<!-- Below values don't need to be translated -->
+	<string name="main_activity_temperatureunit_celsius">°C</string>
+	<string name="main_activity_temperatureunit_fahrenheit">°F</string>
+	<string name="paypalUrl">http://opengarden.net/donate</string>
+    <string-array name="notificationmodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+	</string-array>
+	
+    <string-array name="powermodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item> 
+	</string-array>
+    <string-array name="channelvalues">  
+		<item>0</item> 
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item>  
+		<item>4</item>  
+		<item>5</item>  
+		<item>6</item>  
+		<item>7</item>  
+		<item>8</item>  
+		<item>9</item>  
+		<item>10</item>  
+		<item>11</item>  
+	</string-array>
+    <string-array name="channelnames">  
+		<item>Auto</item> 
+		<item>Channel 01 (2412 MHz)</item>  
+		<item>Channel 02 (2417 MHz)</item>  
+		<item>Channel 03 (2422 MHz)</item>  
+		<item>Channel 04 (2427 MHz)</item>  
+		<item>Channel 05 (2432 MHz)</item>  
+		<item>Channel 06 (2437 MHz)</item>  
+		<item>Channel 07 (2442 MHz)</item>  
+		<item>Channel 08 (2447 MHz)</item>  
+		<item>Channel 09 (2452 MHz)</item>  
+		<item>Channel 10 (2457 MHz)</item>  
+		<item>Channel 11 (2462 MHz)</item>  
+	</string-array>  	
+    <string-array name="lannetworkvalues">  
+		<item>192.168.1.0/24</item>  
+		<item>192.168.2.0/24</item> 
+		<item>192.168.3.0/24</item> 
+		<item>172.20.21.0/24</item>  
+		<item>172.20.22.0/24</item>
+		<item>172.20.23.0/24</item>   
+		<item>10.10.1.0/24</item>  
+		<item>10.10.2.0/24</item>  
+		<item>10.10.3.0/24</item> 
+	</string-array>
+    <string-array name="powervalues">  
+		<item>disabled</item>  
+		<item>3mW</item>  
+		<item>5mW</item>  
+		<item>10mW</item>  
+		<item>15mW</item>  
+		<item>20mW</item>  
+		<item>25mW</item>  
+		<item>30mW</item>  
+	</string-array>	 
+    <string-array name="encsetupvalues">  
+		<item>自动</item>  
+		<item>iw配置</item>  
+		<item>wpa请求</item>  
+	</string-array>	
+    <string-array name="batterytempvalues">  
+		<item>禁止</item>  
+		<item>摄氏</item>  
+		<item>华氏</item>  
+	</string-array>		
+</resources>
