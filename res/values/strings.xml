@@ -147,9 +147,9 @@
 	<string name="donate_layout_line4">You can also donate later through the \'About\' dialog.</string>
 	<string name="donate_layout_line5">Thank you very much for the support! Please check Twitter @OpenGardening for updates on Open Garden.</string>
 	<string name="noaccesscontrol_layout_line1">Sorry, your Operating System is unable to use the Access Control feature of this application. Access Control will be disabled.</string>
-	<string name="noaccesscontrol_layout_line2">Please see the FAQ: http://opengarden.net/og-android-tether/wiki/FAQ</string>
+	<string name="noaccesscontrol_layout_line2">Please see the FAQ: http://opengarden.net/FAQ</string>
 	<string name="nonetfilter_layout_line1">Sorry, your Operating System does not appear to have all the features necessary for running this application.</string>
-	<string name="nonetfilter_layout_line2">Please see the FAQ: http://opengarden.net/og-android-tether/wiki/FAQ</string>
+	<string name="nonetfilter_layout_line2">Please see the FAQ: http://opengarden.net/FAQ</string>
 	<string name="noroot_layout_line1">Sorry, your Operating System does not have all the features necessary for running this application.</string>
 	<string name="update_layout_line1">There is an Open Garden WiFi Tether application update available!</string>
 	<string name="update_layout_line2">Install the Open Garden WiFi Tether update now?</string>

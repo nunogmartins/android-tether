@@ -146,9 +146,9 @@
 	<string name="donate_layout_line4">Sollten Sie zu einem späteren Zeitpunkt spenden wollen, dann können Sie das über den \'Über\'-Menüpunkt nachholen.</string>
 	<string name="donate_layout_line5">Vielen Dank!</string>
 	<string name="noaccesscontrol_layout_line1">Entschuldigen Sie bitte, aber der installierte Kernel unterstützt notwendige Funktionen für die \'Zugangskontrolle\' nicht. Die \'Zugangskontrolle\' wird deaktiviert.</string>
-	<string name="noaccesscontrol_layout_line2">FAQ: http://opengarden.net/og-android-tether/wiki/FAQ</string>
+	<string name="noaccesscontrol_layout_line2">FAQ: http://opengarden.net/FAQ</string>
 	<string name="nonetfilter_layout_line1">Entschuldigen Sie bitte, aber der installierte Kernel unterstützt notwendige Funktionen.</string>
-	<string name="nonetfilter_layout_line2">FAQ: http://opengarden.net/og-android-tether/wiki/FAQ</string>
+	<string name="nonetfilter_layout_line2">FAQ: http://opengarden.net/FAQ</string>
 	<string name="noroot_layout_line1">Entschuldigen Sie bitte, aber sie haben keine Root-Rechte.</string>
 	<string name="update_layout_line1">Eine Aktualisiserung steht zur Verfügung!</string>
 	<string name="update_layout_line2">Wollen Sie diese Aktualisierung nun durchführen?</string>

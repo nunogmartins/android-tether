@@ -147,9 +147,9 @@
 	<string name="donate_layout_line4">你也可以通过看 \'关于\' 对话框进行捐助.</string>
 	<string name="donate_layout_line5">非常感谢您的支持!请检查微博 @OpenGardening 更新开放花园.</string>
 	<string name="noaccesscontrol_layout_line1">对不起，您的操作系统是无法使用此应用程序的访问控制功能。访问控制将被禁用.</string>
-	<string name="noaccesscontrol_layout_line2">请参阅常见问题: http://opengarden.net/og-android-tether/wiki/FAQ</string>
+	<string name="noaccesscontrol_layout_line2">请参阅常见问题: http://opengarden.net/FAQ</string>
 	<string name="nonetfilter_layout_line1">对不起，您的操作系统部会出现运行此应用程序所有必须的功能.</string>
-	<string name="nonetfilter_layout_line2">请参阅常见问题: http://opengarden.net/og-android-tether/wiki/FAQ</string>
+	<string name="nonetfilter_layout_line2">请参阅常见问题: http://opengarden.net/FAQ</string>
 	<string name="noroot_layout_line1">对不起，您的操作系统没有运行此应用程序所需的所有功能</string>
 	<string name="update_layout_line1">有一个可用的开放花园无线共享的应用程序可以更新!</string>
 	<string name="update_layout_line2">现在安装开放花园更新程序?</string>

@@ -138,9 +138,9 @@
     <string name="donate_layout_line4">あとで寄付したくなったら、\'情報\'ダイアログから行えます。</string>
     <string name="donate_layout_line5">サポートのためのオープンガーデン感謝しています。！</string>
 	<string name="noaccesscontrol_layout_line1">残念なことに、あなたのカーネルはこのアプリケーションのアクセスコントロール機能に必要な機能を備えていません。アクセスコントロールは無効になります。</string>
-    <string name="noaccesscontrol_layout_line2">FAQをご覧ください: http://opengarden.net/og-android-tether/wiki/FAQ</string>
+    <string name="noaccesscontrol_layout_line2">FAQをご覧ください: http://opengarden.net/FAQ</string>
     <string name="nonetfilter_layout_line1">残念なことに、あなたのカーネルはこのアプリケーションを使用するための機能が揃っていません。</string>
-    <string name="nonetfilter_layout_line2">FAQをご覧ください: http://opengarden.net/donate</string>
+    <string name="nonetfilter_layout_line2">FAQをご覧ください: http://opengarden.net/FAQ</string>
     <string name="noroot_layout_line1">残念なことに、あなたのカーネルはこのアプリケーションを使用するための機能が揃っていません。</string>
     <string name="update_layout_line1">アップデートが利用できます！</string>
     <string name="update_layout_line2">今すぐアップデートをインストールしますか?</string>
