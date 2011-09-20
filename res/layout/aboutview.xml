@@ -36,7 +36,7 @@
 				android:paddingRight="15px"
 				android:textStyle="bold"
 				android:textColor="#000033" />
-			<TextView android:text="http://opengarden.net/og-android-tether/wiki/FAQ"
+			<TextView android:text="http://opengarden.net/support"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:autoLink="web"
@@ -104,7 +104,7 @@
 				android:paddingRight="15px"
 				android:textStyle="bold"
 				android:textColor="#000033" />	
-			<TextView android:text="http://opengarden.net"
+			<TextView android:text="http://opengarden.net/open-garden-mobile-apps"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:autoLink="web"
@@ -112,7 +112,7 @@
 				android:paddingLeft="15px"
 				android:paddingRight="15px"
 				android:textSize="12sp"					
-				android:textColor="#000033" />				
+				android:textColor="#000033" />
 			</LinearLayout>
 		</ScrollView>			
 </LinearLayout>
