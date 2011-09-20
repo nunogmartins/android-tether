@@ -38,7 +38,7 @@
     <string name="main_activity_trackball_pressed_start">轨迹球按下，确认共享已启动.</string>
     <string name="main_activity_trackball_pressed_stop">轨迹球按下，确认共享已启动.</string>
     <string name="log_activity_nologfile">无法打开日志文件。文件不存在！</string>
-    <string name="main_layout_presstostart">- Start Open Garden Tethering -</string> 
+    <string name="main_layout_presstostart">- 开始无线共享 -</string> 
     <string name="main_layout_presstostop">- 停止无线共享 -</string> 
     <string name="main_layout_download">下载</string> 
     <string name="main_layout_upload">上传</string> 
