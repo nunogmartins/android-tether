@@ -687,6 +687,9 @@ public class MainActivity extends Activity {
         .setNeutralButton(getString(R.string.main_activity_donate), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                         Log.d(MSG_TAG, "Donate pressed");
+                        // Disable donate-dialog for later startups
+                        MainActivity.this.application.preferenceEditor.putBoolean("donatepref", false);
+                        MainActivity.this.application.preferenceEditor.commit();
     					Uri uri = Uri.parse(getString(R.string.paypalUrl));
     					startActivity(new Intent(Intent.ACTION_VIEW, uri));
                 }
