@@ -1,0 +1,9 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:constantSize="true">
+ <item android:state_focused="true"
+  android:drawable="@drawable/widget_button_highlight" />
+ <item android:state_pressed="true"
+  android:drawable="@drawable/widget_button_pressed" />
+ <item 
+  android:drawable="@drawable/widget_button_normal" />
+</selector>

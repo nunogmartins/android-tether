@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+>
+    <Button android:id="@+id/button"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+			android:layout_marginRight="2dp"
+			android:layout_marginTop="4dp"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:textSize="8sp"
+			android:textOn="@string/accesscontrol_layout_disable" 
+			android:textOff="@string/accesscontrol_layout_enable"
+            android:background="@drawable/widgetbutton"
+             />			    
+</LinearLayout>
