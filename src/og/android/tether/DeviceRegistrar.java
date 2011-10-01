@@ -1,7 +1,9 @@
-package android.tether;
+package og.android.tether;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import og.android.tether.system.WebserviceTask;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.message.BasicNameValuePair;
@@ -12,7 +14,6 @@ import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
-import android.tether.system.WebserviceTask;
 import android.util.Log;
 
 public class DeviceRegistrar {

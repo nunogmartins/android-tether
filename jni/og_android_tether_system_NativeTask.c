@@ -5,12 +5,12 @@
 //#include <cutils/properties.h>
 #include <sys/system_properties.h>
 
-#include "android_tether_system_NativeTask.h"
+#include "og_android_tether_system_NativeTask.h"
 
 #define PROPERTY_KEY_MAX   32
 #define PROPERTY_VALUE_MAX  92
 
-JNIEXPORT jstring JNICALL Java_android_tether_system_NativeTask_getProp
+JNIEXPORT jstring JNICALL Java_og_android_tether_system_NativeTask_getProp
   (JNIEnv *env, jclass class, jstring name)
 {
   const char *nameString;
@@ -30,7 +30,7 @@ JNIEXPORT jstring JNICALL Java_android_tether_system_NativeTask_getProp
   return jstrOutput;
 }
 
-JNIEXPORT jint JNICALL Java_android_tether_system_NativeTask_runCommand
+JNIEXPORT jint JNICALL Java_og_android_tether_system_NativeTask_runCommand
   (JNIEnv *env, jclass class, jstring command)
 {
   const char *commandString;

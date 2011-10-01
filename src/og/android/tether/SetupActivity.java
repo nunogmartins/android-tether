@@ -10,11 +10,12 @@
  *  Copyright (c) 2009 by Harald Mueller and Sofia Lemons.
  */
 
-package android.tether;
+package og.android.tether;
 
 import java.io.IOException;
 
 import og.android.tether.R;
+import og.android.tether.system.Configuration;
 
 import android.R.drawable;
 import android.app.AlertDialog;
@@ -36,7 +37,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
-import android.tether.system.Configuration;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;

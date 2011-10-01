@@ -1,4 +1,4 @@
-package android.tether.system;
+package og.android.tether.system;
 
 import android.app.Application;
 import android.os.Build;
@@ -18,9 +18,9 @@ public abstract class BluetoothService {
 
 	        int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
 	        if (sdkVersion < Build.VERSION_CODES.ECLAIR) {
-	            className = "android.tether.system.BluetoothService_cupcake";
+	            className = "og.android.tether.system.BluetoothService_cupcake";
 	        } else {
-	            className = "android.tether.system.BluetoothService_eclair";
+	            className = "og.android.tether.system.BluetoothService_eclair";
 	        }
 	
 	        try {

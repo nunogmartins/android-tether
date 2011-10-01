@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      android:versionCode="28" android:versionName="2.0.8" package="og.android.tether">
+      android:versionCode="29" android:versionName="2.0.9" package="og.android.tether">
     <uses-sdk android:minSdkVersion="3" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
@@ -8,8 +8,8 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"></uses-permission>
     <permission android:protectionLevel="signature" android:name="og.android.tether.permission.C2D_MESSAGE"></permission>
     <uses-permission android:name="og.android.tether.permission.C2D_MESSAGE"></uses-permission>
-    <application android:name="android.tether.TetherApplication" android:icon="@drawable/icon_og_bev" android:label="@string/global_application_name">
-        <activity android:name="android.tether.MainActivity"
+    <application android:name="og.android.tether.TetherApplication" android:icon="@drawable/icon_og_bev" android:label="@string/global_application_name">
+        <activity android:name="og.android.tether.MainActivity"
                   android:label="@string/global_application_name"
                   android:configChanges="orientation|keyboardHidden"
                   android:screenOrientation="portrait" 
@@ -19,9 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="android.tether.LogActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
-        <activity android:name="android.tether.AccessControlActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
-        <activity android:name="android.tether.SetupActivity" android:launchMode="singleTask"/>
+        <activity android:name="og.android.tether.LogActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name="og.android.tether.AccessControlActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name="og.android.tether.SetupActivity" android:launchMode="singleTask"/>
         <receiver android:permission="com.google.android.c2dm.permission.SEND" android:name="com.google.android.c2dm.C2DMBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"></action>
@@ -32,7 +32,7 @@
                 <category android:name="og.android.tether"></category>
             </intent-filter>
         </receiver>
-        <service android:name="android.tether.C2DMReceiver"></service>
+        <service android:name="og.android.tether.C2DMReceiver"></service>
     </application>
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
 	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>   

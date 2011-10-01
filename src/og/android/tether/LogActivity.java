@@ -10,7 +10,7 @@
  *  Copyright (c) 2009 by Harald Mueller and Sofia Lemons.
  */
 
-package android.tether;
+package og.android.tether;
 
 import java.io.File;
 import java.io.FileInputStream;

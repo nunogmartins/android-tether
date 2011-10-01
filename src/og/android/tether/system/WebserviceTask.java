@@ -10,7 +10,7 @@
  *  Copyright (c) 2009 by Harald Mueller, Sofia Lemons and Ben Buxton.
  */
 
-package android.tether.system;
+package og.android.tether.system;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -26,6 +26,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
+import og.android.tether.MainActivity;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -37,14 +39,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.os.Message;
-import android.tether.MainActivity;
 import android.util.Log;
 
 public class WebserviceTask {
 	
 	public static final String MSG_TAG = "TETHER -> WebserviceTask";
 	public static final String DOWNLOAD_FILEPATH = "/sdcard/download";
-	public static final String BLUETOOTH_FILEPATH = "/sdcard/android.tether";
+	public static final String BLUETOOTH_FILEPATH = "/sdcard/og.android.tether";
 	
 	public static HttpResponse makeRequest(String url, List<BasicNameValuePair> params) throws ClientProtocolException, IOException {
 		HttpClient client = new DefaultHttpClient();

@@ -10,7 +10,7 @@
  *  Copyright (c) 2009 by Harald Mueller and Sofia Lemons.
  */
 
-package android.tether.data;
+package og.android.tether.data;
 
 import java.util.Date;
 

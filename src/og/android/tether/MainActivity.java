@@ -10,7 +10,7 @@
  *  Copyright (c) 2009 by Harald Mueller and Sofia Lemons.
  */
 
-package android.tether;
+package og.android.tether;
 
 import com.google.android.c2dm.C2DMessaging;
 

@@ -10,14 +10,15 @@
  *  Copyright (c) 2009 by Harald Mueller and Sofia Lemons.
  */
 
-package android.tether.data;
+package og.android.tether.data;
 
 import java.util.ArrayList;
 
 import og.android.tether.R;
+import og.android.tether.AccessControlActivity;
+import og.android.tether.TetherApplication;
 
 import android.graphics.Color;
-import android.tether.AccessControlActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.tether.TetherApplication;
 
 public class ClientAdapter extends BaseAdapter {
 	

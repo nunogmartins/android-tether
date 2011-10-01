@@ -10,7 +10,7 @@
  *  Copyright (c) 2009 by Harald Mueller and Sofia Lemons.
  */
 
-package android.tether;
+package og.android.tether;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +18,9 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import og.android.tether.R;
+import og.android.tether.data.ClientData;
+import og.android.tether.data.ClientAdapter;
+import og.android.tether.system.CoreTask;
 
 import android.R.drawable;
 import android.app.ListActivity;
@@ -25,9 +28,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.tether.data.ClientData;
-import android.tether.data.ClientAdapter;
-import android.tether.system.CoreTask;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;

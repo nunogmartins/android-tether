@@ -10,7 +10,7 @@
  *  Copyright (c) 2009 by Harald Mueller and Sofia Lemons.
  */
 
-package android.tether.system;
+package og.android.tether.system;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,7 +27,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 
-import android.tether.data.ClientData;
+import og.android.tether.data.ClientData;
+
 import android.util.Log;
 
 public class CoreTask {

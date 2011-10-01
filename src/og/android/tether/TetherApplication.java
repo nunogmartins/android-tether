@@ -10,7 +10,7 @@
  *  Copyright (c) 2009 by Harald Mueller and Sofia Lemons.
  */
 
-package android.tether;
+package og.android.tether;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,6 +27,11 @@ import java.util.List;
 import java.util.Properties;
 
 import og.android.tether.R;
+import og.android.tether.data.ClientData;
+import og.android.tether.system.BluetoothService;
+import og.android.tether.system.Configuration;
+import og.android.tether.system.CoreTask;
+import og.android.tether.system.WebserviceTask;
 
 import android.app.Application;
 import android.app.Notification;
@@ -49,11 +54,6 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
-import android.tether.data.ClientData;
-import android.tether.system.BluetoothService;
-import android.tether.system.Configuration;
-import android.tether.system.CoreTask;
-import android.tether.system.WebserviceTask;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -149,11 +149,7 @@ public class TetherApplication extends Application {
 		
 		//create CoreTask
 		this.coretask = new CoreTask();
-
-		// we set the path manually, since our package name is different.
-		// "/data/data/android.tether" is hardcoded everywhere...
-		//this.coretask.setPath(this.getApplicationContext().getFilesDir().getParent());
-		this.coretask.setPath("/data/data/android.tether");
+		this.coretask.setPath(this.getApplicationContext().getFilesDir().getParent());
 		Log.d(MSG_TAG, "Current directory is "+this.coretask.DATA_FILE_PATH);
 		
         // Check Homedir, or create it
@@ -346,7 +342,7 @@ public class TetherApplication extends Application {
 				
 				/*
 				// Make sure the ctrl_interface (directory) exists
-				File ctrlInterfaceDir = new File("/data/data/android.tether/var/wpa_supplicant");
+				File ctrlInterfaceDir = new File("/data/data/og.android.tether/var/wpa_supplicant");
 				if (ctrlInterfaceDir.exists() == false) {
 					if (ctrlInterfaceDir.mkdirs() == false) {
 						Log.e(MSG_TAG, "Unable to create ctrl-interface (directory) for wpa_supplicant!");
@@ -412,7 +408,7 @@ public class TetherApplication extends Application {
 			
 			/*
 			// Make sure the ctrl_interface (directory) exists
-			File ctrlInterfaceDir = new File("/data/data/android.tether/var/hostapd");
+			File ctrlInterfaceDir = new File("/data/data/og.android.tether/var/hostapd");
 			if (ctrlInterfaceDir.exists() == false) {
 				if (ctrlInterfaceDir.mkdirs() == false) {
 					Log.e(MSG_TAG, "Unable to create ctrl-interface (directory) for hostapd!");

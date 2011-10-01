@@ -1,5 +1,4 @@
-
-package android.tether;
+package og.android.tether;
 
 import og.android.tether.R;
 
