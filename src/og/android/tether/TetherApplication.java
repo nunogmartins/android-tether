@@ -996,24 +996,22 @@ public class TetherApplication extends Application {
     private void checkDirs() {
     	File dir = new File(this.coretask.DATA_FILE_PATH);
     	if (dir.exists() == false) {
-    			//this.displayToastMessage("Application data-dir does not exist!");
-    			Log.d(MSG_TAG, "Application data-dir does not exist!");
-    			if (!this.coretask.runRootCommand("mkdir "+this.coretask.DATA_FILE_PATH)) {
-    				this.displayToastMessage("Couldn't create " + this.coretask.DATA_FILE_PATH + " directory!");
-    			}
+    			this.displayToastMessage("Application data-dir does not exist!");
     	}
-		//String[] dirs = { "/bin", "/var", "/conf", "/library" };
-		String[] dirs = { "/bin", "/var", "/conf" };
-		for (String dirname : dirs) {
-			dir = new File(this.coretask.DATA_FILE_PATH + dirname);
-	    	if (dir.exists() == false) {
-	    		if (!dir.mkdir()) {
-	    			this.displayToastMessage("Couldn't create " + dirname + " directory!");
-	    		}
-	    	}
-	    	else {
-	    		Log.d(MSG_TAG, "Directory '"+dir.getAbsolutePath()+"' already exists!");
-	    	}
+    	else {
+    		//String[] dirs = { "/bin", "/var", "/conf", "/library" };
+    		String[] dirs = { "/bin", "/var", "/conf" };
+    		for (String dirname : dirs) {
+    			dir = new File(this.coretask.DATA_FILE_PATH + dirname);
+    	    	if (dir.exists() == false) {
+    	    		if (!dir.mkdir()) {
+    	    			this.displayToastMessage("Couldn't create " + dirname + " directory!");
+    	    		}
+    	    	}
+    	    	else {
+    	    		Log.d(MSG_TAG, "Directory '"+dir.getAbsolutePath()+"' already exists!");
+    	    	}
+    		}
     	}
     }
     
