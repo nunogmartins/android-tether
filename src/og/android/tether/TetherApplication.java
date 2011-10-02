@@ -856,6 +856,7 @@ public class TetherApplication extends Application {
         final HashMap<String,Object> h = new HashMap<String,Object>();
         h.put("aid", Settings.Secure.getString(getContentResolver(), Secure.ANDROID_ID));
         h.put("aver", Build.VERSION.RELEASE);
+        h.put("asdk", Build.VERSION.SDK_INT);
         h.put("mdl", Build.MODEL);
         Field mfr = getDeclaredField("android.os.Build", "MANUFACTURER");
         if (mfr != null) {
