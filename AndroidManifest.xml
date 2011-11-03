@@ -32,14 +32,32 @@
                 <category android:name="og.android.tether"></category>
             </intent-filter>
         </receiver>
+               
         <!-- widget receiver -->
         <receiver android:name="og.android.tether.WidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+            <intent-filter>
+               <action android:name="og.android.tether.intent.TRAFFIC" />
+            </intent-filter>
+            <intent-filter>
+               <action android:name="og.android.tether.intent.STATE" />
+            </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                        android:resource="@xml/appwidget_info" />
         </receiver>
+        
+        <receiver android:name="og.android.tether.TetherServiceReceiver" >
+            <intent-filter>
+               <action android:name="og.android.tether.intent.MANAGE" />
+            </intent-filter>
+        </receiver>    
+        
+        <!-- tether service -->
+        <service android:name="og.android.tether.TetherService">
+        </service>
+        
         <service android:name="og.android.tether.C2DMReceiver"></service>
     </application>
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>

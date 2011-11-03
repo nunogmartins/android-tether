@@ -157,6 +157,9 @@
 	<string name="bt_warning_line2">This function might not work on all devices</string>
 	<string name="txpower_warning_line1">The ability to reduce the wifi-transmit power depends on the type of wifi-chip in your device.</string>
 	<string name="txpower_warning_line2">This function might not work on all devices!</string>
+	<string name="service_start_toast">Open Garden TetherService started.</string>
+	<string name="service_stop_toast">Open Garden TetherService stopped.</string>
+	<string name="service_restart_toast">Open Garden TetherService stopped.</string>
 
     <string-array name="notificationmodenames">  
 		<item>None</item>  

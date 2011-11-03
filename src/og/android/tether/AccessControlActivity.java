@@ -84,7 +84,7 @@ public class AccessControlActivity extends ListActivity {
 					if (whitelist.remove()) {
 						AccessControlActivity.this.application.displayToastMessage(getString(R.string.accesscontrol_activity_disabled));
 						AccessControlActivity.this.clientAdapter.refreshData(AccessControlActivity.this.getCurrentClientData());
-						application.restartSecuredWifi();
+						if(TetherService.singleton != null) TetherService.singleton.restartSecuredWifi();
 						AccessControlActivity.this.application.preferenceEditor.putBoolean("acpref", false);
 						AccessControlActivity.this.application.preferenceEditor.commit();					
 						AccessControlActivity.this.toggleACHeader();
@@ -96,7 +96,7 @@ public class AccessControlActivity extends ListActivity {
 						whitelist.touch();
 						AccessControlActivity.this.application.displayToastMessage(getString(R.string.accesscontrol_activity_enabled));
 						AccessControlActivity.this.clientAdapter.refreshData(AccessControlActivity.this.getCurrentClientData());
-						application.restartSecuredWifi();
+						if(TetherService.singleton != null) TetherService.singleton.restartSecuredWifi();
 						AccessControlActivity.this.application.preferenceEditor.putBoolean("acpref", true);
 						AccessControlActivity.this.application.preferenceEditor.commit();
 						AccessControlActivity.this.toggleACHeader();
@@ -113,7 +113,7 @@ public class AccessControlActivity extends ListActivity {
 				AccessControlActivity.this.saveWhiteList();
 				AccessControlActivity.this.clientAdapter.saveRequired = false;
 				AccessControlActivity.this.toggleACFooter();
-				AccessControlActivity.this.application.restartSecuredWifi();
+				if(TetherService.singleton != null) TetherService.singleton.restartSecuredWifi();
 			}
         });
         
@@ -139,7 +139,7 @@ public class AccessControlActivity extends ListActivity {
     		 * TODO
     		 * Need to check if this restart is really needed
     		 */
-    		application.restartSecuredWifi();
+    		if(TetherService.singleton != null) TetherService.singleton.restartSecuredWifi();
     	}
     	super.onStop();
 	}
@@ -193,7 +193,7 @@ public class AccessControlActivity extends ListActivity {
 					try {
 						whitelist.save();
 						if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
-							application.restartSecuredWifi();
+							if(TetherService.singleton != null) TetherService.singleton.restartSecuredWifi();
 						}
 					}
 					catch (Exception ex) {
@@ -287,7 +287,7 @@ public class AccessControlActivity extends ListActivity {
 	    		 * TODO
 	    		 * Need to check if this restart is really needed
 	    		 */
-	    		application.restartSecuredWifi();
+	    		if(TetherService.singleton != null) TetherService.singleton.restartSecuredWifi();
 	    		break;
 	    	case MENU_RELOAD_CLIENTS : 
 	    		this.clientAdapter.refreshData(AccessControlActivity.this.getCurrentClientData());

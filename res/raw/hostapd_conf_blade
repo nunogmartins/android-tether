@@ -1,5 +1,5 @@
 interface=wlan0
-ssid=AndroidTether
+ssid=OpenGarden
 auth_algs=1
 max_num_sta=8
 beacon_int=100

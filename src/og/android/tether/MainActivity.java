@@ -208,17 +208,15 @@ public class MainActivity extends Activity {
         this.startBtnListener = new OnClickListener() {
 			public void onClick(View v) {
 				Log.d(MSG_TAG, "StartBtn pressed ...");
-		    	showDialog(MainActivity.ID_DIALOG_STARTING);
 				new Thread(new Runnable(){
-					public void run(){
-						boolean started = MainActivity.this.application.startTether();
-						MainActivity.this.dismissDialog(MainActivity.ID_DIALOG_STARTING);
-						Message message = Message.obtain();
-						if (started != true) {
-							message.what = MESSAGE_CANT_START_TETHER;
-						}
-						else {
-							// Make device discoverable if checked
+					public void run() {						
+						Intent intent = new Intent(TetherService.INTENT_MANAGE);
+						intent.putExtra("state", TetherService.MANAGE_START);
+						Log.d(MSG_TAG, "SENDING MANAGE: " + intent);
+						MainActivity.this.sendBroadcast(intent);
+						
+						/*
+							// ??? Make device discoverable if checked
 							if (Integer.parseInt(Build.VERSION.SDK) >= Build.VERSION_CODES.ECLAIR) {
 								boolean bluetoothPref = MainActivity.this.application.settings.getBoolean("bluetoothon", false);
 								if (bluetoothPref) {
@@ -228,18 +226,9 @@ public class MainActivity extends Activity {
 									}
 								}
 							}
-							try {
-								Thread.sleep(400);
-							} catch (InterruptedException e) {
-								// Taking a small nap
-							}
-							String wifiStatus = MainActivity.this.application.coretask.getProp("tether.status");
-							if (wifiStatus.equals("running") == false) {
-								message.what = MESSAGE_CHECK_LOG;
-							}
-						}
-						MainActivity.this.application.reportStats(message.what);
-						MainActivity.this.viewUpdateHandler.sendMessage(message); 
+						*/
+						
+						MainActivity.this.application.reportStats(-1); 
 					}
 				}).start();
 			}
@@ -251,17 +240,19 @@ public class MainActivity extends Activity {
 		this.stopBtnListener = new OnClickListener() {
 			public void onClick(View v) {
 				Log.d(MSG_TAG, "StopBtn pressed ...");
-				if (MainActivity.this.lockBtn.isChecked()){
+				if (MainActivity.this.lockBtn.isChecked()) {
 					Log.d(MSG_TAG, "Tether was locked ...");
 					MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_locked));
 					return;
 				}
-		    	showDialog(MainActivity.ID_DIALOG_STOPPING);
-				new Thread(new Runnable(){
-					public void run(){
-						MainActivity.this.application.stopTether();
-						MainActivity.this.dismissDialog(MainActivity.ID_DIALOG_STOPPING);
-						MainActivity.this.viewUpdateHandler.sendMessage(new Message());
+				
+				new Thread(new Runnable() {
+					public void run() {
+						Intent intent = new Intent(TetherService.INTENT_MANAGE);
+						intent.setAction(TetherService.INTENT_MANAGE);
+						intent.putExtra("state", TetherService.MANAGE_STOP);
+						Log.d(MSG_TAG, "Sending Intent: " + intent);
+						MainActivity.this.sendBroadcast(intent);
 					}
 				}).start();
 			}
@@ -324,34 +315,39 @@ public class MainActivity extends Activity {
 	}
 
 	public void onDestroy() {
-    	Log.d(MSG_TAG, "Calling onDestroy()");
-    	super.onDestroy();
+		Log.d(MSG_TAG, "Calling onDestroy()");
+    		super.onDestroy();
+	}
+	
+	public void onPause() {
+    		Log.d(MSG_TAG, "Calling onPause()");
+    		super.onPause();
 		try {
 			unregisterReceiver(this.intentReceiver);
 		} catch (Exception ex) {;}    	
 	}
-
+	
 	public void onResume() {
 		Log.d(MSG_TAG, "Calling onResume()");
 		this.showRadioMode();
 		super.onResume();
+		this.intentFilter = new IntentFilter();
 		
-		// Check, if the battery-temperatur should be displayed
+		// Check, if the battery-temperature should be displayed
 		if(this.application.settings.getString("batterytemppref", "celsius").equals("disabled") == false) {
 	        // create the IntentFilter that will be used to listen
 	        // to battery status broadcasts
-	        this.intentFilter = new IntentFilter();
-	        this.intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-	        registerReceiver(this.intentReceiver, this.intentFilter);
+	        this.intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);	        
 	        this.batteryTemperatureLayout.setVisibility(View.VISIBLE);
-		}
-		else {
-			try {
-				unregisterReceiver(this.intentReceiver);
-			} catch (Exception ex) {;}
+		} else {			
 			this.batteryTemperatureLayout.setVisibility(View.INVISIBLE);
 		}
 		
+		this.intentFilter.addAction(TetherService.INTENT_TRAFFIC);
+		this.intentFilter.addAction(TetherService.INTENT_STATE);
+        registerReceiver(this.intentReceiver, this.intentFilter);
+        this.toggleStartStop();
+        /*
 		// Check, if the lockbutton should be displayed
 		if (this.stopTblRow.getVisibility() == View.VISIBLE &&
 				this.application.settings.getBoolean("lockscreenpref", true) == false) {
@@ -360,6 +356,7 @@ public class MainActivity extends Activity {
 		else {
 			this.lockButtonCheckbox.setVisibility(View.GONE);
 		}
+		*/
 	}
 	
 	private static final int MENU_SETUP = 0;
@@ -428,31 +425,85 @@ public class MainActivity extends Activity {
     }
 
     /**
-     *Listens for intent broadcasts; Needed for the temperature-display
+     *Listens for intent broadcasts; Needed for the temperature-display, traffic count, and service state
      */
      private IntentFilter intentFilter;
-
-     private BroadcastReceiver intentReceiver = new BroadcastReceiver() {
+     private BroadcastReceiver intentReceiver;
+     public Handler viewUpdateHandler;
+     
+     public MainActivity() {
+    	
+     intentReceiver = new BroadcastReceiver() {
          @Override
          public void onReceive(Context context, Intent intent) {
              String action = intent.getAction();
              if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
-            	 int temp = (intent.getIntExtra("temperature", 0));
-            	 int celsius = (int)((temp+5)/10);
-            	 int fahrenheit = (int)(((temp/10)/0.555)+32+0.5);
-            	 Log.d(MSG_TAG, "Temp ==> "+temp+" -- Celsius ==> "+celsius+" -- Fahrenheit ==> "+fahrenheit);
-            	 if (MainActivity.this.application.settings.getString("batterytemppref", "celsius").equals("celsius")) {
-            		 batteryTemperature.setText("" + celsius + getString(R.string.main_activity_temperatureunit_celsius));
-            	 }
-            	 else {
+	            	 int temp = (intent.getIntExtra("temperature", 0));
+	            	 int celsius = (int)((temp+5)/10);
+	            	 int fahrenheit = (int)(((temp/10)/0.555)+32+0.5);
+	            	 Log.d(MSG_TAG, "Temp ==> "+temp+" -- Celsius ==> "+celsius+" -- Fahrenheit ==> "+fahrenheit);
+	            	 if (MainActivity.this.application.settings.getString("batterytemppref", "celsius").equals("celsius")) {
+	            		 batteryTemperature.setText("" + celsius + getString(R.string.main_activity_temperatureunit_celsius));
+	            	 } else {
             		 batteryTemperature.setText("" + fahrenheit + getString(R.string.main_activity_temperatureunit_fahrenheit));
-            	 }
-             }
+	            	 }
+             } else {
+            	 	Log.d(MSG_TAG, "INTENT RECEIVED: "+intent.getAction());
+            	 	if(action.equals(TetherService.INTENT_TRAFFIC))
+            	 		updateTrafficDisplay(intent.getLongArrayExtra("traffic_count"));
+            	 	if(action.equals(TetherService.INTENT_STATE)) {
+            	 		Log.d(MSG_TAG, "STATE RECEIVED: "+intent.getIntExtra("state", 999));
+            	 		try {
+            	 		switch(intent.getIntExtra("state", TetherService.STATE_IDLE)) {
+            	 		case TetherService.STATE_RESTARTING :
+            	 			try { MainActivity.this.dismissDialog(MainActivity.ID_DIALOG_STOPPING); }
+            	 			catch(Exception e) {}
+            	 			break;
+            	 		case TetherService.STATE_STARTING :
+            	 			MainActivity.this.showDialog(MainActivity.ID_DIALOG_STARTING);
+            	 			break;
+            	 		case TetherService.STATE_RUNNING :
+            	 			try { MainActivity.this.dismissDialog(MainActivity.ID_DIALOG_STARTING); }
+            	 			catch(Exception e) {}
+            	 			MainActivity.this.toggleStartStop();
+            	 			break;
+            	 		case TetherService.STATE_STOPPING :
+            	 			MainActivity.this.showDialog(MainActivity.ID_DIALOG_STOPPING);
+            	 			break;
+            	 		case TetherService.STATE_IDLE :
+            	 			try { MainActivity.this.dismissDialog(MainActivity.ID_DIALOG_STOPPING); }
+            	 			catch(Exception e) {}
+            	 			MainActivity.this.toggleStartStop();
+            	 			break;
+            	 		case TetherService.STATE_FAIL_LOG :
+            	 			try { MainActivity.this.dismissDialog(MainActivity.ID_DIALOG_STARTING); }
+            	 			catch(Exception e) {}
+            	 			MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_start_errors));
+            	 			MainActivity.this.toggleStartStop();
+            	 			break;
+            	 		case TetherService.STATE_FAIL_EXEC :
+            	 			try { MainActivity.this.dismissDialog(MainActivity.ID_DIALOG_STARTING); }
+            	 			catch(Exception e) {}
+            	 			MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_start_unable));
+            	 			MainActivity.this.toggleStartStop();
+            	 			break;
+            	 		}
+            	 		
+            	 		} catch(Exception e) { }
+            	 		finally {
+            	 			// MainActivity.this.toggleStartStop();
+            	 		}
+            	 				
+            	 	}
+         	}
+             
          }
      };
 
-    public Handler viewUpdateHandler = new Handler(){
+     // ??? deprecated?
+     viewUpdateHandler = new Handler(){
         public void handleMessage(Message msg) {
+        	Log.d(MSG_TAG, "MESSAGE: "+msg);
         	switch(msg.what) {
         	case MESSAGE_CHECK_LOG :
         		Log.d(MSG_TAG, "Error detected. Check log.");
@@ -469,10 +520,11 @@ public class MainActivity extends Activity {
         		break;
         	case MESSAGE_TRAFFIC_COUNT :
         		MainActivity.this.trafficRow.setVisibility(View.VISIBLE);
-	        	long uploadTraffic = ((TetherApplication.DataCount)msg.obj).totalUpload;
-	        	long downloadTraffic = ((TetherApplication.DataCount)msg.obj).totalDownload;
-	        	long uploadRate = ((TetherApplication.DataCount)msg.obj).uploadRate;
-	        	long downloadRate = ((TetherApplication.DataCount)msg.obj).downloadRate;
+        		//???
+	        	long uploadTraffic = ((TetherService.DataCount)msg.obj).totalUpload;
+	        	long downloadTraffic = ((TetherService.DataCount)msg.obj).totalDownload;
+	        	long uploadRate = ((TetherService.DataCount)msg.obj).uploadRate;
+	        	long downloadRate = ((TetherService.DataCount)msg.obj).downloadRate;
 
 	        	// Set rates to 0 if values are negative
 	        	if (uploadRate < 0)
@@ -530,6 +582,35 @@ public class MainActivity extends Activity {
         }
    };
 
+   } // constructor
+     
+   private void updateTrafficDisplay(long[] trafficData) {
+	   
+		MainActivity.this.trafficRow.setVisibility(View.VISIBLE);
+		
+		long uploadTraffic		= trafficData[0];
+		long downloadTraffic 	= trafficData[1];
+		long uploadRate 			= trafficData[2];
+		long downloadRate 		= trafficData[3];
+		
+		// Set rates to 0 if values are negative
+		if (uploadRate < 0)
+			uploadRate = 0;
+		if (downloadRate < 0)
+			downloadRate = 0;
+		
+		MainActivity.this.uploadText.setText(MainActivity.this.formatCount(uploadTraffic, false));
+		MainActivity.this.downloadText.setText(MainActivity.this.formatCount(downloadTraffic, false));
+		MainActivity.this.downloadText.invalidate();
+		MainActivity.this.uploadText.invalidate();
+		
+		MainActivity.this.uploadRateText.setText(MainActivity.this.formatCount(uploadRate, true));
+		MainActivity.this.downloadRateText.setText(MainActivity.this.formatCount(downloadRate, true));
+		MainActivity.this.downloadRateText.invalidate();
+		MainActivity.this.uploadRateText.invalidate();
+   }
+	
+	
    private void makeDiscoverable() {
        Log.d(MSG_TAG, "Making device discoverable ...");
        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
@@ -538,22 +619,12 @@ public class MainActivity extends Activity {
    }
    
    private void toggleStartStop() {
-    	boolean dnsmasqRunning = false;
-    	boolean pandRunning = false;
-		try {
-			dnsmasqRunning = this.application.coretask.isProcessRunning("bin/dnsmasq");
-		} catch (Exception e) {
-			MainActivity.this.application.displayToastMessage("Unable to check if dnsmasq is currently running!");
-		}
-		try {
-			pandRunning = this.application.coretask.isProcessRunning("bin/pand");
-		} catch (Exception e) {
-			MainActivity.this.application.displayToastMessage("Unable to check if pand is currently running!");
-		}
-    	boolean natEnabled = this.application.coretask.isNatEnabled();
-    	boolean usingBluetooth = this.application.settings.getBoolean("bluetoothon", false);
-    	if ((dnsmasqRunning == true && natEnabled == true) ||
-    			(usingBluetooth == true && pandRunning == true)){
+    
+	   if((TetherService.singleton != null) &&
+			   ((TetherService.singleton.getState() == TetherService.STATE_RUNNING) ||
+			   (TetherService.singleton.getState() == TetherService.STATE_FAIL_LOG) ||
+			   (TetherService.singleton.getState() == TetherService.STATE_STOPPING))) {
+		Log.d(MSG_TAG, "TOGGLE: RUNNING");
     		this.startTblRow.setVisibility(View.GONE);
     		this.stopTblRow.setVisibility(View.VISIBLE);
     		// Animation
@@ -574,11 +645,7 @@ public class MainActivity extends Activity {
             if  (tetherStatus.equals("1")) {
             	MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_start_usbtethering_running));
             }
-            
-            this.application.trafficCounterEnable(true);
-            this.application.clientConnectEnable(true);
-            this.application.dnsUpdateEnable(true);
-            
+
     		this.application.showStartNotification();
     		
 			// Check, if the lockbutton should be displayed
@@ -586,10 +653,14 @@ public class MainActivity extends Activity {
 				MainActivity.this.lockButtonCheckbox.setVisibility(View.VISIBLE);
 			}
     	}
-    	else if (dnsmasqRunning == false && natEnabled == false) {
+    	else if ((TetherService.singleton == null) ||
+    			(TetherService.singleton.getState() == TetherService.STATE_IDLE) ||
+    			(TetherService.singleton.getState() == TetherService.STATE_STARTING)) {
+    		Log.d(MSG_TAG, "TOGGLE: STOPPED");
     		this.startTblRow.setVisibility(View.VISIBLE);
     		this.stopTblRow.setVisibility(View.GONE);
-    		this.application.trafficCounterEnable(false);
+    		this.trafficRow.setVisibility(View.INVISIBLE);
+    		//??? this.application.trafficCounterEnable(false);
     		// Animation
     		if (this.animation != null)
     			this.startBtn.startAnimation(this.animation);
@@ -598,8 +669,8 @@ public class MainActivity extends Activity {
         	
 			// Check, if the lockbutton should be displayed
 			MainActivity.this.lockButtonCheckbox.setVisibility(View.GONE);
-    	}   	
-    	else {
+    	} else {
+    		Log.d(MSG_TAG, "TOGGLE: UNKNOWN");
     		this.startTblRow.setVisibility(View.VISIBLE);
     		this.stopTblRow.setVisibility(View.VISIBLE);
     		MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_start_unknownstate));

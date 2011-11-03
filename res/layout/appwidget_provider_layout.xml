@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="72dp"
+    android:layout_height="72dp"
+    
 >
-    <Button android:id="@+id/button"
-		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
+    <ImageView android:id="@+id/button"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
 			android:layout_marginRight="2dp"
 			android:layout_marginTop="4dp"
 			android:layout_alignParentTop="true"
@@ -14,6 +15,7 @@
 			android:textSize="8sp"
 			android:textOn="@string/accesscontrol_layout_disable" 
 			android:textOff="@string/accesscontrol_layout_enable"
-            android:background="@drawable/widgetbutton"
-             />			    
-</LinearLayout>
+      />			    
+</FrameLayout>
+ <!--     android:background="@drawable/widgetbutton" -->
+ 

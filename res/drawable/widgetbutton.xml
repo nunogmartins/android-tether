@@ -1,9 +1,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
     android:constantSize="true">
  <item android:state_focused="true"
-  android:drawable="@drawable/widget_button_highlight" />
+  android:drawable="@drawable/stop" />
  <item android:state_pressed="true"
-  android:drawable="@drawable/widget_button_pressed" />
+  android:drawable="@drawable/start_og" />
  <item 
-  android:drawable="@drawable/widget_button_normal" />
+  android:drawable="@drawable/start" />
 </selector>

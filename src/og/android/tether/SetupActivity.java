@@ -74,7 +74,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         this.application = (TetherApplication)this.getApplication();
         
         // Init CurrentSettings
-        this.currentSSID = this.application.settings.getString("ssidpref", "AndroidTether"); 
+        this.currentSSID = this.application.settings.getString("ssidpref", "OpenGarden"); 
         this.currentChannel = this.application.settings.getString("channelpref", "1");
         this.currentPassphrase = this.application.settings.getString("passphrasepref", this.application.DEFAULT_PASSPHRASE);
         this.currentLAN = this.application.settings.getString("lannetworkpref", this.application.DEFAULT_LANNETWORK);
@@ -309,7 +309,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				Looper.prepare();
 			   	String message = null;
 		    	if (key.equals("ssidpref")) {
-		    		String newSSID = sharedPreferences.getString("ssidpref", "AndroidTether");
+		    		String newSSID = sharedPreferences.getString("ssidpref", "OpenGarden");
 		    		if (SetupActivity.this.currentSSID.equals(newSSID) == false) {
 	    				SetupActivity.this.currentSSID = newSSID;
 	    				message = getString(R.string.setup_activity_info_ssid_changedto)+" '"+newSSID+"'.";
@@ -318,7 +318,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 		    					// Restart Tethering
-				    			SetupActivity.this.application.restartTether();
+				    			//???
+				    			TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 		    				}
@@ -342,7 +343,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
-		    					SetupActivity.this.application.restartTether();
+				    			//???
+				    			TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 		    				}
@@ -385,7 +387,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			if (SetupActivity.this.application.whitelist.exists() == false) {
 		    				try {
 								application.whitelist.touch();
-								application.restartSecuredWifi();
+								if(TetherService.singleton != null) TetherService.singleton.restartSecuredWifi();
 								message = getString(R.string.setup_activity_info_accesscontrol_enabled);
 		    				} catch (IOException e) {
 		    					message = "Unable to touch 'whitelist_mac.conf'.";
@@ -395,7 +397,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    		else {
 		    			if (SetupActivity.this.application.whitelist.exists() == true) {
 		    				application.whitelist.remove();
-		    				application.restartSecuredWifi();
+		    				if(TetherService.singleton != null) TetherService.singleton.restartSecuredWifi();
 		    				message = getString(R.string.setup_activity_info_accesscontrol_disabled);
 		    			}
 		    		}
@@ -414,7 +416,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 								SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
-								SetupActivity.this.application.restartTether();
+								//???
+								TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 								SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
@@ -439,7 +442,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
-								SetupActivity.this.application.restartTether();
+				    			//???
+				    			TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
@@ -466,7 +470,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
-								SetupActivity.this.application.restartTether();
+				    			//???
+				    			TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
@@ -511,7 +516,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
-								SetupActivity.this.application.restartTether();
+				    			//???
+							TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
@@ -540,7 +546,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 			    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 			    			
 			    			// Restart Tethering
-			    			SetupActivity.this.application.restartTether();
+			    			//???
+			    			TetherService.singleton.restartTether();
 
 			    			// Dismiss RestartDialog
 			    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
@@ -571,7 +578,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    	else if (key.equals("bluetoothkeepwifi")) {
 		    		Boolean bluetoothWifi = sharedPreferences.getBoolean("bluetoothkeepwifi", false);
 		    		if (bluetoothWifi) {
-		    			SetupActivity.this.application.enableWifi();
+		    			TetherService.singleton.enableWifi();
 		    		}
 		    	}
 		    	Looper.loop();
