@@ -12,6 +12,8 @@ import android.widget.RemoteViews;
 import android.view.View;
 import android.util.Log;
 import android.os.AsyncTask;
+import android.os.Handler;
+
 
 public class WidgetProvider extends AppWidgetProvider {
 
@@ -19,6 +21,9 @@ public class WidgetProvider extends AppWidgetProvider {
     public static final StateTracker stateTracker = new StateTracker();
     static final ComponentName THIS_APPWIDGET = new ComponentName("og.android.tether", "og.android.tether.WidgetProvider");
     Context ctx;
+    static Handler animateHandler = new Handler();
+    static WidgetAnimator widgetAnimator = new WidgetAnimator();
+    static int FRAME_DELAY = 300;
     
     static RemoteViews buildUpdate(Context context) {
         
@@ -75,13 +80,27 @@ public class WidgetProvider extends AppWidgetProvider {
     public static void updateWidgetButtons(RemoteViews remoteViews, Context context) {
     		switch(stateTracker.currentState) {
     		case TetherService.STATE_RUNNING :
+    			//Log.d("!!!WidgetAnimator!!!", " view: " + remoteViews);
+    			animateHandler.removeCallbacks(widgetAnimator);
     			remoteViews.setImageViewResource(R.id.button, R.drawable.widgeton);
     			break;
     		case TetherService.STATE_IDLE :
+    			//Log.d("!!!WidgetAnimator!!!", " view: " + remoteViews);
+    			animateHandler.removeCallbacks(widgetAnimator);
     			remoteViews.setImageViewResource(R.id.button, R.drawable.widgetoff);
     			break;
     		default :
-    			remoteViews.setImageViewResource(R.id.button, R.drawable.widgetwait);
+    			if(stateTracker.currentState == TetherService.STATE_STARTING) {
+    				widgetAnimator.currentFrame = 1;
+    				widgetAnimator.turningOn = true;
+    			} else {
+    				widgetAnimator.currentFrame = 4;
+    				widgetAnimator.turningOn = false;
+    			}
+    			widgetAnimator.views = remoteViews;
+    			widgetAnimator.context = context;
+    			animateHandler.removeCallbacks(widgetAnimator);
+    			animateHandler.postDelayed(widgetAnimator, FRAME_DELAY);
     			break;
     		}
     }
@@ -141,4 +160,33 @@ class IntentAsyncTask extends AsyncTask<Void, Void, Void> {
 	}
 }
 
+class WidgetAnimator implements Runnable {
+	
+	int currentFrame = 1;
+	boolean turningOn = true;
+	RemoteViews views;
+	Context context;
+	
+	public void run() {
+		views.setImageViewResource(R.id.button, getImageId(currentFrame));
+		AppWidgetManager.getInstance(context).updateAppWidget(WidgetProvider.THIS_APPWIDGET, views);
+		if(turningOn) {
+			if(++currentFrame > 4)  currentFrame = 1;
+		} else {
+			if(--currentFrame < 1) currentFrame = 4;
+		}
+		WidgetProvider.animateHandler.postDelayed(WidgetProvider.widgetAnimator, WidgetProvider.FRAME_DELAY);
+	}
+	
+	int getImageId(int index) {
+		switch(index) {
+		case 1 : return R.drawable.widgetwait1;
+		case 2 : return R.drawable.widgetwait2;
+		case 3 : return R.drawable.widgetwait3;
+		case 4 : default : return R.drawable.widgetwait4;
+		
+		}
+	}
+
+}
 
