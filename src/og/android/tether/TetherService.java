@@ -14,7 +14,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -216,7 +215,18 @@ public class TetherService extends Service {
     		
     		Log.d(MSG_TAG, "Service started: " + started + ", state: " + TetherService.this.serviceState);
     		sendBroadcastState(TetherService.this.serviceState);
-    		TetherService.this.application.showStartNotification();
+    		switch(TetherService.this.serviceState) {
+    		case TetherService.STATE_FAIL_EXEC :
+    			TetherService.this.application.showStartNotification(getString(R.string.main_activity_start_unable));
+    			break;
+    		case TetherService.STATE_FAIL_LOG :
+    			TetherService.this.application.showStartNotification(getString(R.string.main_activity_start_errors));
+    			break;
+    		default :
+    			TetherService.this.application.showStartNotification(getString(R.string.global_application_tethering_running));
+    			break;
+    		}
+    		
     		//Toast.makeText(TetherService.this, R.string.service_start_toast, Toast.LENGTH_SHORT).show();
     		}}).start();
     		//TetherService.this.application.displayToastMessage("Open Garden Tether started");
@@ -300,7 +310,7 @@ public class TetherService extends Service {
         		if(status && (status = TetherService.this.application.coretask.runRootCommand(
         				TetherService.this.application.coretask.DATA_FILE_PATH+"/bin/tether start 1"))) {
         		
-        			TetherService.this.application.showStartNotification();
+        			TetherService.this.application.showStartNotification(getString(R.string.global_application_tethering_running));
         			TetherService.this.trafficCounterEnable(true);
         			TetherService.this.serviceState = STATE_RUNNING;
         		} else

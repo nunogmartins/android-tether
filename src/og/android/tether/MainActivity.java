@@ -22,14 +22,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
-import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -214,20 +212,6 @@ public class MainActivity extends Activity {
 						intent.putExtra("state", TetherService.MANAGE_START);
 						Log.d(MSG_TAG, "SENDING MANAGE: " + intent);
 						MainActivity.this.sendBroadcast(intent);
-						
-						/*
-							// ??? Make device discoverable if checked
-							if (Integer.parseInt(Build.VERSION.SDK) >= Build.VERSION_CODES.ECLAIR) {
-								boolean bluetoothPref = MainActivity.this.application.settings.getBoolean("bluetoothon", false);
-								if (bluetoothPref) {
-									boolean bluetoothDiscoverable = MainActivity.this.application.settings.getBoolean("bluetoothdiscoverable", false);
-									if (bluetoothDiscoverable) {
-										MainActivity.this.makeDiscoverable();
-									}
-								}
-							}
-						*/
-						
 						MainActivity.this.application.reportStats(-1); 
 					}
 				}).start();
@@ -347,7 +331,7 @@ public class MainActivity extends Activity {
 		this.intentFilter.addAction(TetherService.INTENT_STATE);
         registerReceiver(this.intentReceiver, this.intentFilter);
         this.toggleStartStop();
-        /*
+        
 		// Check, if the lockbutton should be displayed
 		if (this.stopTblRow.getVisibility() == View.VISIBLE &&
 				this.application.settings.getBoolean("lockscreenpref", true) == false) {
@@ -356,7 +340,7 @@ public class MainActivity extends Activity {
 		else {
 			this.lockButtonCheckbox.setVisibility(View.GONE);
 		}
-		*/
+		
 	}
 	
 	private static final int MENU_SETUP = 0;
@@ -610,13 +594,6 @@ public class MainActivity extends Activity {
 		MainActivity.this.uploadRateText.invalidate();
    }
 	
-	
-   private void makeDiscoverable() {
-       Log.d(MSG_TAG, "Making device discoverable ...");
-       Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-       discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
-       startActivity(discoverableIntent);
-   }
    
    private void toggleStartStop() {
     
@@ -646,7 +623,7 @@ public class MainActivity extends Activity {
             	MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_start_usbtethering_running));
             }
 
-    		this.application.showStartNotification();
+    		this.application.showStartNotification(getString(R.string.global_application_tethering_running));
     		
 			// Check, if the lockbutton should be displayed
 			if (MainActivity.this.application.settings.getBoolean("lockscreenpref", true) == false) {
@@ -655,7 +632,9 @@ public class MainActivity extends Activity {
     	}
     	else if ((TetherService.singleton == null) ||
     			(TetherService.singleton.getState() == TetherService.STATE_IDLE) ||
-    			(TetherService.singleton.getState() == TetherService.STATE_STARTING)) {
+    			(TetherService.singleton.getState() == TetherService.STATE_STARTING) ||
+    			(TetherService.singleton.getState() == TetherService.STATE_RESTARTING) ||
+    			(TetherService.singleton.getState() == TetherService.STATE_FAIL_EXEC)) {
     		Log.d(MSG_TAG, "TOGGLE: STOPPED");
     		this.startTblRow.setVisibility(View.VISIBLE);
     		this.stopTblRow.setVisibility(View.GONE);

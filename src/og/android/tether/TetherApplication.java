@@ -19,8 +19,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -28,10 +26,8 @@ import java.util.Properties;
 
 import og.android.tether.R;
 import og.android.tether.data.ClientData;
-import og.android.tether.system.BluetoothService;
 import og.android.tether.system.Configuration;
 import og.android.tether.system.CoreTask;
-import og.android.tether.system.NativeTask;
 import og.android.tether.system.WebserviceTask;
 
 import android.app.Application;
@@ -487,12 +483,11 @@ public class TetherApplication extends Application {
     }
     
     // Notification
-    public void showStartNotification() {
+    public void showStartNotification(String message) {
+
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
-		
-		
-    	notification.setLatestEventInfo(this, getString(R.string.global_application_name), getString(R.string.global_application_tethering_running), this.mainIntent);
-    	this.notificationManager.notify(-1, this.notification);
+		notification.setLatestEventInfo(this, getString(R.string.global_application_name), message, this.mainIntent);
+    		this.notificationManager.notify(-1, this.notification);
     }
     
     Handler clientConnectHandler = new Handler() {

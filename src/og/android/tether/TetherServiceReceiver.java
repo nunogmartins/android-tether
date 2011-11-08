@@ -43,9 +43,8 @@ public class TetherServiceReceiver extends BroadcastReceiver {
 	
 	void sendBroadcastManage(Context context, int state)
 	{
-		Intent intent = new Intent();
-		intent.setAction(TetherService.INTENT_MANAGE);
-		intent.setComponent(new ComponentName("og.android.tether", "og.android.tether.TetherService"));
+		Intent intent = new Intent(TetherService.INTENT_MANAGE);
+		//intent.setComponent(new ComponentName("og.android.tether", "og.android.tether.TetherService"));
 		intent.putExtra("state", state);
 		Log.d(MSG_TAG, "SENDING MANAGE: " + state);
 		context.sendBroadcast(intent);

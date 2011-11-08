@@ -78,15 +78,16 @@ public class WidgetProvider extends AppWidgetProvider {
     }
     
     public static void updateWidgetButtons(RemoteViews remoteViews, Context context) {
+    		animateHandler.removeCallbacks(widgetAnimator);
     		switch(stateTracker.currentState) {
     		case TetherService.STATE_RUNNING :
+    		case TetherService.STATE_FAIL_LOG :
     			//Log.d("!!!WidgetAnimator!!!", " view: " + remoteViews);
-    			animateHandler.removeCallbacks(widgetAnimator);
     			remoteViews.setImageViewResource(R.id.button, R.drawable.widgeton);
     			break;
     		case TetherService.STATE_IDLE :
-    			//Log.d("!!!WidgetAnimator!!!", " view: " + remoteViews);
-    			animateHandler.removeCallbacks(widgetAnimator);
+    		case TetherService.STATE_FAIL_EXEC :
+    			//Log.d("!!!WidgetAnimator!!!", " view: " + remoteViews);   			
     			remoteViews.setImageViewResource(R.id.button, R.drawable.widgetoff);
     			break;
     		default :
@@ -99,7 +100,6 @@ public class WidgetProvider extends AppWidgetProvider {
     			}
     			widgetAnimator.views = remoteViews;
     			widgetAnimator.context = context;
-    			animateHandler.removeCallbacks(widgetAnimator);
     			animateHandler.postDelayed(widgetAnimator, FRAME_DELAY);
     			break;
     		}
@@ -133,7 +133,17 @@ class StateTracker {
 
 	void sendBroadcastChange(Context context) {
 		Log.d(WidgetProvider.MSG_TAG, "SendChange: " + currentState);
-		int newState = (currentState == TetherService.STATE_RUNNING ? TetherService.MANAGE_STOP : TetherService.MANAGE_START);
+		int newState;
+		switch(currentState)
+		{
+		case TetherService.STATE_RUNNING :
+		case TetherService.STATE_FAIL_LOG :
+			newState = TetherService.MANAGE_STOP;
+			break;
+		default :
+			newState = TetherService.MANAGE_START;
+			break;
+		}
 		new IntentAsyncTask(context, newState).execute(new Void[0]);
 	
 	}

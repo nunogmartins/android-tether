@@ -318,8 +318,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 		    					// Restart Tethering
-				    			//???
-				    			TetherService.singleton.restartTether();
+				    			
+				    			if(TetherService.singleton != null) TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 		    				}
@@ -343,8 +343,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
-				    			//???
-				    			TetherService.singleton.restartTether();
+				    			if(TetherService.singleton != null) TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 		    				}
@@ -416,8 +415,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 								SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
-								//???
-								TetherService.singleton.restartTether();
+								if(TetherService.singleton != null) TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 								SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
@@ -442,8 +440,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
-				    			//???
-				    			TetherService.singleton.restartTether();
+				    			if(TetherService.singleton != null) TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
@@ -470,8 +467,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
-				    			//???
-				    			TetherService.singleton.restartTether();
+				    			if(TetherService.singleton != null) TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
@@ -516,8 +512,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Show RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
-				    			//???
-							TetherService.singleton.restartTether();
+				    			if(TetherService.singleton != null) TetherService.singleton.restartTether();
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
@@ -546,8 +541,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 			    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 			    			
 			    			// Restart Tethering
-			    			//???
-			    			TetherService.singleton.restartTether();
+			    			if(TetherService.singleton != null) TetherService.singleton.restartTether();
 
 			    			// Dismiss RestartDialog
 			    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
@@ -578,7 +572,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    	else if (key.equals("bluetoothkeepwifi")) {
 		    		Boolean bluetoothWifi = sharedPreferences.getBoolean("bluetoothkeepwifi", false);
 		    		if (bluetoothWifi) {
-		    			TetherService.singleton.enableWifi();
+		    			if(TetherService.singleton != null) TetherService.singleton.enableWifi();
 		    		}
 		    	}
 		    	Looper.loop();
