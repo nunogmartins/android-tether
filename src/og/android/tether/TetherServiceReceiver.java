@@ -24,11 +24,14 @@ public class TetherServiceReceiver extends BroadcastReceiver {
 					sendBroadcastManage(contextArg, TetherService.MANAGE_STARTED);
 				break;
 			case TetherService.MANAGE_STARTED :
-				if(TetherService.singleton != null)
+				if( (TetherService.singleton != null) &&
+					(TetherService.singleton.getState() != TetherService.STATE_STARTING) &&
+					(TetherService.singleton.getState() != TetherService.STATE_RESTARTING) )
 					TetherService.singleton.startTether();
 				break;
 			case TetherService.MANAGE_STOP :
-				if(TetherService.singleton != null)
+				if( (TetherService.singleton != null) &&
+					(TetherService.singleton.getState() != TetherService.STATE_STOPPING) )
 					TetherService.singleton.stopTether();
 				break;
 			case TetherService.MANAGE_STOPPED :

@@ -117,17 +117,17 @@ public class WidgetProvider extends AppWidgetProvider {
 
 
 class StateTracker {
-	
+
 	int currentState;
 	boolean isChanging = false;
-		
+
 	public StateTracker() {
 		if(TetherService.singleton != null)
 			currentState = TetherService.singleton.getState();
 		else
 			currentState = TetherService.STATE_IDLE;
 	}
-	
+
 	void changeState()
 	{ 	
 	}
@@ -146,21 +146,21 @@ class StateTracker {
 			break;
 		}
 		new IntentAsyncTask(context, newState).execute(new Void[0]);
-	
+
 	}
-	
+
 }
 
 class IntentAsyncTask extends AsyncTask<Void, Void, Void> {
 
 	Context context;
 	int state;
-	
+
 	public IntentAsyncTask(Context context, int state) {
 		this.context = context;
 		this.state = state;
 	}
-	
+
 	 protected Void doInBackground(Void... arg) {
 		Intent intent = new Intent();
 		intent.setAction(TetherService.INTENT_MANAGE);
@@ -172,12 +172,12 @@ class IntentAsyncTask extends AsyncTask<Void, Void, Void> {
 }
 
 class WidgetAnimator implements Runnable {
-	
+
 	int currentFrame = 1;
 	boolean turningOn = true;
 	RemoteViews views;
 	Context context;
-	
+
 	public void run() {
 		views.setImageViewResource(R.id.button, getImageId(currentFrame));
 		AppWidgetManager.getInstance(context).updateAppWidget(WidgetProvider.THIS_APPWIDGET, views);
@@ -188,16 +188,15 @@ class WidgetAnimator implements Runnable {
 		}
 		WidgetProvider.animateHandler.postDelayed(WidgetProvider.widgetAnimator, WidgetProvider.FRAME_DELAY);
 	}
-	
+
 	int getImageId(int index) {
 		switch(index) {
 		case 1 : return R.drawable.widgetwait1;
 		case 2 : return R.drawable.widgetwait2;
 		case 3 : return R.drawable.widgetwait3;
 		case 4 : default : return R.drawable.widgetwait4;
-		
+
 		}
 	}
 
 }
-

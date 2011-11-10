@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="72dp"
-    android:layout_height="72dp"
+    android:layout_width="68dp"
+    android:layout_height="80dp"
+    android:clickable="true"
+    android:focusable="true"
     
 >
+
     <ImageView android:id="@+id/button"
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
-			android:layout_marginRight="2dp"
-			android:layout_marginTop="4dp"
-			android:layout_alignParentTop="true"
-			android:layout_alignParentRight="true"
+		          android:layout_alignParentTop="true"
+         android:layout_alignParentRight="true"
+			android:layout_marginRight="0dp"
+			android:layout_marginTop="0dp"
 			android:textSize="8sp"
 			android:textOn="@string/accesscontrol_layout_disable" 
-			android:textOff="@string/accesscontrol_layout_enable"
-      />			    
+			android:textOff="@string/accesscontrol_layout_enable" 
+			android:background="@drawable/widgetselector">
+			
+			</ImageView>
+		    
 </FrameLayout>
- <!--     android:background="@drawable/widgetbutton" -->
+ <!--     android:background="@drawable/widgetbutton"
+
+ -->
  
