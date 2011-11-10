@@ -62,17 +62,18 @@ public class WidgetProvider extends AppWidgetProvider {
 
     public void onReceive(Context context, Intent intent) {    		
     		super.onReceive(context, intent);
+    		/*
     		Log.d(MSG_TAG, "onReceive: " + intent );
     		if(TetherService.singleton != null)
     			Log.d(MSG_TAG, "getState(): "+TetherService.singleton.getState());
-    		
+    		*/
     		if(intent.hasCategory(Intent.CATEGORY_ALTERNATIVE)) {
     			stateTracker.sendBroadcastChange(context);
     		} else if(intent.getAction().equals(TetherService.INTENT_STATE)) {
     			int stateArg = intent.getIntExtra("state", TetherService.MANAGE_STOPPED);
     			stateTracker.currentState = stateArg;
     			updateWidget(context);
-    			Log.d(MSG_TAG, "currentState: "+stateArg);
+    			//Log.d(MSG_TAG, "currentState: "+stateArg);
     		}
 
     }

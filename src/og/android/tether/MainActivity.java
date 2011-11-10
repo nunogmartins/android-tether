@@ -432,7 +432,7 @@ public class MainActivity extends Activity {
             		 batteryTemperature.setText("" + fahrenheit + getString(R.string.main_activity_temperatureunit_fahrenheit));
 	            	 }
              } else {
-            	 	Log.d(MSG_TAG, "INTENT RECEIVED: "+intent.getAction());
+            	 	//Log.d(MSG_TAG, "INTENT RECEIVED: "+intent.getAction());
             	 	if(action.equals(TetherService.INTENT_TRAFFIC))
             	 		updateTrafficDisplay(intent.getLongArrayExtra("traffic_count"));
             	 	if(action.equals(TetherService.INTENT_STATE)) {

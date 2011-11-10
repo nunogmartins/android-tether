@@ -12,7 +12,7 @@ public class TetherServiceReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context contextArg, Intent intentArg) {
-		Log.d(MSG_TAG, "onReceive state: " + intentArg.getIntExtra("state", 999));
+		//Log.d(MSG_TAG, "onReceive state: " + intentArg.getIntExtra("state", 999));
 		
 		if(intentArg.getAction().equals(TetherService.INTENT_MANAGE)) {		
 			switch(intentArg.getIntExtra("state", TetherService.MANAGE_START))

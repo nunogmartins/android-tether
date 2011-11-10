@@ -489,6 +489,12 @@ public class TetherApplication extends Application {
 		notification.setLatestEventInfo(this, getString(R.string.global_application_name), message, this.mainIntent);
     		this.notificationManager.notify(-1, this.notification);
     }
+
+    public Notification getStartNotification(String message) {
+		notification.flags = Notification.FLAG_ONGOING_EVENT;
+		notification.setLatestEventInfo(this, getString(R.string.global_application_name), message, this.mainIntent);
+    		return notification;
+    }
     
     Handler clientConnectHandler = new Handler() {
  	   public void handleMessage(Message msg) {

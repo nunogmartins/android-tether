@@ -5,6 +5,7 @@ import og.android.tether.data.ClientData;
 import og.android.tether.system.BluetoothService;
 
 import android.app.Service;
+import android.app.Notification;
 import android.bluetooth.BluetoothAdapter;
 import android.net.wifi.WifiManager;
 import android.content.Context;
@@ -15,6 +16,8 @@ import android.os.Message;
 import android.os.Build;
 import android.util.Log;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -46,6 +49,16 @@ public class TetherService extends Service {
 	private int serviceState = STATE_IDLE;
 	private TetherApplication application = null;
 	private final ServiceBinder serviceBinder;
+	
+	private static final Class<?>[] startForegroundSignature =
+			new Class[] { int.class, Notification.class };
+	private static final Class<?>[] stopForegroundSignature =
+			new Class[] { boolean.class };
+	
+	private Method startForeground;
+	private Object[] startForegroundArgs = new Object[2];
+	private Method stopForeground;
+	private Object[] stopForegroundArgs = new Object[1];
 	
 	// WifiManager
 	private WifiManager wifiManager = null;
@@ -98,6 +111,13 @@ public class TetherService extends Service {
         this.bluetoothService = BluetoothService.getInstance();
         this.bluetoothService.setApplication(this.application);
         
+		try {
+			startForeground = getClass().getMethod("startForeground", startForegroundSignature);
+			stopForeground = getClass().getMethod("stopForeground", stopForegroundSignature);
+		} catch(NoSuchMethodException e) {
+			startForeground = stopForeground = null;
+			Log.d(MSG_TAG, "No startForeground method.");
+		}
 		
 		if(this.application.coretask.getProp("tether.status").equals("running")) {
 			Log.d(MSG_TAG, "tether.status already running!");
@@ -135,7 +155,7 @@ public class TetherService extends Service {
 	private void sendBroadcastState(int state) {
 		Intent intent = new Intent(INTENT_STATE);
 		intent.putExtra("state", state);
-		Log.d(MSG_TAG, "SENDING STATE: " + state);
+		//Log.d(MSG_TAG, "SENDING STATE: " + state);
 		sendBroadcast(intent);
 	}
 	
@@ -144,6 +164,41 @@ public class TetherService extends Service {
 		Intent intent = new Intent(TetherService.INTENT_TRAFFIC);
 		intent.putExtra("traffic_count", trafficCount);
 		sendBroadcast(intent);
+	}
+	
+	
+	void startForegroundCompat(int id, Notification notification) {
+		if(startForeground != null) {
+			startForegroundArgs[0] = Integer.valueOf(id);
+			startForegroundArgs[1] = notification;
+			try {
+				startForeground.invoke(this, startForegroundArgs);
+			} catch(InvocationTargetException e) {
+				Log.w(MSG_TAG, "Unable to invoke startForeground");
+				
+			} catch(IllegalAccessException e) {
+				Log.w(MSG_TAG, "Unable to invoke startForeground");
+			}		
+		} else {
+			setForeground(true);
+			this.application.notificationManager.notify(id, notification);
+		}
+	}
+	
+	void stopForegroundCompat(int id) {
+		if(stopForeground != null) {
+			stopForegroundArgs[0] = Boolean.TRUE;
+			try {
+				stopForeground.invoke(this, stopForegroundArgs);
+			} catch(InvocationTargetException e) {
+				Log.w(MSG_TAG, "Unable to invoke stopForeground");
+			} catch(IllegalAccessException e) {
+				Log.w(MSG_TAG, "Unable to invoke stopForeground");
+			}
+		} else {
+			this.application.notificationManager.cancel(id);
+			setForeground(false);
+		}
 	}
 	
 	// Start/Stop Tethering
@@ -215,21 +270,22 @@ public class TetherService extends Service {
     		
     		Log.d(MSG_TAG, "Service started: " + started + ", state: " + TetherService.this.serviceState);
     		sendBroadcastState(TetherService.this.serviceState);
+    		
+    		}}).start();
+    		
+    		String message;
     		switch(TetherService.this.serviceState) {
     		case TetherService.STATE_FAIL_EXEC :
-    			TetherService.this.application.showStartNotification(getString(R.string.main_activity_start_unable));
+    			message = getString(R.string.main_activity_start_unable);
     			break;
     		case TetherService.STATE_FAIL_LOG :
-    			TetherService.this.application.showStartNotification(getString(R.string.main_activity_start_errors));
+    			message = getString(R.string.main_activity_start_errors);
     			break;
     		default :
-    			TetherService.this.application.showStartNotification(getString(R.string.global_application_tethering_running));
+    			message = getString(R.string.global_application_tethering_running);
     			break;
     		}
-    		
-    		//Toast.makeText(TetherService.this, R.string.service_start_toast, Toast.LENGTH_SHORT).show();
-    		}}).start();
-    		//TetherService.this.application.displayToastMessage("Open Garden Tether started");
+    		startForegroundCompat(-1, TetherService.this.application.getStartNotification(message));
     }
     
     public void stopTether() {
@@ -269,7 +325,7 @@ public class TetherService extends Service {
 		sendBroadcastState(TetherService.this.serviceState);
 		sendBroadcastManage(TetherService.MANAGE_STOPPED);
     		}}).start();
-    		//TetherService.this.application.displayToastMessage("Open Garden Tether stopped");
+    		stopForegroundCompat(-1);
     }
 	
     public void restartTether() {
