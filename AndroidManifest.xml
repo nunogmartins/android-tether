@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      android:versionCode="31" android:versionName="2.1.1" package="og.android.tether">
+<manifest android:versionCode="32" android:versionName="2.1.2" package="og.android.tether" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="3" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
@@ -8,6 +7,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"></uses-permission>
     <permission android:protectionLevel="signature" android:name="og.android.tether.permission.C2D_MESSAGE"></permission>
     <uses-permission android:name="og.android.tether.permission.C2D_MESSAGE"></uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <application android:name="og.android.tether.TetherApplication" android:icon="@drawable/icon_og_bev" android:label="@string/global_application_name">
         <activity android:name="og.android.tether.MainActivity"
                   android:label="@string/global_application_name"

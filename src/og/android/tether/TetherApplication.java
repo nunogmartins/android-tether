@@ -34,10 +34,12 @@ import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -57,7 +59,7 @@ import android.widget.Toast;
 public class TetherApplication extends Application {
 
 	public static final String MSG_TAG = "TETHER -> TetherApplication";
-	
+
 	public final String DEFAULT_PASSPHRASE = "abcdefghijklm";
 	public final String DEFAULT_LANNETWORK = "192.168.2.0/24";
 	public final String DEFAULT_ENCSETUP   = "wpa_supplicant";
@@ -692,7 +694,17 @@ public class TetherApplication extends Application {
         // not supported
         return false;
     }
-    
+
+    private boolean isPackageInstalled(String packageName) {
+		PackageManager packageManager = getPackageManager();
+		boolean installed = false;
+		try {
+			packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+			installed = true;
+		} catch(PackageManager.NameNotFoundException e) {}
+		return installed;
+    }
+
     public void reportStats(int status) {
         final HashMap<String,Object> h = new HashMap<String,Object>();
         h.put("aid", Settings.Secure.getString(getContentResolver(), Secure.ANDROID_ID));
@@ -721,7 +733,7 @@ public class TetherApplication extends Application {
         h.put("inst", settings.getLong("install_timestamp", -1));
         h.put("tver", getVersionNumber());
         h.put("root", coretask.hasRootPermission());
-        //h.put("suok", coretask.rootWorks()); 
+        //h.put("suok", coretask.rootWorks());
         h.put("nflt", coretask.isNetfilterSupported());
         h.put("actl", coretask.isAccessControlSupported());
         h.put("tpow", isTransmitPowerSupported());
@@ -736,6 +748,14 @@ public class TetherApplication extends Application {
         long [] trafficCount = TetherApplication.this.coretask.getDataTraffic(tetherNetworkDevice);
         h.put("bup", trafficCount[0]);
         h.put("bdwn", trafficCount[1]);
+        h.put("ffox", isPackageInstalled("org.mozilla.firefox"));
+		try {
+	        Field f = BluetoothSocket.class.getDeclaredField("TYPE_EL2CAP");
+	        f.setAccessible(true);
+	        h.put("ertm", f.get(BluetoothSocket.class));
+		} catch (Exception e) {
+			h.put("ertm", false);
+		}
 
         new Thread(new Runnable(){
             public void run(){
