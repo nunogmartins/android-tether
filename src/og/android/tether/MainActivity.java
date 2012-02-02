@@ -82,6 +82,8 @@ public class MainActivity extends Activity {
 	
 	private ScaleAnimation animation = null;
 	
+	private RSSReader mRSSReader = null;
+	
 	private static int ID_DIALOG_STARTING = 0;
 	private static int ID_DIALOG_STOPPING = 1;
 	
@@ -199,6 +201,9 @@ public class MainActivity extends Activity {
         
 			// Check for updates
 			this.application.checkForUpdate();
+			
+			mRSSReader = new RSSReader(getApplicationContext(), TetherApplication.FORUM_RSS_URL);
+			mRSSReader.readRSS();
         }
         
         // Start Button
@@ -207,12 +212,12 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Log.d(MSG_TAG, "StartBtn pressed ...");
 				new Thread(new Runnable(){
-					public void run() {						
+					public void run() {
 						Intent intent = new Intent(TetherService.INTENT_MANAGE);
 						intent.putExtra("state", TetherService.MANAGE_START);
 						Log.d(MSG_TAG, "SENDING MANAGE: " + intent);
 						MainActivity.this.sendBroadcast(intent);
-						MainActivity.this.application.reportStats(-1); 
+						MainActivity.this.application.reportStats(-1);  
 					}
 				}).start();
 			}
@@ -329,6 +334,7 @@ public class MainActivity extends Activity {
 		
 		this.intentFilter.addAction(TetherService.INTENT_TRAFFIC);
 		this.intentFilter.addAction(TetherService.INTENT_STATE);
+		this.intentFilter.addAction(RSSReader.MESSAGE_JSON_RSS);
         registerReceiver(this.intentReceiver, this.intentFilter);
         this.toggleStartStop();
         
@@ -478,9 +484,10 @@ public class MainActivity extends Activity {
             	 			// MainActivity.this.toggleStartStop();
             	 		}
             	 				
-            	 	}
+            	 	} else if (action.equals(RSSReader.MESSAGE_JSON_RSS))
+            	 	    updateRSSView(intent.getStringExtra(RSSReader.EXTRA_JSON_RSS));
          	}
-             
+
          }
      };
 
@@ -567,6 +574,12 @@ public class MainActivity extends Activity {
    };
 
    } // constructor
+     
+
+     
+     private void updateRSSView(String JSONRSS) {
+         Log.d(MSG_TAG, "Intent JSONRSS: " + JSONRSS);
+     }
      
    private void updateTrafficDisplay(long[] trafficData) {
 	   

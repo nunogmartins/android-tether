@@ -125,7 +125,7 @@ public class TetherApplication extends Application {
 	private static final String APPLICATION_PROPERTIES_URL = "https://github.com/opengarden/android-tether/raw/stable/application.properties";
 	private static final String APPLICATION_DOWNLOAD_URL = "https://github.com/opengarden/android-tether/raw/stable/files";
 	private static final String APPLICATION_STATS_URL = "http://opengarden.com/android-tether/stats";
-	
+	static final String FORUM_RSS_URL = "http://forum.opengarden.com/categories/wifi-tether-support/feed.rss";
 	
 	@Override
 	public void onCreate() {

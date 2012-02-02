@@ -39,6 +39,13 @@
 			android:layout_alignParentRight="true"
 			android:layout_alignParentTop="true"/>
 	</RelativeLayout>
+	<ScrollView android:id="@+id/rssScroll"
+	    android:layout_width="fill_parent"
+	    android:layout_height="50dp">
+        <ListView android:id="@+id/rssList"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+	</ScrollView>
     <RelativeLayout android:id="@+id/layoutDownloadUpdate"
 		android:layout_width="fill_parent"
 		android:layout_height="60dp"
@@ -52,7 +59,7 @@
 		    android:layout_height="wrap_content" 
 		    android:layout_alignParentTop="true"
 		    android:paddingLeft="5px"
-		    android:paddingRight="5px"
+		    android:paddingRight="5px"    
 		    android:text=""
 		    android:textStyle="bold"
 			android:textColor="#000033"
