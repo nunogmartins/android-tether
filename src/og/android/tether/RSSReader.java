@@ -83,12 +83,14 @@ public class RSSReader {
             e.printStackTrace();
         }
         if (response == null) {
-            Log.e(TAG, "httpGet failed: no rsponse.");
+            Log.e(TAG, "httpGet failed: no response.");
         }
         else if (response.getStatusLine().getStatusCode() != 200) {
             Log.e(TAG, "httpGet failed: " + response.getStatusLine().getStatusCode());
+        } else {
+            Log.d(TAG, "Response code: " + response.getStatusLine().getStatusCode());
         }
-        Log.d(TAG, "Response code: " + response.getStatusLine().getStatusCode());
+        
         return content;
     }
         
