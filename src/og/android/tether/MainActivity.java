@@ -220,14 +220,15 @@ public class MainActivity extends Activity {
         this.rssReader = new RSSReader(getApplicationContext(), TetherApplication.FORUM_RSS_URL);
         this.rssView = (ListView)findViewById(R.id.RSSView);
         this.rssAdapter = new ArrayAdapter<Spanned>(this, R.layout.rss_item);
-        this.rssView.setAdapter(rssAdapter);
+        this.rssView.setAdapter(this.rssAdapter);
         this.rssView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(MSG_TAG, parent + ":" + view + ":" + position + ":" + id);
                 Intent viewRssLink;
                 try {
                     viewRssLink = new Intent(Intent.ACTION_VIEW)
-                        .setData(Uri.parse(jsonRssArray.getJSONObject(position).getString("link")));
+                        .setData(Uri.parse(MainActivity.this.jsonRssArray
+                                .getJSONObject(position).getString("link")));
                     startActivity(viewRssLink);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -377,7 +378,7 @@ public class MainActivity extends Activity {
 			this.lockButtonCheckbox.setVisibility(View.GONE);
 		}
 		
-        rssReader.readRSS(); 
+        this.rssReader.readRSS(); 
 	}
 	
 	private static final int MENU_SETUP = 0;
@@ -606,13 +607,15 @@ public class MainActivity extends Activity {
 
    } // constructor
      
-     private void updateRSSView(String JSONRSS) {
-         Log.d(MSG_TAG, "Intent JSONRSS: " + JSONRSS);
+     private void updateRSSView(String JSONrss) {
+         Log.d(MSG_TAG, "Intent JSONRSS: " + JSONrss);
          try {
-             jsonRssArray = new JSONArray(JSONRSS);
+             this.rssAdapter.clear();
+             this.rssAdapter.notifyDataSetChanged();
+             this.jsonRssArray = new JSONArray(JSONrss);
              for(int i = 0; i < jsonRssArray.length(); i++) {
                  JSONObject jsonRssItem = jsonRssArray.getJSONObject(i);
-                 rssAdapter.add(Html.fromHtml(
+                 this.rssAdapter.add(Html.fromHtml(
                      jsonRssItem.getString("title") + " - <i>" +
                      jsonRssItem.getString("creator") + "</i>" ));
              }

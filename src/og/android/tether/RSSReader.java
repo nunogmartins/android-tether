@@ -44,8 +44,8 @@ public class RSSReader {
     public final String RSS_URL;
     public final Context mContext;  // pref getApplicationContext()
     
-    private JSONArray mRssItems = new JSONArray();
-    private JSONObject mRssItem = new JSONObject(); 
+    private JSONArray mRssItems = null;
+    private JSONObject mRssItem = null; 
     
     RSSReader(Context context, String RSSUrl) {
         mContext = context;
@@ -64,6 +64,8 @@ public class RSSReader {
     void readRSS() {
         new Thread(new Runnable() {
                 public void run() {
+                    mRssItems = new JSONArray();
+                    mRssItem = new JSONObject();
                     parseRSS(httpGetRSS(RSS_URL));
                     mContext.sendBroadcast(new Intent(MESSAGE_JSON_RSS).
                             putExtra(EXTRA_JSON_RSS,  mRssItems.toString()));
