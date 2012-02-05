@@ -8,7 +8,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="40dp"
 		android:layout_gravity="center_horizontal"
-		android:background="#A0909090">
+		android:background="#CC707070">
 		<RelativeLayout android:id="@+id/layoutBatteryTemp"
 			android:background="@drawable/battery"
 			android:layout_width="wrap_content"
@@ -39,13 +39,23 @@
 			android:layout_alignParentRight="true"
 			android:layout_alignParentTop="true"/>
 	</RelativeLayout>
-	<ScrollView android:id="@+id/rssScroll"
+	<LinearLayout android:id="@+id/layoutRSS"
 	    android:layout_width="fill_parent"
-	    android:layout_height="50dp">
-        <ListView android:id="@+id/rssList"
+	    android:layout_height="150dp"
+	    android:layout_below="@id/layoutHeaderMain"
+	    android:orientation="vertical"
+	    android:background="#CC707070" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/community_header"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF" />
+        <ListView android:id="@+id/RSSView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
-	</ScrollView>
+    </LinearLayout>
     <RelativeLayout android:id="@+id/layoutDownloadUpdate"
 		android:layout_width="fill_parent"
 		android:layout_height="60dp"
@@ -89,7 +99,8 @@
 	<ScrollView android:id="@+id/mainview" 
 		android:orientation="vertical"
 		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent">
+		android:layout_height="wrap_content"
+		android:layout_below="@id/layoutRSS" >
 		<TableLayout android:id="@+id/mainLayout"
 			android:layout_gravity="center"
 			android:layout_height="wrap_content" 

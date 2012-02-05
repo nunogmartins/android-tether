@@ -12,10 +12,6 @@
 
 package og.android.tether;
 
-import com.google.android.c2dm.C2DMessaging;
-
-import og.android.tether.R;
-
 import android.R.drawable;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,6 +27,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,14 +39,25 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.google.android.c2dm.C2DMessaging;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class MainActivity extends Activity {
 	
@@ -82,7 +91,10 @@ public class MainActivity extends Activity {
 	
 	private ScaleAnimation animation = null;
 	
-	private RSSReader mRSSReader = null;
+	private RSSReader rssReader = null;	
+	private ListView rssView = null;
+	private ArrayAdapter<Spanned> rssAdapter = null;
+	private JSONArray jsonRssArray = null;
 	
 	private static int ID_DIALOG_STARTING = 0;
 	private static int ID_DIALOG_STOPPING = 1;
@@ -134,7 +146,7 @@ public class MainActivity extends Activity {
         this.downloadRateText = (TextView)findViewById(R.id.trafficDownRate);
         this.uploadRateText = (TextView)findViewById(R.id.trafficUpRate);
         this.batteryTemperature = (TextView)findViewById(R.id.batteryTempText);
-
+        
         // Define animation
         animation = new ScaleAnimation(
                 0.9f, 1, 0.9f, 1, // From x, to x, from y, to y
@@ -202,9 +214,26 @@ public class MainActivity extends Activity {
 			// Check for updates
 			this.application.checkForUpdate();
 			
-			mRSSReader = new RSSReader(getApplicationContext(), TetherApplication.FORUM_RSS_URL);
-			mRSSReader.readRSS();
+
         }
+       
+        this.rssReader = new RSSReader(getApplicationContext(), TetherApplication.FORUM_RSS_URL);
+        this.rssView = (ListView)findViewById(R.id.RSSView);
+        this.rssAdapter = new ArrayAdapter<Spanned>(this, R.layout.rss_item);
+        this.rssView.setAdapter(rssAdapter);
+        this.rssView.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(MSG_TAG, parent + ":" + view + ":" + position + ":" + id);
+                Intent viewRssLink;
+                try {
+                    viewRssLink = new Intent(Intent.ACTION_VIEW)
+                        .setData(Uri.parse(jsonRssArray.getJSONObject(position).getString("link")));
+                    startActivity(viewRssLink);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         
         // Start Button
         this.startBtn = (ImageView) findViewById(R.id.startTetherBtn);
@@ -222,6 +251,7 @@ public class MainActivity extends Activity {
 				}).start();
 			}
 		};
+		
 		this.startBtn.setOnClickListener(this.startBtnListener);
 
 		// Stop Button
@@ -247,7 +277,7 @@ public class MainActivity extends Activity {
 			}
 		};
 		this.stopBtn.setOnClickListener(this.stopBtnListener);
-		
+
 		this.lockBtn = (CompoundButton) findViewById(R.id.lockButton);
 		this.lockBtnListener = new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -347,6 +377,7 @@ public class MainActivity extends Activity {
 			this.lockButtonCheckbox.setVisibility(View.GONE);
 		}
 		
+        rssReader.readRSS(); 
 	}
 	
 	private static final int MENU_SETUP = 0;
@@ -575,10 +606,19 @@ public class MainActivity extends Activity {
 
    } // constructor
      
-
-     
      private void updateRSSView(String JSONRSS) {
          Log.d(MSG_TAG, "Intent JSONRSS: " + JSONRSS);
+         try {
+             jsonRssArray = new JSONArray(JSONRSS);
+             for(int i = 0; i < jsonRssArray.length(); i++) {
+                 JSONObject jsonRssItem = jsonRssArray.getJSONObject(i);
+                 rssAdapter.add(Html.fromHtml(
+                     jsonRssItem.getString("title") + " - <i>" +
+                     jsonRssItem.getString("creator") + "</i>" ));
+             }
+         } catch (JSONException e) {
+             e.printStackTrace();
+         }
      }
      
    private void updateTrafficDisplay(long[] trafficData) {
