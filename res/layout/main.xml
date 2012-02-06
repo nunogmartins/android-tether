@@ -30,6 +30,14 @@
 				android:textColor="#000000"
 			    />			
 		</RelativeLayout>
+		<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:text="@string/community_header"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF" />
         <ImageView android:id="@+id/radioModeImage"
  		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
@@ -43,15 +51,9 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="150dp"
 	    android:layout_below="@id/layoutHeaderMain"
+	    android:layout_marginBottom="50dp"
 	    android:orientation="vertical"
 	    android:background="#CC707070" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/community_header"
-            android:textSize="18sp"
-            android:textColor="#FFFFFF" />
         <ListView android:id="@+id/RSSView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
