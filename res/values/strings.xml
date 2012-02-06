@@ -24,6 +24,8 @@
     <string name="main_activity_locked">Tether is locked!</string>
     <string name="main_activity_showlog">Show Log</string>
     <string name="main_activity_accesscontrol">Access Control</string>
+    <string name="main_activity_connect">Connect</string>
+    <string name="main_activity_community">Community</string>
     <string name="main_activity_start">Start Tethering</string>
     <string name="main_activity_start_summary">Please wait while starting...</string>
     <string name="main_activity_start_errors">Tethering started with errors! Please check \'Show log\'.</string>
@@ -195,6 +197,7 @@
 	<string name="main_activity_temperatureunit_celsius">°C</string>
 	<string name="main_activity_temperatureunit_fahrenheit">°F</string>
 	<string name="paypalUrl">http://opengarden.net/donate</string>
+	<string name="communityUrl">http://forum.opengarden.com</string>
     <string-array name="notificationmodevalues">  
 		<item>0</item>  
 		<item>1</item>  

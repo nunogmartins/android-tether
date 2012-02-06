@@ -385,6 +385,8 @@ public class MainActivity extends Activity {
 	private static final int MENU_LOG = 1;
 	private static final int MENU_ABOUT = 2;
 	private static final int MENU_ACCESS = 3;
+	private static final int MENU_CONNECT = 4;
+	private static final int MENU_COMMUNITY = 5;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -395,8 +397,10 @@ public class MainActivity extends Activity {
     		SubMenu accessctr = menu.addSubMenu(0, MENU_ACCESS, 0, getString(R.string.main_activity_accesscontrol));
     		accessctr.setIcon(drawable.ic_menu_manage);   
     	}
+    	SubMenu connect = menu.addSubMenu(0, MENU_CONNECT, 0, getString(R.string.main_activity_connect));
     	SubMenu log = menu.addSubMenu(0, MENU_LOG, 0, getString(R.string.main_activity_showlog));
     	log.setIcon(drawable.ic_menu_agenda);
+    	SubMenu community = menu.addSubMenu(0, MENU_COMMUNITY, 0, getString(R.string.main_activity_community));
     	SubMenu about = menu.addSubMenu(0, MENU_ABOUT, 0, getString(R.string.main_activity_about));
     	about.setIcon(drawable.ic_menu_info_details);    	
     	return supRetVal;
@@ -420,7 +424,15 @@ public class MainActivity extends Activity {
 	    		break;
 	    	case MENU_ACCESS :
 		        startActivityForResult(new Intent(
-		        		MainActivity.this, AccessControlActivity.class), 0);   		
+		        		MainActivity.this, AccessControlActivity.class), 0);   	
+		        break;
+	    	case MENU_CONNECT :
+	    	    //startActivity(new Intent(MainActivity.this, ConnectActivity.class));
+	    	    break;
+	    	case MENU_COMMUNITY :
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.communityUrl))));
+                break;
+	    	    
     	}
     	return supRetVal;
     }    
