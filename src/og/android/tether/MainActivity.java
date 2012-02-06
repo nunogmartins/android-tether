@@ -398,9 +398,11 @@ public class MainActivity extends Activity {
     		accessctr.setIcon(drawable.ic_menu_manage);   
     	}
     	SubMenu connect = menu.addSubMenu(0, MENU_CONNECT, 0, getString(R.string.main_activity_connect));
+    	connect.setIcon(drawable.ic_menu_add);
     	SubMenu log = menu.addSubMenu(0, MENU_LOG, 0, getString(R.string.main_activity_showlog));
     	log.setIcon(drawable.ic_menu_agenda);
     	SubMenu community = menu.addSubMenu(0, MENU_COMMUNITY, 0, getString(R.string.main_activity_community));
+    	community.setIcon(drawable.ic_menu_myplaces);
     	SubMenu about = menu.addSubMenu(0, MENU_ABOUT, 0, getString(R.string.main_activity_about));
     	about.setIcon(drawable.ic_menu_info_details);    	
     	return supRetVal;
@@ -427,7 +429,7 @@ public class MainActivity extends Activity {
 		        		MainActivity.this, AccessControlActivity.class), 0);   	
 		        break;
 	    	case MENU_CONNECT :
-	    	    //startActivity(new Intent(MainActivity.this, ConnectActivity.class));
+	    	    startActivity(new Intent(MainActivity.this, ConnectActivity.class));
 	    	    break;
 	    	case MENU_COMMUNITY :
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.communityUrl))));
