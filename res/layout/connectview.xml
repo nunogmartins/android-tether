@@ -2,4 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+    <TextView android:id="@+id/connectHeaderText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/connect_header"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+        android:background="#FFA0A0A0" />
+    <LinearLayout android:id="@+id/connectFacebook"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/connectFacebook"
+            />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/connect_facebook"
+            android:textSize="40sp"
+            android:textColor="#FFFFFF"
+            android:background="#FF707070" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_add" /> 
+    </LinearLayout>       
 </LinearLayout>

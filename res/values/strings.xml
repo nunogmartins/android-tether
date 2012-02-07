@@ -163,6 +163,8 @@
 	<string name="service_stop_toast">Open Garden TetherService stopped.</string>
 	<string name="service_restart_toast">Open Garden TetherService stopped.</string>
 	<string name="community_header"><b>Community</b></string>
+	<string name="connect_header">You are great! Help us grow :-)</string>
+	<string name="connect_facebook">Add Facebook</string>
 
     <string-array name="notificationmodenames">  
 		<item>None</item>  

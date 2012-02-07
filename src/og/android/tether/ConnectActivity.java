@@ -52,7 +52,7 @@ public class ConnectActivity extends Activity {
                 Log.d(TAG, "onComplete() " + values);
                 
                 if (values.getString("access_token") != null) {
-                    post();
+                    //post();
                 }
             }
             
