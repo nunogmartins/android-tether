@@ -198,6 +198,7 @@
 	<string name="main_activity_temperatureunit_fahrenheit">°F</string>
 	<string name="paypalUrl">http://opengarden.net/donate</string>
 	<string name="communityUrl">http://forum.opengarden.com</string>
+	<string name="facebookAppID">295077497220197</string>
     <string-array name="notificationmodevalues">  
 		<item>0</item>  
 		<item>1</item>  
