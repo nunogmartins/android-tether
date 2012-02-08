@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/connectView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <TextView android:id="@+id/connectHeaderText"
@@ -8,25 +9,20 @@
         android:text="@string/connect_header"
         android:textSize="20sp"
         android:textColor="#FFFFFF"
-        android:background="#FFA0A0A0" />
-    <LinearLayout android:id="@+id/connectFacebook"
+        android:background="#FF202020" />
+    <LinearLayout android:id="@+id/connectList"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/connectFacebook"
-            />
-        <TextView
+        android:layout_height="wrap_content"
+        android:layout_below="@id/connectHeaderText"
+        android:layout_marginTop="10sp" >
+        <Button android:id="@+id/connectFacebook"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="@string/connect_facebook"
-            android:textSize="40sp"
-            android:textColor="#FFFFFF"
-            android:background="#FF707070" />
-        <ImageView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_add" /> 
+            android:text="@string/connect_facebook"
+            android:textSize="30sp"
+            android:textColor="#FFFFFF"
+            android:drawableLeft="@drawable/connect_facebook"
+            android:drawableRight="@android:drawable/ic_menu_add" 
+            />         
     </LinearLayout>       
-</LinearLayout>
+</RelativeLayout>

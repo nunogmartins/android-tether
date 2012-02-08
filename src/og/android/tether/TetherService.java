@@ -11,6 +11,7 @@ import android.net.wifi.WifiManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Build;
@@ -73,6 +74,8 @@ public class TetherService extends Service {
 	private Thread trafficCounterThread = null;
 	// DNS-Server-Update Thread
 	private Thread dnsUpdateThread = null;	
+	
+	public DataCount dataCount = null;
 	
 	public TetherService() {
 		this.serviceBinder = new ServiceBinder();
@@ -322,6 +325,17 @@ public class TetherService extends Service {
 		}
 		Log.d(MSG_TAG, "Service stopped: " + stopped + ", state: " + TetherService.this.serviceState);
 		
+        if(ConnectActivity.singleton != null) {
+            Log.d(MSG_TAG, "FB POSTING....");
+            Bundle params = new Bundle();
+            params.putString("message", "I am feeling super-duper connected! I just downloaded " +
+            TetherService.this.dataCount.totalDownload/1000 + "MB and uploaded " + TetherService.this.dataCount.totalUpload/1000 + "MB over Open Garden Wifi Tether!");
+            params.putString("link", "http://www.opengarden.com");
+            ConnectActivity.singleton.postToFacebook(params);
+        } else {
+            Log.d(MSG_TAG, "FB NULL....");
+        }
+        
 		sendBroadcastState(TetherService.this.serviceState);
 		sendBroadcastManage(TetherService.MANAGE_STOPPED);
     		}}).start();
@@ -662,8 +676,12 @@ public class TetherService extends Service {
                     Thread.currentThread().interrupt();
                 }
    			}
+   			DataCount dataCount = new DataCount();
+   			dataCount.totalDownload = previousDownload;
+   			dataCount.totalUpload = previousUpload;
+   			TetherService.this.dataCount = dataCount; 
    			
-   			TetherService.this.application.reportStats(MainActivity.MESSAGE_TRAFFIC_END);
+   			TetherService.this.application.reportStats(MainActivity.MESSAGE_TRAFFIC_END);   			
    		}
    	}
    	

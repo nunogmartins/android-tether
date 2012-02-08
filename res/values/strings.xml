@@ -165,6 +165,7 @@
 	<string name="community_header"><b>Community</b></string>
 	<string name="connect_header">You are great! Help us grow :-)</string>
 	<string name="connect_facebook">Add Facebook</string>
+	<string name="facebook_connected">Facebook</string>
 
     <string-array name="notificationmodenames">  
 		<item>None</item>  
