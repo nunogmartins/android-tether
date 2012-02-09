@@ -111,6 +111,8 @@ public class MainActivity extends Activity {
 	public static final int MESSAGE_TRAFFIC_RATE = 10;
 	public static final int MESSAGE_TRAFFIC_END = 11;
 	
+	public static final String MESSAGE_POST_STATS = "og.android.tether.POST_STATS";
+	
 	public static final String MSG_TAG = "TETHER -> MainActivity";
 	public static MainActivity currentInstance = null;
 	
@@ -289,6 +291,11 @@ public class MainActivity extends Activity {
 
 		// Toggles between start and stop screen
 		this.toggleStartStop();
+		
+	      Log.d(MSG_TAG, "STARTING INTENT: " + getIntent());
+	        if((getIntent() != null) && (getIntent().getAction().equals(MESSAGE_POST_STATS))) {
+	            postStats(getIntent().getStringExtra("message"));
+	        }
     }
     
     @Override
@@ -336,19 +343,20 @@ public class MainActivity extends Activity {
 
 	public void onDestroy() {
 		Log.d(MSG_TAG, "Calling onDestroy()");
-    		super.onDestroy();
+		super.onDestroy();
+    	try {
+    	    unregisterReceiver(this.intentReceiver);
+    	} catch (Exception ex) {;}  
 	}
 	
 	public void onPause() {
     		Log.d(MSG_TAG, "Calling onPause()");
-    		super.onPause();
-		try {
-			unregisterReceiver(this.intentReceiver);
-		} catch (Exception ex) {;}    	
+    		super.onPause();  	
 	}
 	
 	public void onResume() {
 		Log.d(MSG_TAG, "Calling onResume()");
+			    
 		this.showRadioMode();
 		super.onResume();
 		this.intentFilter = new IntentFilter();
@@ -366,6 +374,7 @@ public class MainActivity extends Activity {
 		this.intentFilter.addAction(TetherService.INTENT_TRAFFIC);
 		this.intentFilter.addAction(TetherService.INTENT_STATE);
 		this.intentFilter.addAction(RSSReader.MESSAGE_JSON_RSS);
+		this.intentFilter.addAction(MESSAGE_POST_STATS);
         registerReceiver(this.intentReceiver, this.intentFilter);
         this.toggleStartStop();
         
@@ -530,8 +539,12 @@ public class MainActivity extends Activity {
             	 			// MainActivity.this.toggleStartStop();
             	 		}
             	 				
-            	 	} else if (action.equals(RSSReader.MESSAGE_JSON_RSS))
+            	 	} else if (action.equals(RSSReader.MESSAGE_JSON_RSS)) {
             	 	    updateRSSView(intent.getStringExtra(RSSReader.EXTRA_JSON_RSS));
+            	 	} else if (action.equals(MESSAGE_POST_STATS)) {
+            	 	    Log.d(MSG_TAG, "RECEIVED STATS INTENT");
+            	 	    postStats(intent.getStringExtra("message"));
+            	 	}
          	}
 
          }
@@ -664,6 +677,13 @@ public class MainActivity extends Activity {
 		MainActivity.this.uploadRateText.invalidate();
    }
 	
+   private void postStats(String message) {
+       Log.d(MSG_TAG, "FB POSTING....");
+       Bundle params = new Bundle();
+       params.putString("message", message);
+       params.putString("link", "http://www.opengarden.com");
+       application.FBManager.postToFacebook(this, params);
+   }
    
    private void toggleStartStop() {
     
@@ -728,7 +748,7 @@ public class MainActivity extends Activity {
     	System.gc();
     }
    
-	private String formatCount(long count, boolean rate) {
+	static String formatCount(long count, boolean rate) {
 		// Converts the supplied argument into a string.
 		// 'rate' indicates whether is a total bytes, or bits per sec.
 		// Under 2Mb, returns "xxx.xKb"

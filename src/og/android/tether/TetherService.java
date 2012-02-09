@@ -324,24 +324,41 @@ public class TetherService extends Service {
 			TetherService.this.enableWifi();
 		}
 		Log.d(MSG_TAG, "Service stopped: " + stopped + ", state: " + TetherService.this.serviceState);
-		
-        if(ConnectActivity.singleton != null) {
-            Log.d(MSG_TAG, "FB POSTING....");
-            Bundle params = new Bundle();
-            params.putString("message", "I am feeling super-duper connected! I just downloaded " +
-            TetherService.this.dataCount.totalDownload/1000 + "MB and uploaded " + TetherService.this.dataCount.totalUpload/1000 + "MB over Open Garden Wifi Tether!");
-            params.putString("link", "http://www.opengarden.com");
-            ConnectActivity.singleton.postToFacebook(params);
-        } else {
-            Log.d(MSG_TAG, "FB NULL....");
-        }
-        
+		postToFacebook();
 		sendBroadcastState(TetherService.this.serviceState);
 		sendBroadcastManage(TetherService.MANAGE_STOPPED);
     		}}).start();
     		stopForegroundCompat(-1);
     }
 	
+    private void postToFacebook() {
+        if(!application.settings.getBoolean("facebook_connected", false)) {
+            Log.d(MSG_TAG, "NOT FB POSTING.");
+            return;
+        }
+        Log.d(MSG_TAG, " YES FB POSTING ...");
+
+        Intent postStats = new Intent(MainActivity.MESSAGE_POST_STATS);
+        String message = "I am feeling quite connected! I just downloaded " +
+                MainActivity.formatCount(dataCount.totalDownload, false) +
+                " and uploaded " + MainActivity.formatCount(dataCount.totalUpload, false) +
+                " with Open Garden Wifi Tether.";
+        postStats.putExtra("message", message);
+        
+        if(MainActivity.currentInstance == null) {
+            Log.d(MSG_TAG, "MA NULL...");
+            postStats.setClass(this, MainActivity.class);
+            postStats.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(postStats);
+        } else {
+            Log.d(MSG_TAG, "MA NOT NULL...");
+            sendBroadcast(postStats);
+        }
+        Log.d(MSG_TAG, "POSTSTATS SENT");
+        
+    }
+    
+    
     public void restartTether() {
     		Log.d(MSG_TAG, "restartTether()");
     		sendBroadcastState(TetherService.this.serviceState = STATE_RESTARTING);
