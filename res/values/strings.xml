@@ -153,6 +153,7 @@
 	<string name="nonetfilter_layout_line1">Sorry, your Operating System does not appear to have all the features necessary for running this application.</string>
 	<string name="nonetfilter_layout_line2">Please see the FAQ: http://opengarden.net/FAQ</string>
 	<string name="noroot_layout_line1">Sorry, your Operating System does not have all the features necessary for running this application.</string>
+	<string name="noroot_layout_line2">For more information please visit:\nhttp://opengarden.com/wifi-tether</string>
 	<string name="update_layout_line1">There is an Open Garden WiFi Tether application update available!</string>
 	<string name="update_layout_line2">Install the Open Garden WiFi Tether update now?</string>
 	<string name="bt_warning_line1">Bluetooth-tethering (PAN) may not work on all devices or android-platforms.</string>

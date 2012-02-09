@@ -21,6 +21,16 @@
 				android:textStyle="bold"
 				android:gravity="center_vertical|center_horizontal"
 				android:textColor="#000033" />
+            <TextView android:text="@string/noroot_layout_line2"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:paddingTop="15px"
+                android:paddingLeft="15px"
+                android:paddingRight="15px"
+                android:textStyle="bold"
+                android:autoLink="web"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="#000033" />
 			</LinearLayout>
 		</ScrollView>			
 </LinearLayout>
