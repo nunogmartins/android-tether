@@ -51,7 +51,7 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="150dp"
 	    android:layout_below="@id/layoutHeaderMain"
-	    android:layout_marginBottom="50dp"
+	    android:layout_marginBottom="10dp"
 	    android:orientation="vertical"
 	    android:background="#CC707070" >
         <ListView android:id="@+id/RSSView"
@@ -123,7 +123,6 @@
 						<TextView android:id="@+id/startText"
 							android:text="@string/main_layout_presstostart"
 							android:layout_gravity="center_vertical"
-							android:paddingTop="10px"
 							android:textStyle="bold"
 							android:textColor="#000033" />
 					</TableRow>
@@ -144,8 +143,7 @@
 					<TableRow>
 						<TextView android:id="@+id/stopText"
 							android:text="@string/main_layout_presstostop"
-							android:paddingTop="10px"
-							android:layout_gravity="center_vertical"
+							android:layout_gravity="center_horizontal"
 							android:textStyle="bold"
 							android:textColor="#000033" />
 					</TableRow>
