@@ -338,14 +338,15 @@ public class TetherService extends Service {
         }
         Log.d(MSG_TAG, " YES FB POSTING ...");
 
-        Intent postStats = new Intent(MainActivity.MESSAGE_POST_STATS);
-        String message = "I am feeling quite connected! I just downloaded " +
-                MainActivity.formatCount(dataCount.totalDownload, false) +
-                " and uploaded " + MainActivity.formatCount(dataCount.totalUpload, false) +
-                " with Open Garden Wifi Tether.";
-        postStats.putExtra("message", message);
+        Intent postStats = new Intent(TetherApplication.MESSAGE_POST_STATS);
+        postStats.putExtra("message", MainActivity.formatCountForPost(dataCount.totalDownload));
         
-        if(MainActivity.currentInstance == null) {
+        if(application.settings.getBoolean("confirm_post", false)) {
+            Log.d(MSG_TAG, "CONFIRM POST");
+            postStats.setClass(this, PostActivity.class);
+            postStats.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(postStats);
+        } else if(MainActivity.currentInstance == null) {
             Log.d(MSG_TAG, "MA NULL...");
             postStats.setClass(this, MainActivity.class);
             postStats.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

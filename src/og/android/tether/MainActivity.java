@@ -111,8 +111,6 @@ public class MainActivity extends Activity {
 	public static final int MESSAGE_TRAFFIC_RATE = 10;
 	public static final int MESSAGE_TRAFFIC_END = 11;
 	
-	public static final String MESSAGE_POST_STATS = "og.android.tether.POST_STATS";
-	
 	public static final String MSG_TAG = "TETHER -> MainActivity";
 	public static MainActivity currentInstance = null;
 	
@@ -293,7 +291,7 @@ public class MainActivity extends Activity {
 		this.toggleStartStop();
 		
 	      Log.d(MSG_TAG, "STARTING INTENT: " + getIntent());
-	        if((getIntent() != null) && (getIntent().getAction().equals(MESSAGE_POST_STATS))) {
+	        if((getIntent() != null) && (getIntent().getAction().equals(TetherApplication.MESSAGE_POST_STATS))) {
 	            postStats(getIntent().getStringExtra("message"));
 	        }
     }
@@ -374,7 +372,7 @@ public class MainActivity extends Activity {
 		this.intentFilter.addAction(TetherService.INTENT_TRAFFIC);
 		this.intentFilter.addAction(TetherService.INTENT_STATE);
 		this.intentFilter.addAction(RSSReader.MESSAGE_JSON_RSS);
-		this.intentFilter.addAction(MESSAGE_POST_STATS);
+		this.intentFilter.addAction(TetherApplication.MESSAGE_POST_STATS);
         registerReceiver(this.intentReceiver, this.intentFilter);
         this.toggleStartStop();
         
@@ -413,7 +411,7 @@ public class MainActivity extends Activity {
     	SubMenu community = menu.addSubMenu(0, MENU_COMMUNITY, 0, getString(R.string.main_activity_community));
     	community.setIcon(drawable.ic_menu_myplaces);
     	SubMenu about = menu.addSubMenu(0, MENU_ABOUT, 0, getString(R.string.main_activity_about));
-    	about.setIcon(drawable.ic_menu_info_details);    	
+    	about.setIcon(drawable.ic_menu_info_details);
     	return supRetVal;
     }
     
@@ -442,8 +440,7 @@ public class MainActivity extends Activity {
 	    	    break;
 	    	case MENU_COMMUNITY :
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.communityUrl))));
-                break;
-	    	    
+                break;	    	    
     	}
     	return supRetVal;
     }    
@@ -541,7 +538,7 @@ public class MainActivity extends Activity {
             	 				
             	 	} else if (action.equals(RSSReader.MESSAGE_JSON_RSS)) {
             	 	    updateRSSView(intent.getStringExtra(RSSReader.EXTRA_JSON_RSS));
-            	 	} else if (action.equals(MESSAGE_POST_STATS)) {
+            	 	} else if (action.equals(TetherApplication.MESSAGE_POST_STATS)) {
             	 	    Log.d(MSG_TAG, "RECEIVED STATS INTENT");
             	 	    postStats(intent.getStringExtra("message"));
             	 	}
@@ -679,9 +676,20 @@ public class MainActivity extends Activity {
 	
    private void postStats(String message) {
        Log.d(MSG_TAG, "FB POSTING....");
+       String text = application.settings.getString("post_message", getString(R.string.post_text));
+       text = text.replaceFirst("\\$X", message);
        Bundle params = new Bundle();
-       params.putString("message", message);
+       params.putString("message", text);
        params.putString("link", "http://www.opengarden.com");
+       if(getIntent() != null && (getIntent().getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK) != 0)
+       {
+           application.FBManager.postToFacebook(this, params, new OnPostCompleteListener() {
+                @Override
+                void onPostComplete(String result) {
+                    finish();
+                } 
+           });
+       }
        application.FBManager.postToFacebook(this, params);
    }
    
@@ -758,6 +766,16 @@ public class MainActivity extends Activity {
 		return ((float)((int)(count*100/1024/1024))/100 + (rate ? "mbps" : "MB"));
 	}
   
+    static String formatCountForPost(long count) {
+        // Converts the supplied argument into a string.
+        // 'rate' indicates whether is a total bytes, or bits per sec.
+        // Under 2Mb, returns "xxx.xKb"
+        // Over 2Mb, returns "xxx.xxMb"
+        if (count < 1e6 * 2)
+            return ((float)((int)(count*10/1024))/10 + (" Kilobytes"));
+        return ((float)((int)(count*100/1024/1024))/100 + (" Megabytes"));
+    }
+    
    	private void openNoNetfilterDialog() {
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.nonetfilterview, null); 
