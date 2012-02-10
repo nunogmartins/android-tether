@@ -129,6 +129,8 @@ public class TetherApplication extends Application {
 	private static final String APPLICATION_STATS_URL = "http://opengarden.com/android-tether/stats";
 	static final String FORUM_RSS_URL = "http://forum.opengarden.com/categories/wifi-tether-support/feed.rss";
 	
+	static final String MESSAGE_POST_STATS = "og.android.tether.POST_STATS";
+	
 	@Override
 	public void onCreate() {
 		Log.d(MSG_TAG, "Calling onCreate()");
