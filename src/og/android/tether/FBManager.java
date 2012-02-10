@@ -55,6 +55,18 @@ public class FBManager {
         }).start();
     }
     
+    public void postToFacebook(final Activity activity, final Bundle params, final OnPostCompleteListener listener) {
+        new Thread(new Runnable() {
+            public void run() {
+                Looper.prepare();
+                Log.d(TAG, "postToFacebook()");
+                mFacebook.authorize(activity, new String[] {"publish_stream", "offline_access"},
+                        new FacebookPostListener(activity, params, listener));
+                Looper.loop();
+            }
+        }).start();
+    }
+    
     class FacebookConnectListener implements DialogListener {
 
         private static final String TAG = "FBListener";
@@ -98,6 +110,7 @@ public class FBManager {
         
         private Activity mActivity;
         private Bundle mBundle;
+        private OnPostCompleteListener mListener = null;
         
         FacebookPostListener(Activity activity) {
             mActivity = activity;
@@ -110,6 +123,12 @@ public class FBManager {
         FacebookPostListener(Activity activity, Bundle bundle) {
             mActivity = activity;
             mBundle = bundle;
+        }
+        
+        FacebookPostListener(Activity activity, Bundle bundle, OnPostCompleteListener listener) {
+            mActivity = activity;
+            mBundle = bundle;
+            mListener = listener;
         }
         
         @Override
@@ -142,6 +161,10 @@ public class FBManager {
                 Log.d(TAG, "POSTING MESSAGE:" + mBundle.getString("message"));
                 String result = FBManager.this.mFacebook.request("me/feed", mBundle, "POST");
                 Log.d(TAG, ("POST RESULT: " + result));
+                if(mListener != null) {
+                    Log.d(TAG, "::onPostComplete()");
+                    mListener.onPostComplete(result);
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (MalformedURLException e) {
@@ -152,5 +175,10 @@ public class FBManager {
         }
         
     }
+        
+}
+
+abstract class OnPostCompleteListener {
+    abstract void onPostComplete(String result);
         
 }
