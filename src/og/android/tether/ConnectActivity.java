@@ -13,17 +13,21 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class ConnectActivity extends Activity {
     
     private static final String TAG = "ConnectActivity";
     
-    public static ConnectActivity singleton;
-    
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mPrefsEdit;
     private Button mConnectFacebook;
+    private EditText mPostEditor;
+    private CheckBox mConfirmPost;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,10 +36,27 @@ public class ConnectActivity extends Activity {
         
         setContentView(R.layout.connectview);
         
-        ConnectActivity.singleton = this;
-        
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mPrefsEdit = mPrefs.edit();
+        
+        String message;
+        if((message = mPrefs.getString("post_message", null)) == null) {
+            mPrefsEdit.putString("post_message", message = getString(R.string.post_text));
+            mPrefsEdit.commit();
+        }
+        
+        mPostEditor = (EditText) findViewById(R.id.postEditor);
+        mPostEditor.setText(message);
+        
+        mConfirmPost = (CheckBox) findViewById(R.id.confirmPostCheck);
+        mConfirmPost.setChecked(mPrefs.getBoolean("confirm_post", false));
+        mConfirmPost.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mPrefsEdit.putBoolean("confirm_post", isChecked);
+                mPrefsEdit.commit();
+            }
+        });
         
         mConnectFacebook = (Button) findViewById(R.id.connectFacebook);
         if(mPrefs.getBoolean("facebook_connected", false)) {
@@ -68,6 +89,7 @@ public class ConnectActivity extends Activity {
     
     @Override
     public void onResume() {
+        Log.d("TAG", "onResume()");
         super.onResume();
         IntentFilter i = new IntentFilter(FBManager.MESSAGE_FB_CONNECTED);
         registerReceiver(mReceiver, i);
@@ -75,10 +97,15 @@ public class ConnectActivity extends Activity {
     
     @Override
     public void onPause() {
+        Log.d(TAG, "onPause()");
+        mPrefsEdit.putString("post_message", mPostEditor.getText().toString());
+        if (((CheckBox)findViewById(R.id.confirmPostCheck)).isChecked())
+            mPrefsEdit.putBoolean("confirm_post", true);
+        mPrefsEdit.commit();
         super.onPause();
         try {
             unregisterReceiver(mReceiver);
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             Log.e(TAG, "Failed unregisterReceiver", e);
         }
     }
