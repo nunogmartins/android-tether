@@ -72,9 +72,10 @@ public class ConnectActivity extends Activity {
                     mPrefsEdit.putBoolean("facebook_connected", false).commit();
                     Toast.makeText(getApplicationContext(), "Facebook Disconnected.", Toast.LENGTH_LONG).show();
                 } else {
+                    if (((TetherApplication)getApplication()).FBManager == null)
+                        ((TetherApplication)getApplication()).FBManager = new FBManager();
                     ((TetherApplication)getApplication()).FBManager.connectToFacebook(ConnectActivity.this);
                 }
-                
             }
         });
     }
