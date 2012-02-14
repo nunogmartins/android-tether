@@ -128,6 +128,8 @@ public class PostActivity extends Activity {
     public void onPause() {
         Log.d(TAG, "onPause()");
         mInputManager.toggleSoftInput(0, 0);
+        if (((TetherApplication)getApplication()).FBManager != null)
+            ((TetherApplication)getApplication()).FBManager.destroyDialog();
         super.onPause();
     }
 

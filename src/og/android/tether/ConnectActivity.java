@@ -116,6 +116,8 @@ public class ConnectActivity extends Activity {
     @Override
     public void onPause() {
         Log.d(TAG, "onPause()");
+        if (((TetherApplication)getApplication()).FBManager != null)
+            ((TetherApplication)getApplication()).FBManager.destroyDialog();
         mPrefsEdit.putString("post_message", mPostEditor.getText().toString());
         if (((CheckBox)findViewById(R.id.autoPostCheck)).isChecked())
             mPrefsEdit.putBoolean("auto_post", true);

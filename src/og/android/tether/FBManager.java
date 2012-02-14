@@ -192,6 +192,10 @@ public class FBManager {
         mFacebook.authorizeCallback(requestCode, resultCode, data);
     }
     
+    public void destroyDialog() {
+        mFacebook.onDestroy();
+    }
+    
 }
 
 abstract class OnPostCompleteListener {

@@ -85,6 +85,7 @@ public class Facebook {
     private String[] mAuthPermissions;
     private int mAuthActivityCode;
     private DialogListener mAuthDialogListener;
+    private FbDialog mFbDialog;
     
     // If the last time we extended the access token was more than 24 hours ago
     // we try to refresh the access token again.
@@ -777,8 +778,17 @@ public class Facebook {
             Util.showAlert(context, "Error",
                     "Application requires permission to access the Internet");
         } else {
-            new FbDialog(context, url, listener).show();
+            if(mFbDialog != null && mFbDialog.isShowing())
+                mFbDialog.dismiss();
+            mFbDialog = new FbDialog(context, url, listener);
+            mFbDialog.show();
         }
+    }
+    
+    public void onDestroy() {
+        if(mFbDialog != null && mFbDialog.isShowing())
+            mFbDialog.dismiss();
+        mFbDialog = null;
     }
 
     /**
