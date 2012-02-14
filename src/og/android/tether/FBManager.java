@@ -80,7 +80,9 @@ public class FBManager {
             e.printStackTrace();
         }
         Log.d(TAG, "Facebook Post Result: " + result);
-            
+        if (result == null)
+            return "error";
+        
         try {
             JSONObject resultInfo = new JSONObject(result);
             if(resultInfo.has("id")) {
