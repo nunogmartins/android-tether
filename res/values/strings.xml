@@ -169,7 +169,7 @@
 	<string name="connect_facebook">Add Facebook</string>
 	<string name="facebook_connected">Facebook</string>
 	<string name="post_button">Post</string>
-	<string name="post_text">I am super connected !\nJust downloaded $X using Open Garden #opengardening #Android #Tether http://bit.ly/og_tether </string>
+	<string name="post_text">I am super connected !\nJust downloaded #MB using Open Garden #opengardening #Android #Tether http://bit.ly/og_tether </string>
 
     <string-array name="notificationmodenames">  
 		<item>None</item>  

@@ -45,6 +45,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 //import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -129,7 +130,7 @@ public class TetherApplication extends Application {
 	private static final String APPLICATION_STATS_URL = "http://opengarden.com/android-tether/stats";
 	static final String FORUM_RSS_URL = "http://forum.opengarden.com/categories/wifi-tether-support/feed.rss";
 	
-	static final String MESSAGE_POST_STATS = "og.android.tether.POST_STATS";
+	static final String MESSAGE_POST_STATS = "og.android.tether/POST_STATS";
 	
 	@Override
 	public void onCreate() {
@@ -922,4 +923,15 @@ public class TetherApplication extends Application {
     	return false;
     }    
     
+    public Bundle getParamsForPost() {
+        Bundle params = new Bundle();
+        String text = settings.getString("post_message", getString(R.string.post_text));
+        text = text.replaceFirst("#MB", MainActivity.formatCountForPost(TetherService.dataCount.totalDownload));
+        params.putString("message", text);
+        params.putString("link", "http://www.opengarden.com");
+        params.putString("access_token", settings.getString("fb_access_token", ""));
+        return params;
+    }
+    
 }
+

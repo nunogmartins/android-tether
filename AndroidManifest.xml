@@ -18,12 +18,22 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="message" android:host="og.android.tether" />
+            </intent-filter>
         </activity>
         <activity android:name="og.android.tether.LogActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name="og.android.tether.AccessControlActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name="og.android.tether.SetupActivity" android:launchMode="singleTask"/>
         <activity android:name="og.android.tether.ConnectActivity" android:launchMode="singleTask" />
-        <activity android:name="og.android.tether.PostActivity" android:launchMode="singleTask" />
+        <activity android:name="og.android.tether.PostActivity" android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="message" android:host="og.android.tether" />
+            </intent-filter>
+        </activity>
         <receiver android:permission="com.google.android.c2dm.permission.SEND" android:name="com.google.android.c2dm.C2DMBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"></action>

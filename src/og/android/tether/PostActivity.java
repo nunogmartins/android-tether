@@ -33,6 +33,9 @@ public class PostActivity extends Activity {
     private InputMethodManager mInputManager;
     private EditText mPostEditor;
     private Button mPostButton;
+    private CheckBox mCheckFacebook;
+    
+    private Bundle mParams = null;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,17 +47,35 @@ public class PostActivity extends Activity {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mPrefsEdit = mPrefs.edit();
         
+        mCheckFacebook = (CheckBox) findViewById(R.id.facebookCheck);
+        mCheckFacebook.setChecked(mPrefs.getBoolean("facebook_checked", false));
+        
+        mPostButton = (Button) findViewById(R.id.postButton);
+        mPostButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                Log.d(TAG, "onClick() " + view);
+                mInputManager.toggleSoftInput(0, 0);
+                if(mCheckFacebook.isChecked()) {
+                    mPrefsEdit.putBoolean("facebook_checked", true).commit();
+                    mParams.putString("message", mPostEditor.getText().toString());
+                    postToFacebook(mParams);
+                } else {
+                    mPrefsEdit.putBoolean("facebook_checked", false).commit();
+                    finish();
+                }
+            }
+        });
         mPostEditor = (EditText) findViewById(R.id.postEditor);
         
-        Log.d(TAG, "getIntent():" + getIntent());
-        if(getIntent().getAction().equals(TetherApplication.MESSAGE_POST_STATS)) {
-            String text = mPrefs.getString("post_message", getString(R.string.post_text));
-            text = text.replaceFirst("\\$X", getIntent().getStringExtra("message"));
-            mPostEditor.setText(text);
+        Log.d(TAG, "onCreate() intent: " + getIntent());
+        if(getIntent().getData().getPath().equals("/POST_STATS")) {
             
-            ViewGroup.LayoutParams params = mPostEditor.getLayoutParams();
-            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            mPostEditor.setLayoutParams(params);
+            mParams = ((TetherApplication)getApplication()).getParamsForPost();
+            mPostEditor.setText(mParams.getString("message"));
+            
+            ViewGroup.LayoutParams layoutParams = mPostEditor.getLayoutParams();
+            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            mPostEditor.setLayoutParams(layoutParams);
             mPostEditor.setOnFocusChangeListener(new OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
@@ -66,49 +87,46 @@ public class PostActivity extends Activity {
                 }
             });
             mPostEditor.requestFocus();
+            
+            if(getIntent().getBooleanExtra("authorize_post", false)) {
+                postToFacebookWithAuthorize(mParams);
+                return;
+            }
+            if(!mPrefs.getBoolean("confirm_post", false)) {
+                postToFacebook(mParams);
+                return;
+            }
         }
         
-        mPostButton = (Button) findViewById(R.id.postButton);
-
-        mPostButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                Log.d(TAG, "onClick() " + view);
-                mInputManager.toggleSoftInput(0, 0);
-                Bundle params = new Bundle();
-                params.putString("message", mPostEditor.getText().toString());
-                params.putString("link", "http://www.opengarden.com");
-                ((TetherApplication)getApplication()).FBManager
-                    .postToFacebook(PostActivity.this, params, new OnPostCompleteListener() {
-                        @Override
-                        void onPostComplete(String result) {
-                            Log.d("!!!", "onPostComplete()");
-                            //startActivity(new Intent(this, MainActivity.class).addFlags(Intent.))
-                            finish();
-                        }
-                    });
-                
-            }
-        });
     }
         
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "BroadcastReceiver::onReceive " + intent.getAction() + " " + intent);
-            String action = intent.getAction();
-            if (action.equals(FBManager.MESSAGE_FB_CONNECTED)) {
-
-            }
-        }
-    };
+    void postToFacebook(Bundle params) {
+        ((TetherApplication)getApplication()).FBManager
+            .postToFacebook(params, new OnPostCompleteListener() {
+                @Override
+                void onPostComplete(String result) {
+                    Log.d(TAG, "onPostComplete()");
+                    PostActivity.this.finish();
+                }
+            });
+    }
+    
+    void postToFacebookWithAuthorize(Bundle params) {
+        ((TetherApplication)getApplication()).FBManager
+            .postToFacebookWithAuthorize(PostActivity.this, params, new OnPostCompleteListener() {
+                @Override
+                void onPostComplete(String result) {
+                    Log.d(TAG, "onPostComplete()");
+                    PostActivity.this.finish();
+                }
+            });
+    }
     
     @Override
     public void onResume() {
         Log.d(TAG, "onResume()");
         mInputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         super.onResume();
-        IntentFilter i = new IntentFilter();
-        registerReceiver(mReceiver, i);
     }
     
     @Override
@@ -116,10 +134,6 @@ public class PostActivity extends Activity {
         Log.d(TAG, "onPause()");
         mInputManager.toggleSoftInput(0, 0);
         super.onPause();
-        try {
-            unregisterReceiver(mReceiver);
-        } catch(IllegalArgumentException e) {
-            Log.e(TAG, "Failed unregisterReceiver", e);
-        }
     }
+
 }

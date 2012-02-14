@@ -290,10 +290,6 @@ public class MainActivity extends Activity {
 		// Toggles between start and stop screen
 		this.toggleStartStop();
 		
-	      Log.d(MSG_TAG, "STARTING INTENT: " + getIntent());
-	        if((getIntent() != null) && (getIntent().getAction().equals(TetherApplication.MESSAGE_POST_STATS))) {
-	            postStats(getIntent().getStringExtra("message"));
-	        }
     }
     
     @Override
@@ -334,6 +330,11 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
+    
+    public void onReceive(Context c, Intent i) {
+        Log.d("!!!!!!", "onReceive(): " + i);
+    }
+    
 	public void onStop() {
     	Log.d(MSG_TAG, "Calling onStop()");
 		super.onStop();
@@ -341,14 +342,14 @@ public class MainActivity extends Activity {
 
 	public void onDestroy() {
 		Log.d(MSG_TAG, "Calling onDestroy()");
-		super.onDestroy();
-    	try {
-    	    unregisterReceiver(this.intentReceiver);
-    	} catch (Exception ex) {;}  
+		super.onDestroy(); 
 	}
 	
 	public void onPause() {
     		Log.d(MSG_TAG, "Calling onPause()");
+    	        try {
+    	            unregisterReceiver(this.intentReceiver);
+    	        } catch (Exception ex) {;} 
     		super.onPause();  	
 	}
 	
@@ -439,7 +440,9 @@ public class MainActivity extends Activity {
 	    	    startActivity(new Intent(MainActivity.this, ConnectActivity.class));
 	    	    break;
 	    	case MENU_COMMUNITY :
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.communityUrl))));
+                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.communityUrl))));
+	    	    application.preferenceEditor.putBoolean("facebook_connected", true);
+	    	    application.preferenceEditor.commit();
                 break;	    	    
     	}
     	return supRetVal;
@@ -478,6 +481,7 @@ public class MainActivity extends Activity {
      intentReceiver = new BroadcastReceiver() {
          @Override
          public void onReceive(Context context, Intent intent) {
+             Log.d(MSG_TAG, "onReceive() " + intent);
              String action = intent.getAction();
              if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
 	            	 int temp = (intent.getIntExtra("temperature", 0));
@@ -538,9 +542,6 @@ public class MainActivity extends Activity {
             	 				
             	 	} else if (action.equals(RSSReader.MESSAGE_JSON_RSS)) {
             	 	    updateRSSView(intent.getStringExtra(RSSReader.EXTRA_JSON_RSS));
-            	 	} else if (action.equals(TetherApplication.MESSAGE_POST_STATS)) {
-            	 	    Log.d(MSG_TAG, "RECEIVED STATS INTENT");
-            	 	    postStats(intent.getStringExtra("message"));
             	 	}
          	}
 
@@ -672,25 +673,6 @@ public class MainActivity extends Activity {
 		MainActivity.this.downloadRateText.setText(MainActivity.this.formatCount(downloadRate, true));
 		MainActivity.this.downloadRateText.invalidate();
 		MainActivity.this.uploadRateText.invalidate();
-   }
-	
-   private void postStats(String message) {
-       Log.d(MSG_TAG, "FB POSTING....");
-       String text = application.settings.getString("post_message", getString(R.string.post_text));
-       text = text.replaceFirst("\\$X", message);
-       Bundle params = new Bundle();
-       params.putString("message", text);
-       params.putString("link", "http://www.opengarden.com");
-       if(getIntent() != null && (getIntent().getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK) != 0)
-       {
-           application.FBManager.postToFacebook(this, params, new OnPostCompleteListener() {
-                @Override
-                void onPostComplete(String result) {
-                    finish();
-                } 
-           });
-       }
-       application.FBManager.postToFacebook(this, params);
    }
    
    private void toggleStartStop() {

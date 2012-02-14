@@ -66,7 +66,14 @@ public class ConnectActivity extends Activity {
         mConnectFacebook.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
                 Log.d(TAG, "onClick() " + view);
-                ((TetherApplication)getApplication()).FBManager.connectToFacebook(ConnectActivity.this);
+                if(mPrefs.getBoolean("facebook_connected", false)) {
+                    mConnectFacebook.setText(getString(R.string.connect_facebook));
+                    ConnectActivity.this.mConnectFacebook.setCompoundDrawablesWithIntrinsicBounds(R.drawable.connect_facebook, 0, drawable.ic_menu_add, 0);
+                    mPrefsEdit.putBoolean("facebook_connected", false).commit();
+                    Toast.makeText(getApplicationContext(), "Facebook Disconnected.", Toast.LENGTH_LONG).show();
+                } else {
+                    ((TetherApplication)getApplication()).FBManager.connectToFacebook(ConnectActivity.this);
+                }
                 
             }
         });
@@ -82,10 +89,20 @@ public class ConnectActivity extends Activity {
                 ConnectActivity.this.mConnectFacebook.setText(getString(R.string.facebook_connected));
                 ConnectActivity.this.mConnectFacebook.setCompoundDrawablesWithIntrinsicBounds(R.drawable.connect_facebook, 0, drawable.checkbox_on_background, 0);
                 ConnectActivity.this.mPrefsEdit.putBoolean("facebook_connected", true);
+                ConnectActivity.this.mPrefsEdit.putBoolean("facebook_checked", true);
+                ConnectActivity.this.mPrefsEdit.putString("fb_access_token", intent.getStringExtra("access_token"));
                 ConnectActivity.this.mPrefsEdit.commit();
             }
         }
     };
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "!!!onActivityResult(): " + requestCode + " " + resultCode + " " + data);
+        super.onActivityResult(requestCode, resultCode, data);
+
+        ((TetherApplication)getApplication()).FBManager.authorizeCallback(requestCode, resultCode, data);
+    }
     
     @Override
     public void onResume() {

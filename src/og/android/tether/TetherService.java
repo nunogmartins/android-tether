@@ -7,6 +7,7 @@ import og.android.tether.system.BluetoothService;
 import android.app.Service;
 import android.app.Notification;
 import android.bluetooth.BluetoothAdapter;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.content.Context;
 import android.content.Intent;
@@ -75,7 +76,7 @@ public class TetherService extends Service {
 	// DNS-Server-Update Thread
 	private Thread dnsUpdateThread = null;	
 	
-	public DataCount dataCount = null;
+	public static DataCount dataCount = null;
 	
 	public TetherService() {
 		this.serviceBinder = new ServiceBinder();
@@ -275,7 +276,7 @@ public class TetherService extends Service {
     		sendBroadcastState(TetherService.this.serviceState);
     		
     		}}).start();
-    		
+
     		String message;
     		switch(TetherService.this.serviceState) {
     		case TetherService.STATE_FAIL_EXEC :
@@ -324,41 +325,51 @@ public class TetherService extends Service {
 			TetherService.this.enableWifi();
 		}
 		Log.d(MSG_TAG, "Service stopped: " + stopped + ", state: " + TetherService.this.serviceState);
-		postToFacebook();
-		sendBroadcastState(TetherService.this.serviceState);
-		sendBroadcastManage(TetherService.MANAGE_STOPPED);
-    		}}).start();
+
+	        
+          sendBroadcastState(TetherService.this.serviceState);
+          sendBroadcastManage(TetherService.MANAGE_STOPPED);
+          postToFacebook();
+				}}).start();
+    	
+        
+            
     		stopForegroundCompat(-1);
     }
 	
     private void postToFacebook() {
-        if(!application.settings.getBoolean("facebook_connected", false)) {
-            Log.d(MSG_TAG, "NOT FB POSTING.");
+        if (!application.settings.getBoolean("facebook_connected", false))
             return;
-        }
-        Log.d(MSG_TAG, " YES FB POSTING ...");
+        Log.d(MSG_TAG, "postToFacebook()");    
 
-        Intent postStats = new Intent(TetherApplication.MESSAGE_POST_STATS);
-        postStats.putExtra("message", MainActivity.formatCountForPost(dataCount.totalDownload));
-        
         if(application.settings.getBoolean("confirm_post", false)) {
-            Log.d(MSG_TAG, "CONFIRM POST");
-            postStats.setClass(this, PostActivity.class);
-            postStats.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(postStats);
-        } else if(MainActivity.currentInstance == null) {
-            Log.d(MSG_TAG, "MA NULL...");
-            postStats.setClass(this, MainActivity.class);
-            postStats.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(postStats);
+            Intent postActivity = getPostActivityIntent();
+            startActivity(postActivity);
         } else {
-            Log.d(MSG_TAG, "MA NOT NULL...");
-            sendBroadcast(postStats);
+            application.FBManager.postToFacebook(application.getParamsForPost(), new OnPostCompleteListener() {
+                @Override
+                void onPostComplete(String result) {
+                    Log.d(MSG_TAG, "onPostComplete():" + result);
+                    if(result == "OAuthException") {
+                        Intent postActivity = getPostActivityIntent();
+                        postActivity.putExtra("authorize_post", true);
+                        startActivity(postActivity);
+                    }
+                }
+                
+            });
         }
-        Log.d(MSG_TAG, "POSTSTATS SENT");
-        
+
     }
     
+
+    
+    Intent getPostActivityIntent() {
+        Intent postStats = new Intent(Intent.ACTION_VIEW);
+        postStats.setData(Uri.parse("message://" + TetherApplication.MESSAGE_POST_STATS));
+        postStats.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return postStats;
+    }
     
     public void restartTether() {
     		Log.d(MSG_TAG, "restartTether()");
