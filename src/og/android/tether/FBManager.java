@@ -146,10 +146,6 @@ public class FBManager {
         private Bundle mBundle;
         private OnPostCompleteListener mListener = null;
         
-        FacebookPostListener(Activity activity) {
-            mActivity = activity;
-        }
-        
         FacebookPostListener(Activity activity, Bundle bundle) {
             mActivity = activity;
             mBundle = bundle;

@@ -329,11 +329,6 @@ public class MainActivity extends Activity {
 		}
 		return true;
 	}
-	
-    
-    public void onReceive(Context c, Intent i) {
-        Log.d("!!!!!!", "onReceive(): " + i);
-    }
     
 	public void onStop() {
     	Log.d(MSG_TAG, "Calling onStop()");
@@ -346,11 +341,11 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onPause() {
-    		Log.d(MSG_TAG, "Calling onPause()");
-    	        try {
-    	            unregisterReceiver(this.intentReceiver);
-    	        } catch (Exception ex) {;} 
-    		super.onPause();  	
+	    Log.d(MSG_TAG, "Calling onPause()");
+	    try {
+	        unregisterReceiver(this.intentReceiver);
+	    } catch (Exception ex) {;} 
+	    super.onPause();  	
 	}
 	
 	public void onResume() {
@@ -749,10 +744,6 @@ public class MainActivity extends Activity {
 	}
   
     static String formatCountForPost(long count) {
-        // Converts the supplied argument into a string.
-        // 'rate' indicates whether is a total bytes, or bits per sec.
-        // Under 2Mb, returns "xxx.xKb"
-        // Over 2Mb, returns "xxx.xxMb"
         if (count < 1e6 * 2)
             return ((float)((int)(count*10/1024))/10 + (" Kilobytes"));
         return ((float)((int)(count*100/1024/1024))/100 + (" Megabytes"));

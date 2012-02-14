@@ -12,7 +12,6 @@ import android.net.wifi.WifiManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Build;
@@ -356,14 +355,11 @@ public class TetherService extends Service {
                         startActivity(postActivity);
                     }
                 }
-                
             });
         }
 
     }
-    
-
-    
+        
     Intent getPostActivityIntent() {
         Intent postStats = new Intent(Intent.ACTION_VIEW);
         postStats.setData(Uri.parse("message://" + TetherApplication.MESSAGE_POST_STATS));
