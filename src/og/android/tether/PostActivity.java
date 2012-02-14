@@ -87,7 +87,7 @@ public class PostActivity extends Activity {
                 postToFacebookWithAuthorize(mParams);
                 return;
             }
-            if(!mPrefs.getBoolean("confirm_post", false)) {
+            if(mPrefs.getBoolean("auto_post", true)) {
                 postToFacebook(mParams);
                 return;
             }

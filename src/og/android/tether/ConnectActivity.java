@@ -27,7 +27,7 @@ public class ConnectActivity extends Activity {
     private SharedPreferences.Editor mPrefsEdit;
     private Button mConnectFacebook;
     private EditText mPostEditor;
-    private CheckBox mConfirmPost;
+    private CheckBox mAutoPost;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,12 +48,12 @@ public class ConnectActivity extends Activity {
         mPostEditor = (EditText) findViewById(R.id.postEditor);
         mPostEditor.setText(message);
         
-        mConfirmPost = (CheckBox) findViewById(R.id.confirmPostCheck);
-        mConfirmPost.setChecked(mPrefs.getBoolean("confirm_post", false));
-        mConfirmPost.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        mAutoPost = (CheckBox) findViewById(R.id.autoPostCheck);
+        mAutoPost.setChecked(mPrefs.getBoolean("auto_post", true));
+        mAutoPost.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mPrefsEdit.putBoolean("confirm_post", isChecked);
+                mPrefsEdit.putBoolean("auto_post", isChecked);
                 mPrefsEdit.commit();
             }
         });
@@ -116,8 +116,8 @@ public class ConnectActivity extends Activity {
     public void onPause() {
         Log.d(TAG, "onPause()");
         mPrefsEdit.putString("post_message", mPostEditor.getText().toString());
-        if (((CheckBox)findViewById(R.id.confirmPostCheck)).isChecked())
-            mPrefsEdit.putBoolean("confirm_post", true);
+        if (((CheckBox)findViewById(R.id.autoPostCheck)).isChecked())
+            mPrefsEdit.putBoolean("auto_post", true);
         mPrefsEdit.commit();
         super.onPause();
         try {

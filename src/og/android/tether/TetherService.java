@@ -341,7 +341,7 @@ public class TetherService extends Service {
             return;
         Log.d(MSG_TAG, "postToFacebook()");    
 
-        if(application.settings.getBoolean("confirm_post", false)) {
+        if(!application.settings.getBoolean("auto_post", true)) {
             Intent postActivity = getPostActivityIntent();
             startActivity(postActivity);
         } else {

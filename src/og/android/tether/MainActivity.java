@@ -435,9 +435,7 @@ public class MainActivity extends Activity {
 	    	    startActivity(new Intent(MainActivity.this, ConnectActivity.class));
 	    	    break;
 	    	case MENU_COMMUNITY :
-                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.communityUrl))));
-	    	    application.preferenceEditor.putBoolean("facebook_connected", true);
-	    	    application.preferenceEditor.commit();
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.communityUrl))));
                 break;	    	    
     	}
     	return supRetVal;
