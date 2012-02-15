@@ -5,6 +5,7 @@ import og.android.tether.R;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ComponentName;
+import android.content.SharedPreferences;
 import android.appwidget.AppWidgetProvider;
 import android.appwidget.AppWidgetManager;
 import android.app.PendingIntent;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.util.Log;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+
 
 
 public class WidgetProvider extends AppWidgetProvider {
@@ -21,6 +24,9 @@ public class WidgetProvider extends AppWidgetProvider {
     public static final StateTracker stateTracker = new StateTracker();
     static final ComponentName THIS_APPWIDGET = new ComponentName("og.android.tether", "og.android.tether.WidgetProvider");
     Context ctx;
+    private SharedPreferences mPrefs;
+    private SharedPreferences.Editor mPrefsEditor;
+    
     static Handler animateHandler = new Handler();
     static WidgetAnimator widgetAnimator = new WidgetAnimator();
     static int FRAME_DELAY = 300;
@@ -68,6 +74,9 @@ public class WidgetProvider extends AppWidgetProvider {
     			Log.d(MSG_TAG, "getState(): "+TetherService.singleton.getState());
     		*/
     		if(intent.hasCategory(Intent.CATEGORY_ALTERNATIVE)) {
+    	        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+    	        mPrefsEditor = mPrefs.edit();
+    		    mPrefsEditor.putInt("widget_clicks", mPrefs.getInt("widget_clicks", 0) + 1).commit();
     			stateTracker.sendBroadcastChange(context);
     		} else if(intent.getAction().equals(TetherService.INTENT_STATE)) {
     			int stateArg = intent.getIntExtra("state", TetherService.MANAGE_STOPPED);
