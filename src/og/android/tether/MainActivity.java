@@ -437,7 +437,8 @@ public class MainActivity extends Activity {
 	    	    startActivity(new Intent(MainActivity.this, ConnectActivity.class));
 	    	    break;
 	    	case MENU_COMMUNITY :
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.communityUrl))));
+	    	    this.application.statCommunityClicks();
+	    	    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.communityUrl))));
                 break;	    	    
     	}
     	return supRetVal;

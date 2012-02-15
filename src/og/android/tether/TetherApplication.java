@@ -773,6 +773,7 @@ public class TetherApplication extends Application {
 		h.put("fber", settings.getInt("fb_posts_error", 0));
 		h.put("fbau", settings.getBoolean("auto_post", false));
 		h.put("widg", settings.getInt("widget_clicks", 0));
+		h.put("comc", settings.getInt("community_clicks", 0));
 
         new Thread(new Runnable(){
             public void run(){
@@ -813,6 +814,12 @@ public class TetherApplication extends Application {
         this.preferenceEditor.putInt("fb_connects",
                 this.settings.getInt("fb_connects", 0) + 1)
                     .commit();       
+    }
+    
+    public void statCommunityClicks() {
+        this.preferenceEditor.putInt("community_clicks",
+                this.settings.getInt("community_clicks", 0) + 1)
+                    .commit();
     }
     
     /*
