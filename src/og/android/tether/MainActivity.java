@@ -158,16 +158,18 @@ public class MainActivity extends Activity {
         animation.setRepeatCount(1);
         animation.setRepeatMode(Animation.REVERSE);
 
+        if (this.application.startupCheckPerformed == false) {
+            if (this.application.settings.getLong("install_timestamp", -1) == -1) {
+                long t = System.currentTimeMillis()/1000;
+                this.application.preferenceEditor.putLong("install_timestamp", t);
+            }
+        }
+
         this.application.reportStats(-1);
 
         // Startup-Check
         if (this.application.startupCheckPerformed == false) {
 	        this.application.startupCheckPerformed = true;
-	    	
-	    	if (this.application.settings.getLong("install_timestamp", -1) == -1) {
-	    		long t = System.currentTimeMillis()/1000;
-	    		this.application.preferenceEditor.putLong("install_timestamp", t);
-	    	}
 	    	
 	    	String regId = C2DMessaging.getRegistrationId(this);
 	    	boolean registered = this.application.settings.getBoolean("c2dm_registered", false);
