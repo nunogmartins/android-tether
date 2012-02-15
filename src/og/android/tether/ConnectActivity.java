@@ -73,7 +73,7 @@ public class ConnectActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Facebook Disconnected.", Toast.LENGTH_LONG).show();
                 } else {
                     if (((TetherApplication)getApplication()).FBManager == null)
-                        ((TetherApplication)getApplication()).FBManager = new FBManager();
+                        ((TetherApplication)getApplication()).FBManager = new FBManager((TetherApplication)getApplication());
                     ((TetherApplication)getApplication()).FBManager.connectToFacebook(ConnectActivity.this);
                 }
             }

@@ -180,7 +180,7 @@ public class TetherApplication extends Application {
         wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "TETHER_WAKE_LOCK");
 
         if (this.settings.getBoolean("facebook_connected", false)) {
-            FBManager = new FBManager();
+            FBManager = new FBManager(this);
             FBManager.extendAccessTokenIfNeeded(this, null);
         }
         

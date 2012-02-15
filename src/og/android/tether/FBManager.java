@@ -26,8 +26,10 @@ public class FBManager {
     public static final String MESSAGE_FB_CONNECTED = "og.android.tether.FB_CONNECTED";
     
     private Facebook mFacebook;
+    private TetherApplication mApplication;
     
-    FBManager() {
+    FBManager(TetherApplication application) {
+        mApplication = application;
         mFacebook = new Facebook(FACEBOOK_APP_ID);
     }
     
@@ -117,8 +119,7 @@ public class FBManager {
         public void onComplete(Bundle values) {
             Log.d(TAG, "onComplete() " + values);
             if (values.getString("access_token") != null) {
-                ((TetherApplication)mActivity.getApplication()).preferenceEditor
-                    .putString("fb_access_token", values.getString("access_token")).commit();
+                mApplication.preferenceEditor.putString("fb_access_token", values.getString("access_token")).commit();
                 Intent fbConnected = new Intent(MESSAGE_FB_CONNECTED)
                     .putExtra("access_token", values.getString("access_token"));
                 mActivity.getApplicationContext().sendBroadcast(fbConnected);
@@ -168,8 +169,7 @@ public class FBManager {
                 String result = postToFacebook(mBundle);
                 if(mListener != null)
                     mListener.onPostComplete(result);
-                ((TetherApplication)mActivity.getApplication()).preferenceEditor
-                    .putString("fb_access_token", values.getString("access_token")).commit();
+                mApplication.preferenceEditor.putString("fb_access_token", values.getString("access_token")).commit();
             }
         }
         
