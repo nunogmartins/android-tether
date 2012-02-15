@@ -746,8 +746,8 @@ public class MainActivity extends Activity {
   
     static String formatCountForPost(long count) {
         if (count < 1e6 * 2)
-            return ((float)((int)(count*10/1024))/10 + (" Kilobytes"));
-        return ((float)((int)(count*100/1024/1024))/100 + (" Megabytes"));
+            return ((float)((int)(count*10/1024))/10 + (" kilobytes"));
+        return ((float)((int)(count*100/1024/1024))/100 + (" megabytes"));
     }
     
    	private void openNoNetfilterDialog() {
