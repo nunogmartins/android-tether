@@ -89,14 +89,17 @@ public class FBManager {
             JSONObject resultInfo = new JSONObject(result);
             if(resultInfo.has("id")) {
                 result = "ok";
+                mApplication.statFBPostOk();
             } else if(resultInfo.has("error")) {
                 result = "error";
+                mApplication.statFBPostError();
                 resultInfo = resultInfo.getJSONObject("error");
                 if(resultInfo.getString("type").equals("OAuthException")) {
                     result = "OAuthException";
                 }
             } else {
                 result = "unknown";
+                mApplication.statFBPostError();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -201,7 +204,7 @@ public class FBManager {
     public void extendAccessTokenIfNeeded(android.content.Context context, com.facebook.android.Facebook.ServiceListener listener) {
         mFacebook.extendAccessTokenIfNeeded(context, listener);
     }
-    
+        
 }
 
 abstract class OnPostCompleteListener {

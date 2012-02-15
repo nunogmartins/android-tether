@@ -765,6 +765,8 @@ public class TetherApplication extends Application {
 		} catch (Exception e) {
 			h.put("ertm", false);
 		}
+		h.put("fbok", settings.getInt("fb_posts_ok", 0));
+		h.put("fber", settings.getInt("fb_posts_error", 0));
 
         new Thread(new Runnable(){
             public void run(){
@@ -775,6 +777,18 @@ public class TetherApplication extends Application {
                 Looper.loop();
             }
         }).start();
+    }
+
+    public void statFBPostOk() {
+        this.preferenceEditor.putInt("fb_posts_ok",
+                this.settings.getInt("fb_posts_ok", 0) + 1)
+                    .commit();
+    }
+    
+    public void statFBPostError() {
+        this.preferenceEditor.putInt("fb_posts_error",
+                this.settings.getInt("fb_posts_error", 0) + 1)
+                    .commit();
     }
     
     /*
