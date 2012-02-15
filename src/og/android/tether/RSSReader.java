@@ -62,6 +62,8 @@ public class RSSReader {
     }
     
     void readRSS() {
+        if(mRssItems != null)
+            return;
         new Thread(new Runnable() {
                 public void run() {
                     mRssItems = new JSONArray();
@@ -69,6 +71,7 @@ public class RSSReader {
                     parseRSS(httpGetRSS(RSS_URL));
                     mContext.sendBroadcast(new Intent(MESSAGE_JSON_RSS).
                             putExtra(EXTRA_JSON_RSS,  mRssItems.toString()));
+                    mRssItems = null;
                 }
         }).start();
     }

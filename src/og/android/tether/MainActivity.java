@@ -628,7 +628,7 @@ public class MainActivity extends Activity {
 
    } // constructor
      
-     private void updateRSSView(String JSONrss) {
+     private synchronized void updateRSSView(String JSONrss) {
          Log.d(MSG_TAG, "Intent JSONRSS: " + JSONrss);
          try {
              this.rssAdapter.clear();
