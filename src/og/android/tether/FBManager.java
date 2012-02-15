@@ -126,6 +126,7 @@ public class FBManager {
                 Intent fbConnected = new Intent(MESSAGE_FB_CONNECTED)
                     .putExtra("access_token", values.getString("access_token"));
                 mActivity.getApplicationContext().sendBroadcast(fbConnected);
+                mApplication.statFBConnectOk();
             }
         }
         
