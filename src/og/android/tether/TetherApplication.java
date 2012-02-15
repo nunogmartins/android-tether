@@ -766,6 +766,7 @@ public class TetherApplication extends Application {
 			h.put("ertm", false);
 		}
 		h.put("fbon", settings.getBoolean("facebook_connected", false));
+		h.put("fbco", settings.getInt("connect_activities", 0));
 		h.put("fbok", settings.getInt("fb_posts_ok", 0));
 		h.put("fber", settings.getInt("fb_posts_error", 0));
 
@@ -789,6 +790,12 @@ public class TetherApplication extends Application {
     public void statFBPostError() {
         this.preferenceEditor.putInt("fb_posts_error",
                 this.settings.getInt("fb_posts_error", 0) + 1)
+                    .commit();
+    }
+    
+    public void statConnectActivity() {
+        this.preferenceEditor.putInt("connect_activities",
+                this.settings.getInt("connect_activities", 0) + 1)
                     .commit();
     }
     

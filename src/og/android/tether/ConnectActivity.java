@@ -112,6 +112,7 @@ public class ConnectActivity extends Activity {
         super.onResume();
         IntentFilter i = new IntentFilter(FBManager.MESSAGE_FB_CONNECTED);
         registerReceiver(mReceiver, i);
+        ((TetherApplication)getApplication()).statConnectActivity();   
     }
     
     @Override
