@@ -118,7 +118,6 @@ public class FBManager {
             mActivity = activity;
         }
         
-        @Override
         public void onComplete(Bundle values) {
             Log.d(TAG, "onComplete() " + values);
             if (values.getString("access_token") != null) {
@@ -130,17 +129,14 @@ public class FBManager {
             }
         }
         
-        @Override
         public void onFacebookError(FacebookError error) {
             Log.d(TAG, "onFacebookError() " + error);
         }
         
-        @Override
         public void onError(DialogError error) {
             Log.d(TAG, "onError() " + error);
         }
         
-        @Override
         public void onCancel() {
             Log.d(TAG, "onCancel()");
         }
@@ -166,7 +162,6 @@ public class FBManager {
             mListener = listener;
         }
         
-        @Override
         public void onComplete(Bundle values) {
             Log.d(TAG, "onComplete() " + values);
             if (values.getString("access_token") != null) {
@@ -177,17 +172,14 @@ public class FBManager {
             }
         }
         
-        @Override
         public void onFacebookError(FacebookError error) {
             Log.d(TAG, "onFacebookError() " + error);
         }
         
-        @Override
         public void onError(DialogError error) {
             Log.d(TAG, "onError() " + error);
         }
         
-        @Override
         public void onCancel() {
             Log.d(TAG, "onCancel()");
         }
