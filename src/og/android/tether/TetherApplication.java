@@ -975,7 +975,10 @@ public class TetherApplication extends Application {
         String text = settings.getString("post_message", getString(R.string.post_text));
         text = text.replaceFirst("#MB", MainActivity.formatCountForPost(TetherService.dataCount.totalDownload));
         params.putString("message", text);
-        params.putString("link", "http://www.opengarden.com");
+        params.putString("link", "http://bit.ly/og_facebook");
+        params.putString("caption", "opengarden.com");
+        params.putString("picture", "http://www.opengarden.com/og_fb.jpg");
+        params.putString("actions", "[{\"name\":\"View\",\"link\":\"http://bit.ly/og_facebook\"}]" );
         params.putString("access_token", settings.getString("fb_access_token", ""));
         return params;
     }
