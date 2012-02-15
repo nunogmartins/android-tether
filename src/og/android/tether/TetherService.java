@@ -328,6 +328,7 @@ public class TetherService extends Service {
 	        
           sendBroadcastState(TetherService.this.serviceState);
           sendBroadcastManage(TetherService.MANAGE_STOPPED);
+          TetherService.this.application.reportStats(MainActivity.MESSAGE_TRAFFIC_END);
           postToFacebook();
 				}}).start();
     	
@@ -704,9 +705,7 @@ public class TetherService extends Service {
    			DataCount dataCount = new DataCount();
    			dataCount.totalDownload = previousDownload;
    			dataCount.totalUpload = previousUpload;
-   			TetherService.this.dataCount = dataCount; 
-   			
-   			TetherService.this.application.reportStats(MainActivity.MESSAGE_TRAFFIC_END);   			
+   			TetherService.this.dataCount = dataCount;   			
    		}
    	}
    	
