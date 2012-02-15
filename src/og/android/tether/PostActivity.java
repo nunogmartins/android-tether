@@ -72,7 +72,6 @@ public class PostActivity extends Activity {
             layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             mPostEditor.setLayoutParams(layoutParams);
             mPostEditor.setOnFocusChangeListener(new OnFocusChangeListener() {
-                @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     Log.d(TAG, "onFocusChange:"+v+" "+hasFocus);
                     

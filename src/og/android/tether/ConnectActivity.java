@@ -51,7 +51,6 @@ public class ConnectActivity extends Activity {
         mAutoPost = (CheckBox) findViewById(R.id.autoPostCheck);
         mAutoPost.setChecked(mPrefs.getBoolean("auto_post", true));
         mAutoPost.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mPrefsEdit.putBoolean("auto_post", isChecked);
                 mPrefsEdit.commit();
