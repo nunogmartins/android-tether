@@ -771,6 +771,7 @@ public class TetherApplication extends Application {
 		h.put("fbco", settings.getInt("fb_connects", 0));
 		h.put("fbok", settings.getInt("fb_posts_ok", 0));
 		h.put("fber", settings.getInt("fb_posts_error", 0));
+		h.put("fbau", settings.getBoolean("auto_post", false));
 
         new Thread(new Runnable(){
             public void run(){
