@@ -774,6 +774,7 @@ public class TetherApplication extends Application {
 		h.put("fbau", settings.getBoolean("auto_post", false));
 		h.put("widg", settings.getInt("widget_clicks", 0));
 		h.put("comc", settings.getInt("community_clicks", 0));
+		h.put("rssc", settings.getInt("rss_clicks", 0));
 
         new Thread(new Runnable(){
             public void run(){
@@ -819,6 +820,12 @@ public class TetherApplication extends Application {
     public void statCommunityClicks() {
         this.preferenceEditor.putInt("community_clicks",
                 this.settings.getInt("community_clicks", 0) + 1)
+                    .commit();
+    }
+    
+    public void statRSSClicks() {
+        this.preferenceEditor.putInt("rss_clicks",
+                this.settings.getInt("rss_clicks", 0) + 1)
                     .commit();
     }
     

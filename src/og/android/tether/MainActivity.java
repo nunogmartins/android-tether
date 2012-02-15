@@ -228,6 +228,7 @@ public class MainActivity extends Activity {
                 Log.d(MSG_TAG, parent + ":" + view + ":" + position + ":" + id);
                 Intent viewRssLink;
                 try {
+                    MainActivity.this.application.statRSSClicks();
                     viewRssLink = new Intent(Intent.ACTION_VIEW)
                         .setData(Uri.parse(MainActivity.this.jsonRssArray
                                 .getJSONObject(position).getString("link")));
