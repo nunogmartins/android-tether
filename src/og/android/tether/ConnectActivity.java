@@ -99,15 +99,16 @@ public class ConnectActivity extends Activity {
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "!!!onActivityResult(): " + requestCode + " " + resultCode + " " + data);
+        Log.d(TAG, "onActivityResult(): " + requestCode + " " + resultCode + " " + data);
         super.onActivityResult(requestCode, resultCode, data);
 
-        ((TetherApplication)getApplication()).FBManager.authorizeCallback(requestCode, resultCode, data);
+        if (((TetherApplication)getApplication()).FBManager != null)        
+            ((TetherApplication)getApplication()).FBManager.authorizeCallback(requestCode, resultCode, data);
     }
     
     @Override
     public void onResume() {
-        Log.d("TAG", "onResume()");
+        Log.d(TAG, "onResume()");
         super.onResume();
         IntentFilter i = new IntentFilter(FBManager.MESSAGE_FB_CONNECTED);
         registerReceiver(mReceiver, i);
@@ -123,6 +124,12 @@ public class ConnectActivity extends Activity {
             mPrefsEdit.putBoolean("auto_post", true);
         mPrefsEdit.commit();
         super.onPause();
+    }
+    
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy()");
+        super.onDestroy();
         try {
             unregisterReceiver(mReceiver);
         } catch (IllegalArgumentException e) {

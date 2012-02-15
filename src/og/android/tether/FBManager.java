@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 public class FBManager {
     
-    private static final String TAG = "****ConnectActivity";
+    private static final String TAG = "FBManager";
     private static final String FACEBOOK_APP_ID = "295077497220197";
     
     public static final String MESSAGE_FB_CONNECTED = "og.android.tether.FB_CONNECTED";
@@ -105,7 +105,7 @@ public class FBManager {
     
     class FacebookConnectListener implements DialogListener {
 
-        private static final String TAG = "FBListener";
+        private static final String TAG = "FBConnectListener";
         
         private Activity mActivity;
         
@@ -117,6 +117,8 @@ public class FBManager {
         public void onComplete(Bundle values) {
             Log.d(TAG, "onComplete() " + values);
             if (values.getString("access_token") != null) {
+                ((TetherApplication)mActivity.getApplication()).preferenceEditor
+                    .putString("fb_access_token", values.getString("access_token")).commit();
                 Intent fbConnected = new Intent(MESSAGE_FB_CONNECTED)
                     .putExtra("access_token", values.getString("access_token"));
                 mActivity.getApplicationContext().sendBroadcast(fbConnected);
@@ -142,7 +144,7 @@ public class FBManager {
 
     class FacebookPostListener implements DialogListener {
 
-        public static final String TAG = "FBListener";
+        public static final String TAG = "FBPostListener";
         
         private Activity mActivity;
         private Bundle mBundle;
@@ -194,6 +196,10 @@ public class FBManager {
     
     public void destroyDialog() {
         mFacebook.onDestroy();
+    }
+    
+    public void extendAccessTokenIfNeeded(android.content.Context context, com.facebook.android.Facebook.ServiceListener listener) {
+        mFacebook.extendAccessTokenIfNeeded(context, listener);
     }
     
 }
