@@ -765,6 +765,7 @@ public class TetherApplication extends Application {
 		} catch (Exception e) {
 			h.put("ertm", false);
 		}
+		h.put("fbon", settings.getBoolean("facebook_connected", false));
 		h.put("fbok", settings.getInt("fb_posts_ok", 0));
 		h.put("fber", settings.getInt("fb_posts_error", 0));
 
