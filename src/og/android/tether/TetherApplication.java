@@ -30,6 +30,7 @@ import og.android.tether.system.Configuration;
 import og.android.tether.system.CoreTask;
 import og.android.tether.system.WebserviceTask;
 
+import android.app.AlarmManager;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -76,6 +77,9 @@ public class TetherApplication extends Application {
 	static final int CLIENT_CONNECT_ACDISABLED = 0;
 	static final int CLIENT_CONNECT_AUTHORIZED = 1;
 	static final int CLIENT_CONNECT_NOTAUTHORIZED = 2;
+	
+
+	static TetherApplication singleton;
 	
 	//public String tetherNetworkDevice = null;
 	
@@ -130,10 +134,13 @@ public class TetherApplication extends Application {
 	static final String FORUM_RSS_URL = "http://forum.opengarden.com/categories/wifi-tether-support/feed.rss";
 	
 	static final String MESSAGE_POST_STATS = "og.android.tether/POST_STATS";
+	static final String MESSAGE_REPORT_STATS = "og.android.tether.REPORT_STATS";
 	
 	@Override
 	public void onCreate() {
 		Log.d(MSG_TAG, "Calling onCreate()");
+		
+		TetherApplication.singleton = this;
 		
 		//create CoreTask
 		this.coretask = new CoreTask();
@@ -189,6 +196,8 @@ public class TetherApplication extends Application {
     	this.notification = new Notification(R.drawable.start_notification, "Open Garden Wifi Tether", System.currentTimeMillis());
     	this.mainIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
     	this.accessControlIntent = PendingIntent.getActivity(this, 1, new Intent(this, AccessControlActivity.class), 0);
+    	
+    	requestStatsAlarm();
 	}
 
 	@Override
@@ -989,6 +998,15 @@ public class TetherApplication extends Application {
         params.putString("access_token", settings.getString("fb_access_token", ""));
         return params;
     }
-    
+ 
+    void requestStatsAlarm() {
+        ((AlarmManager)getSystemService(ALARM_SERVICE))
+            .setInexactRepeating(AlarmManager.RTC,
+                System.currentTimeMillis() + 1000 * 3,
+                AlarmManager.INTERVAL_DAY,
+                PendingIntent.getBroadcast(this, 0,
+                        new Intent(this, AlarmReceiver.class).setAction(MESSAGE_REPORT_STATS),
+                        0));
+        Log.d(MSG_TAG, "Alarm Requested");
+    }
 }
-

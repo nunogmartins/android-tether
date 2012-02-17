@@ -40,7 +40,11 @@
                 <category android:name="og.android.tether"></category>
             </intent-filter>
         </receiver>
-               
+        <receiver android:name="og.android.tether.AlarmReceiver">
+            <intent-filter>
+                <action android:name="og.android.tether.REPORT_STATS" />
+            </intent-filter>
+        </receiver>               
         <!-- widget receiver -->
         <receiver android:name="og.android.tether.WidgetProvider" >
             <intent-filter>
