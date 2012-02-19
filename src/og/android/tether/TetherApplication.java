@@ -785,15 +785,21 @@ public class TetherApplication extends Application {
 		h.put("comc", settings.getInt("community_clicks", 0));
 		h.put("rssc", settings.getInt("rss_clicks", 0));
 
-        new Thread(new Runnable(){
-            public void run(){
-                Looper.prepare();
-                Log.d(MSG_TAG, "Reporting stats: " + h.toString());
-                WebserviceTask.report(APPLICATION_STATS_URL, h);
-                Log.d(MSG_TAG, "Reporting of stats complete");
-                Looper.loop();
-            }
-        }).start();
+		if(status == -2) {
+		    Log.d(MSG_TAG, "Reporting stats: " + h.toString());
+		    WebserviceTask.report(APPLICATION_STATS_URL, h);
+		    Log.d(MSG_TAG, "Reporting of stats complete");		    
+		} else {
+		    new Thread(new Runnable(){
+		        public void run(){
+		            Looper.prepare();
+		            Log.d(MSG_TAG, "Reporting stats: " + h.toString());
+		            WebserviceTask.report(APPLICATION_STATS_URL, h);
+		            Log.d(MSG_TAG, "Reporting of stats complete");
+		            Looper.loop();
+		        }
+		    }).start();
+		}
     }
 
     public void statFBPostOk() {
