@@ -38,6 +38,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -57,6 +58,9 @@ import com.google.android.c2dm.C2DMessaging;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import org.miscwidgets.widget.Panel;
+import org.miscwidgets.widget.Panel.OnPanelListener;
 
 
 public class MainActivity extends Activity {
@@ -95,6 +99,8 @@ public class MainActivity extends Activity {
 	private ListView rssView = null;
 	private ArrayAdapter<Spanned> rssAdapter = null;
 	private JSONArray jsonRssArray = null;
+	private Panel rssPanel = null;
+	private TextView communityText = null;
 	
 	private static int ID_DIALOG_STARTING = 0;
 	private static int ID_DIALOG_STOPPING = 1;
@@ -215,8 +221,6 @@ public class MainActivity extends Activity {
         
 			// Check for updates
 			this.application.checkForUpdate();
-			
-
         }
        
         this.rssReader = new RSSReader(getApplicationContext(), TetherApplication.FORUM_RSS_URL);
@@ -236,6 +240,24 @@ public class MainActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        
+        this.rssPanel = (Panel) findViewById(R.id.RSSPanel);
+        this.rssPanel.setInterpolator(new BounceInterpolator());
+        this.rssPanel.setOnPanelListener(new OnPanelListener() {
+            public void onPanelClosed(Panel panel) {
+                MainActivity.this.application.preferenceEditor.putBoolean("rss_closed", true).commit();
+            }
+            public void onPanelOpened(Panel panel) {
+                MainActivity.this.application.preferenceEditor.putBoolean("rss_closed", false).commit();
+            }
+        });
+        
+        this.communityText = (TextView) findViewById(R.id.communityHeader);
+        this.communityText.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                MainActivity.this.rssPanel.setOpen(!MainActivity.this.rssPanel.isOpen(), true);
             }
         });
         
@@ -292,6 +314,8 @@ public class MainActivity extends Activity {
 
 		// Toggles between start and stop screen
 		this.toggleStartStop();
+		
+		
 		
     }
     
@@ -641,6 +665,8 @@ public class MainActivity extends Activity {
                      jsonRssItem.getString("title") + " - <i>" +
                      jsonRssItem.getString("creator") + "</i>" ));
              }
+             if (jsonRssArray.length() > 0 && !this.application.settings.getBoolean("rss_closed", false))
+                 this.rssPanel.setOpen(true, true);
          } catch (JSONException e) {
              e.printStackTrace();
          }
