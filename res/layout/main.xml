@@ -47,17 +47,39 @@
 			android:layout_alignParentRight="true"
 			android:layout_alignParentTop="true"/>
 	</RelativeLayout>
-	<LinearLayout android:id="@+id/layoutRSS"
+	<RelativeLayout android:id="@+id/layoutRSS"
 	    android:layout_width="fill_parent"
 	    android:layout_height="150dp"
 	    android:layout_below="@id/layoutHeaderMain"
 	    android:layout_marginBottom="10dp"
 	    android:orientation="vertical"
-	    android:background="#CC707070" >
-        <ListView android:id="@+id/RSSView"
+	     >
+        <org.miscwidgets.widget.Panel android:id="@+id/RSSDrawer"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-    </LinearLayout>
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            xmlns:panel="http://schemas.android.com/apk/res/og.android.tether"
+            panel:handle="@+id/RSSHandle"
+            panel:content="@+id/RSSViewContainer"
+            panel:position="top"
+            panel:linearFlying="true" >
+            <ImageView android:id="@id/RSSHandle"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:src="@drawable/community_slider" />
+            <LinearLayout android:id="@id/RSSViewContainer"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:background="#CC707070">
+                <ListView android:id="@+id/RSSView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
+            </LinearLayout>
+        </org.miscwidgets.widget.Panel>
+    </RelativeLayout>
     <RelativeLayout android:id="@+id/layoutDownloadUpdate"
 		android:layout_width="fill_parent"
 		android:layout_height="60dp"
