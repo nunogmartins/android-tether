@@ -1007,7 +1007,7 @@ public class TetherApplication extends Application {
  
     void requestStatsAlarm() {
         ((AlarmManager)getSystemService(ALARM_SERVICE))
-            .setInexactRepeating(AlarmManager.RTC,
+            .setInexactRepeating(AlarmManager.RTC_WAKEUP,
                 System.currentTimeMillis() + 1000 * 3,
                 AlarmManager.INTERVAL_DAY,
                 PendingIntent.getBroadcast(this, 0,
