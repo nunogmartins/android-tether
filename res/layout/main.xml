@@ -69,7 +69,8 @@
             <ImageView android:id="@id/RSSHandle"
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
-                android:src="@drawable/community_slider" />
+                android:scaleType="fitXY"
+                android:src="@drawable/slider" />
             <LinearLayout android:id="@id/RSSViewContainer"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
