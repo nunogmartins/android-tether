@@ -271,8 +271,7 @@ public class MainActivity extends Activity {
 						Intent intent = new Intent(TetherService.INTENT_MANAGE);
 						intent.putExtra("state", TetherService.MANAGE_START);
 						Log.d(MSG_TAG, "SENDING MANAGE: " + intent);
-						MainActivity.this.sendBroadcast(intent);
-						MainActivity.this.application.reportStats(-1);  
+						MainActivity.this.sendBroadcast(intent);  
 					}
 				}).start();
 			}

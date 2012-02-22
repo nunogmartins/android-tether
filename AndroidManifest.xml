@@ -63,6 +63,7 @@
         <receiver android:name="og.android.tether.TetherServiceReceiver" >
             <intent-filter>
                <action android:name="og.android.tether.intent.MANAGE" />
+               <action android:name="og.android.tether.intent.STATE" />
             </intent-filter>
         </receiver>    
         

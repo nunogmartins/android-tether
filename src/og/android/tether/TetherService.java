@@ -28,19 +28,19 @@ public class TetherService extends Service {
 	
 	public static final String MSG_TAG = "TETHER -> TetherService";
 
-	public static final int MANAGE_START 		= 1;
-	public static final int MANAGE_STARTED 		= 5;
-	public static final int MANAGE_STOP 			= 0;
-	public static final int MANAGE_STOPPED 		= 6;
+	public static final int MANAGE_START       = 1;
+	public static final int MANAGE_STARTED     = 5;
+	public static final int MANAGE_STOP        = 0;
+	public static final int MANAGE_STOPPED     = 6;
 	
-	public static final int STATE_STARTING 		= 3;
-	public static final int STATE_RUNNING 		= 7;
-	public static final int STATE_STOPPING 		= 4;
-	public static final int STATE_IDLE 			= 8;
-	public static final int STATE_RESTARTING 	= 9;
+	public static final int STATE_STARTING     = 3;
+	public static final int STATE_RUNNING      = 0;
+	public static final int STATE_STOPPING     = 4;
+	public static final int STATE_IDLE         = 11;
+	public static final int STATE_RESTARTING   = 9;
 	
-	public static final int STATE_FAIL_EXEC 		= 10;
-	public static final int STATE_FAIL_LOG 		= 11;
+	public static final int STATE_FAIL_EXEC    = 2;
+	public static final int STATE_FAIL_LOG     = 1;
 	
 	public static final String INTENT_STATE 		= "og.android.tether.intent.STATE";
 	public static final String INTENT_MANAGE		= "og.android.tether.intent.MANAGE";
@@ -126,7 +126,6 @@ public class TetherService extends Service {
 			Log.d(MSG_TAG, "tether.status already running!");
 			this.serviceState = STATE_RUNNING;
 		}
-		sendBroadcastState(serviceState);
 		sendBroadcastManage(MANAGE_STARTED);
 	}
 	
@@ -328,12 +327,9 @@ public class TetherService extends Service {
 	        
           sendBroadcastState(TetherService.this.serviceState);
           sendBroadcastManage(TetherService.MANAGE_STOPPED);
-          TetherService.this.application.reportStats(MainActivity.MESSAGE_TRAFFIC_END);
           postToFacebook();
 				}}).start();
     	
-        
-            
     		stopForegroundCompat(-1);
     }
 	

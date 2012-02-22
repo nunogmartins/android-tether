@@ -12,7 +12,7 @@ public class TetherServiceReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context contextArg, Intent intentArg) {
-		//Log.d(MSG_TAG, "onReceive state: " + intentArg.getIntExtra("state", 999));
+		Log.d(MSG_TAG, "onReceive:" + intentArg + " state:" + intentArg.getIntExtra("state", -9));
 		
 		if(intentArg.getAction().equals(TetherService.INTENT_MANAGE)) {		
 			switch(intentArg.getIntExtra("state", TetherService.MANAGE_START))
@@ -39,7 +39,17 @@ public class TetherServiceReceiver extends BroadcastReceiver {
 					TetherService.singleton.stopSelf();
 				break;
 			default : break;
-			}
+			} 
+		} else if(intentArg.getAction().equals(TetherService.INTENT_STATE)) {
+		    int serviceState = intentArg.getIntExtra("state", -9);
+		    switch(serviceState) {
+		    case TetherService.STATE_RUNNING :
+		    case TetherService.STATE_FAIL_EXEC :
+		    case TetherService.STATE_FAIL_LOG :
+		    case TetherService.STATE_IDLE :
+		        TetherApplication.singleton.reportStats(serviceState);
+		        break;
+		    }
 		}
 		
 	}
