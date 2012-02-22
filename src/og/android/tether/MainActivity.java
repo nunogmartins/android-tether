@@ -247,9 +247,11 @@ public class MainActivity extends Activity {
         this.rssPanel.setInterpolator(new BounceInterpolator());
         this.rssPanel.setOnPanelListener(new OnPanelListener() {
             public void onPanelClosed(Panel panel) {
+                hideCommunityText(true);
                 MainActivity.this.application.preferenceEditor.putBoolean("rss_closed", true).commit();
             }
             public void onPanelOpened(Panel panel) {
+                hideCommunityText(false);
                 MainActivity.this.application.preferenceEditor.putBoolean("rss_closed", false).commit();
             }
         });
@@ -260,6 +262,8 @@ public class MainActivity extends Activity {
                 MainActivity.this.rssPanel.setOpen(!MainActivity.this.rssPanel.isOpen(), true);
             }
         });
+        if(!this.rssPanel.isOpen())
+            hideCommunityText(true);
         
         // Start Button
         this.startBtn = (ImageView) findViewById(R.id.startTetherBtn);
@@ -934,5 +938,11 @@ public class MainActivity extends Activity {
         dialog.show();
    	}
 
+   	private void hideCommunityText(boolean hide) {
+   	    if(hide) {
+   	        MainActivity.this.communityText.setText(
+   	                String.format("%" + this.communityText.getText().length() + "s", " "));
+   	    } else
+   	        MainActivity.this.communityText.setText(R.string.community_header);
+   	}
 }
-

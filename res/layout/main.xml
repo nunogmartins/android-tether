@@ -64,7 +64,6 @@
             panel:handle="@+id/RSSHandle"
             panel:content="@+id/RSSViewContainer"
             panel:position="top"
-            
             panel:animationDuration="2000" >
             <ImageView android:id="@id/RSSHandle"
                 android:layout_width="fill_parent"
