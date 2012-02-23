@@ -128,6 +128,11 @@
 			android:entries="@array/batterytempnames"  
 			android:entryValues="@array/batterytempvalues"  
 			android:defaultValue="celsius"
-			android:dialogTitle="@string/setup_layout_battery" /> 					
+			android:dialogTitle="@string/setup_layout_battery" />
+		  <CheckBoxPreference
+            android:key="rss_closed"
+            android:title="@string/setup_layout_community"
+            android:defaultValue="false"
+            android:summary="@string/setup_layout_community_summary" />
 	</PreferenceCategory>
 </PreferenceScreen>  

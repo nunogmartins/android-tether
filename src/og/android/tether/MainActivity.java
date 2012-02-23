@@ -262,8 +262,7 @@ public class MainActivity extends Activity {
                 MainActivity.this.rssPanel.setOpen(!MainActivity.this.rssPanel.isOpen(), true);
             }
         });
-        if(!this.rssPanel.isOpen())
-            hideCommunityText(true);
+        hideCommunityText(!this.rssPanel.isOpen());
         
         // Start Button
         this.startBtn = (ImageView) findViewById(R.id.startTetherBtn);
@@ -410,7 +409,10 @@ public class MainActivity extends Activity {
 		else {
 			this.lockButtonCheckbox.setVisibility(View.GONE);
 		}
-		
+
+		this.rssPanel.setOpen(!this.application.settings.getBoolean("rss_closed", false), true);
+		hideCommunityText(!this.rssPanel.isOpen());
+
         this.rssReader.readRSS(); 
 	}
 	

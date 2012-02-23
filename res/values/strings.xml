@@ -277,5 +277,7 @@
 		<item>disabled</item>  
 		<item>celsius</item>  
 		<item>fahrenheit</item>  
-	</string-array>		
+	</string-array>
+    <string name="setup_layout_community">Disable Community</string>
+    <string name="setup_layout_community_summary">Hide the Community section</string>
 </resources>
