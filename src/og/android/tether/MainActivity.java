@@ -956,6 +956,8 @@ public class MainActivity extends Activity {
    	public void openLaunchedDialog() {
         Dialog dialog = new AlertDialog.Builder(this)
         .setMessage(R.string.dialog_launched)
+        .setTitle("New Release Available")
+        .setIcon(drawable.ic_dialog_info)
         .setCancelable(false)
         .setOnKeyListener(new DialogInterface.OnKeyListener() {
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
