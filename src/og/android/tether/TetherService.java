@@ -273,6 +273,10 @@ public class TetherService extends Service {
     		Log.d(MSG_TAG, "Service started: " + started + ", state: " + TetherService.this.serviceState);
     		sendBroadcastState(TetherService.this.serviceState);
     		
+    		if (!started || TetherService.this.serviceState != STATE_RUNNING) {
+    		    TetherApplication.singleton.checkLaunched();
+    		}
+    		
     		}}).start();
 
     		String message;
@@ -287,6 +291,7 @@ public class TetherService extends Service {
     			message = getString(R.string.global_application_tethering_running);
     			break;
     		}
+    		    
     		startForegroundCompat(-1, TetherService.this.application.getStartNotification(message));
     }
     

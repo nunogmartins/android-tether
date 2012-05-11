@@ -126,6 +126,8 @@ public class TetherApplication extends Application {
 	public CoreTask coretask = null;
 	
 	public FBManager FBManager = null;
+	public LaunchCheck launchCheck;
+	
 	
 	// Update Url
 	private static final String APPLICATION_PROPERTIES_URL = "https://github.com/opengarden/android-tether/raw/stable/application.properties";
@@ -196,7 +198,7 @@ public class TetherApplication extends Application {
     	this.notification = new Notification(R.drawable.start_notification, "Open Garden Wifi Tether", System.currentTimeMillis());
     	this.mainIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
     	this.accessControlIntent = PendingIntent.getActivity(this, 1, new Intent(this, AccessControlActivity.class), 0);
-    	
+    	this.launchCheck = new LaunchCheck(this);
     	requestStatsAlarm();
 	}
 
@@ -1014,5 +1016,14 @@ public class TetherApplication extends Application {
                         new Intent(this, AlarmReceiver.class).setAction(MESSAGE_REPORT_STATS),
                         0));
         Log.d(MSG_TAG, "Alarm Requested");
+    }
+    
+    void checkLaunched() {
+        Log.d(MSG_TAG, "checkLaunched()");
+        try {
+            this.launchCheck.runCheck();
+        } catch (Exception e) {
+            Log.d(MSG_TAG, "", e);
+        }
     }
 }

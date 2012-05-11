@@ -30,6 +30,7 @@ import android.os.Message;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -377,9 +378,21 @@ public class MainActivity extends Activity {
 	    super.onPause();  	
 	}
 	
+	protected void onNewIntent(Intent intent) {
+	    Log.d(MSG_TAG, "onNewIntent(): " + intent);
+	    setIntent(intent);
+	}
+	
 	public void onResume() {
 		Log.d(MSG_TAG, "Calling onResume()");
-			    
+		
+		try {
+		    if (getIntent().getData().getPath().equals("/LAUNCH_CHECK")) {
+		        setIntent(null);
+		        openLaunchedDialog();
+		    }
+		} catch (Exception e) { Log.d(MSG_TAG, "", e); }
+		
 		this.showRadioMode();
 		super.onResume();
 		this.intentFilter = new IntentFilter();
@@ -940,6 +953,36 @@ public class MainActivity extends Activity {
         dialog.show();
    	}
 
+   	public void openLaunchedDialog() {
+        Dialog dialog = new AlertDialog.Builder(this)
+        .setMessage(R.string.dialog_launched)
+        .setCancelable(false)
+        .setOnKeyListener(new DialogInterface.OnKeyListener() {
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK)
+                    MainActivity.this.finish();
+                if(keyCode < KeyEvent.KEYCODE_DPAD_UP || keyCode > KeyEvent.KEYCODE_DPAD_CENTER)
+                    return true;
+                else
+                    return false;
+            }
+        })
+        .setPositiveButton(getString(R.string.main_activity_yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent meshclientInstall = new Intent(Intent.ACTION_VIEW)
+                .setData(Uri.parse(LaunchCheck.MESHCLIENT_GOOGLE_PLAY_URL));
+                startActivity(meshclientInstall);    
+            }
+        })
+        .setNegativeButton(getString(R.string.main_activity_no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //MainActivity.this.dismissDialog(ID_DIALOG_LAUNCHED);
+            }
+        })
+        .create();
+        dialog.show();
+   	}
+   	
    	private void hideCommunityText(boolean hide) {
    	    if(hide) {
    	        MainActivity.this.communityText.setText(
