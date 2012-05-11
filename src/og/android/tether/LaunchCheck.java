@@ -21,9 +21,8 @@ public class LaunchCheck {
     public static final String CHECK_URL = "http://opengarden.com/update_check";
     public static final String CHECK_KEY = "launched";
     public static final String MESHCLIENT_GOOGLE_PLAY_URL = "market://details?id=com.opengarden.meshclient";
-    
     public static final String MESSAGE_LAUNCH_CHECK = "og.android.meshclient/LAUNCH_CHECK";
-    public static final String EXTRA_LAUNCH_CHECK = "launched";
+    
     private Context mContext;
     
     LaunchCheck(Context context) {
@@ -39,7 +38,6 @@ public class LaunchCheck {
                             Log.d(TAG, "Update true");
                             Intent launchDialog = new Intent(Intent.ACTION_VIEW)
                                 .setData(Uri.parse("message://" + MESSAGE_LAUNCH_CHECK))
-                                .putExtra(EXTRA_LAUNCH_CHECK, true)
                                 .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
                             mContext.startActivity(launchDialog);
                         } else
