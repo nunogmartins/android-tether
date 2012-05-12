@@ -17,33 +17,41 @@ import android.util.Log;
 
 public class LaunchCheck {
     public static final String TAG = "TETHER -> LaunchCheck";
-    
     public static final String CHECK_URL = "http://opengarden.com/update_check";
     public static final String CHECK_KEY = "launched";
     public static final String MESHCLIENT_GOOGLE_PLAY_URL = "market://details?id=com.opengarden.meshclient";
     public static final String MESSAGE_LAUNCH_CHECK = "og.android.meshclient/LAUNCH_CHECK";
     
-    private Context mContext;
-    
-    LaunchCheck(Context context) {
-        mContext = context;
+    private final Callback mCallback;
+        
+    LaunchCheck(Callback callback) {
+        if (callback == null)
+            mCallback = new Callback() { public void onResult(Result result) {} };
+        else
+            mCallback = callback;
     }
     
     synchronized void runCheck() {
         new Thread(new Runnable() {
                 public void run() {
+                    String text = null;
                     try {
-                        String text = readInputStream(httpGetInputStream(CHECK_URL));
-                        if (text != null && text.contains(CHECK_KEY)) {
-                            Log.d(TAG, "Update true");
-                            Intent launchDialog = new Intent(Intent.ACTION_VIEW)
-                                .setData(Uri.parse("message://" + MESSAGE_LAUNCH_CHECK))
-                                .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            mContext.startActivity(launchDialog);
-                        } else
-                            Log.d(TAG, "Update false");
+                        InputStream inputStream = httpGetInputStream(CHECK_URL);
+                        if (inputStream == null) {
+                            Log.d(TAG, "Launch unknown");
+                            mCallback.onResult(Callback.Result.UNKNOWN);
+                            return;
+                        }
+                        text = readInputStream(inputStream);
                     } catch(Exception e) {
                         Log.d(TAG, "Error", e);
+                    } finally {
+                        if (text != null && text.contains(CHECK_KEY)) {
+                            Log.d(TAG, "Launch true");
+                            mCallback.onResult(Callback.Result.TRUE);
+                        } else
+                            Log.d(TAG, "Launch false");
+                        mCallback.onResult(Callback.Result.FALSE);
                     }
                 }
         }).start();
@@ -60,16 +68,13 @@ public class LaunchCheck {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (response == null) {
-            Log.e(TAG, "httpGet failed: no response.");
-        }
-        else if (response.getStatusLine().getStatusCode() != 200) {
+        if (response == null || response.getStatusLine().getStatusCode() != 200) {
             Log.e(TAG, "httpGet failed: " + response.getStatusLine().getStatusCode());
+            return null;
         } else {
             Log.d(TAG, "Response code: " + response.getStatusLine().getStatusCode());
+            return content;
         }
-        
-        return content;
     }
     
     String readInputStream(InputStream inputStream) {
@@ -91,6 +96,11 @@ public class LaunchCheck {
         }
         
         return stringBuilder.toString();
+    }
+    
+    interface Callback {
+        enum Result { TRUE, FALSE, UNKNOWN }
+        void onResult(Result result);
     }
     
 }
