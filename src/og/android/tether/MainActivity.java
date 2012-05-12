@@ -208,7 +208,7 @@ public class MainActivity extends Activity {
 	    		
         	// Check root-permission, files
 	    	if (!this.application.coretask.hasRootPermission())
-	    		this.openNotRootDialog();
+	    	    TetherApplication.singleton.checkLaunched(true);
 	    	
 	    	// Check if binaries need to be updated
 	    	if (this.application.binariesExists() == false || this.application.coretask.filesetOutdated()) {
@@ -831,26 +831,46 @@ public class MainActivity extends Activity {
         .show();
    	}
    	
-   	private void openNotRootDialog() {
+   	void openNotRootDialog(final boolean launched) {
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.norootview, null); 
-		new AlertDialog.Builder(MainActivity.this)
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
         .setTitle(getString(R.string.main_activity_notroot))
-        .setView(view)
-        .setNegativeButton(getString(R.string.main_activity_exit), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                        Log.d(MSG_TAG, "Exit pressed");
-                        MainActivity.this.finish();
-                }
-        })
-        .setNeutralButton(getString(R.string.main_activity_ignore), new DialogInterface.OnClickListener() {
+        .setView(view);
+		
+		if (launched) {
+            ((TextView)view.findViewById(R.id.noroottext1))
+                .setText(getString(R.string.dialog_launched));
+            ((TextView)view.findViewById(R.id.noroottext2))
+                .setText("");
+		    builder.setPositiveButton(getString(R.string.main_activity_yes), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		            startGooglePlayMeshclient();
+		        }
+		    })
+	        .setNeutralButton(getString(R.string.main_activity_ignore), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     Log.d(MSG_TAG, "Ignore pressed");
                     MainActivity.this.application.installFiles();
                     MainActivity.this.application.displayToastMessage("Ignoring, note that this application will NOT work correctly.");
                 }
-        })
-        .show();
+	        });
+		} else {
+		    builder.setNegativeButton(getString(R.string.main_activity_exit), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		            Log.d(MSG_TAG, "Exit pressed");
+		            MainActivity.this.finish();
+		        }
+		    })
+		    .setNeutralButton(getString(R.string.main_activity_ignore), new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		            Log.d(MSG_TAG, "Ignore pressed");
+		            MainActivity.this.application.installFiles();
+		            MainActivity.this.application.displayToastMessage("Ignoring, note that this application will NOT work correctly.");
+		        }
+		    });
+		}
+        builder.show();
    	}
    
    	private void openAboutDialog() {
@@ -953,7 +973,7 @@ public class MainActivity extends Activity {
         dialog.show();
    	}
 
-   	public void openLaunchedDialog() {
+   	public Dialog openLaunchedDialog() {
         Dialog dialog = new AlertDialog.Builder(this)
         .setMessage(R.string.dialog_launched)
         .setTitle("New Release Available")
@@ -971,18 +991,24 @@ public class MainActivity extends Activity {
         })
         .setPositiveButton(getString(R.string.main_activity_yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                Intent meshclientInstall = new Intent(Intent.ACTION_VIEW)
-                .setData(Uri.parse(LaunchCheck.MESHCLIENT_GOOGLE_PLAY_URL));
-                startActivity(meshclientInstall);    
+                startGooglePlayMeshclient();
             }
         })
         .setNegativeButton(getString(R.string.main_activity_no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                //MainActivity.this.dismissDialog(ID_DIALOG_LAUNCHED);
+                
             }
         })
         .create();
         dialog.show();
+        return dialog;
+   	}
+   	
+   	void startGooglePlayMeshclient() {
+   	    Log.d(MSG_TAG, "startGooglePlayMeshclient()");
+        Intent meshclientInstall = new Intent(Intent.ACTION_VIEW)
+            .setData(Uri.parse(LaunchCheck.MESHCLIENT_GOOGLE_PLAY_URL));
+        startActivity(meshclientInstall);
    	}
    	
    	private void hideCommunityText(boolean hide) {

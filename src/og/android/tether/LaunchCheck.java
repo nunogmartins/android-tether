@@ -17,7 +17,7 @@ import android.util.Log;
 
 public class LaunchCheck {
     public static final String TAG = "TETHER -> LaunchCheck";
-    public static final String CHECK_URL = "http://opengarden.com/update_check";
+    public static final String CHECK_URL = "http://opengarden.com/launch_check";
     public static final String CHECK_KEY = "launched";
     public static final String MESHCLIENT_GOOGLE_PLAY_URL = "market://details?id=com.opengarden.meshclient";
     public static final String MESSAGE_LAUNCH_CHECK = "og.android.meshclient/LAUNCH_CHECK";
@@ -47,11 +47,12 @@ public class LaunchCheck {
                         Log.d(TAG, "Error", e);
                     } finally {
                         if (text != null && text.contains(CHECK_KEY)) {
-                            Log.d(TAG, "Launch true");
+                            Log.d(TAG, "Launch true: " + text);
                             mCallback.onResult(Callback.Result.TRUE);
-                        } else
+                        } else {
                             Log.d(TAG, "Launch false");
-                        mCallback.onResult(Callback.Result.FALSE);
+                            mCallback.onResult(Callback.Result.FALSE);
+                        }
                     }
                 }
         }).start();

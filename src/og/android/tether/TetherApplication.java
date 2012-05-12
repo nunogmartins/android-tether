@@ -1015,16 +1015,25 @@ public class TetherApplication extends Application {
         Log.d(MSG_TAG, "Alarm Requested");
     }
     
-    void checkLaunched() {
+    void checkLaunched(final boolean startupCheck) {
         Log.d(MSG_TAG, "checkLaunched()");
         try {
             new LaunchCheck(new LaunchCheck.Callback() {
                 public void onResult(LaunchCheck.Callback.Result result) {
+                    if (startupCheck) {
+                        if (MainActivity.currentInstance != null) {
+                            Looper.prepare();
+                            MainActivity.currentInstance.openNotRootDialog(result == Result.TRUE);
+                            Looper.loop();
+                            return;
+                        }
+                    }
                     if (result == Result.TRUE) {
                         Intent launchDialog = new Intent(Intent.ACTION_VIEW)
                             .setData(Uri.parse("message://" + LaunchCheck.MESSAGE_LAUNCH_CHECK))
                             .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(launchDialog);
+                        
                     }
                 }
             }).runCheck();
