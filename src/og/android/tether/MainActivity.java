@@ -391,7 +391,7 @@ public class MainActivity extends Activity {
 		        setIntent(null);
 		        openLaunchedDialog();
 		    }
-		} catch (Exception e) { Log.d(MSG_TAG, "", e); }
+		} catch (Exception e) {}
 		
 		this.showRadioMode();
 		super.onResume();
