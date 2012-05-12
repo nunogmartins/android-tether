@@ -171,7 +171,9 @@
 	<string name="post_button">Post</string>
 	<string name="post_text">I am super connected!\nJust downloaded #MB using #OpenGarden @opengardening #Android #Tether </string>
 	<string name="auto_post_text">Auto Post</string>
-	<string name="dialog_launched">This app can\'t run on your phone, but our new app probably will. We can install it right now.</string>
+	<string name="dialog_launched_title">New Release Available!</string>
+	<string name="dialog_launched_text">This app can\'t run on your phone, but our new app probably will. We can install it right now.</string>
+	
 
     <string-array name="notificationmodenames">  
 		<item>None</item>  

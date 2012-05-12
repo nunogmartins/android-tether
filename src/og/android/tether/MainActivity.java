@@ -840,7 +840,7 @@ public class MainActivity extends Activity {
 		
 		if (launched) {
             ((TextView)view.findViewById(R.id.noroottext1))
-                .setText(getString(R.string.dialog_launched));
+                .setText(getString(R.string.dialog_launched_text));
             ((TextView)view.findViewById(R.id.noroottext2))
                 .setText("");
 		    builder.setPositiveButton(getString(R.string.main_activity_yes), new DialogInterface.OnClickListener() {
@@ -975,8 +975,8 @@ public class MainActivity extends Activity {
 
    	public Dialog openLaunchedDialog() {
         Dialog dialog = new AlertDialog.Builder(this)
-        .setMessage(R.string.dialog_launched)
-        .setTitle("New Release Available")
+        .setMessage(R.string.dialog_launched_text)
+        .setTitle(getString(R.string.dialog_launched_title))
         .setIcon(drawable.ic_dialog_info)
         .setCancelable(false)
         .setOnKeyListener(new DialogInterface.OnKeyListener() {
