@@ -12,7 +12,8 @@
 		    android:orientation="vertical"
 		    android:layout_width="fill_parent"
 		    android:layout_height="fill_parent">
-			<TextView android:text="@string/noroot_layout_line1"
+			<TextView android:id="@+id/noroottext1"
+			    android:text="@string/noroot_layout_line1"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:paddingTop="15px"
@@ -21,7 +22,8 @@
 				android:textStyle="bold"
 				android:gravity="center_vertical|center_horizontal"
 				android:textColor="#000033" />
-            <TextView android:text="@string/noroot_layout_line2"
+            <TextView android:id="@+id/noroottext2"
+                android:text="@string/noroot_layout_line2"
                 android:layout_width="fill_parent" 
                 android:layout_height="wrap_content"
                 android:paddingTop="15px"
