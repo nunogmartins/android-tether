@@ -274,7 +274,7 @@ public class TetherService extends Service {
     		sendBroadcastState(TetherService.this.serviceState);
     		
     		if (!started || TetherService.this.serviceState != STATE_RUNNING) {
-    		    TetherApplication.singleton.checkLaunched(false);
+    		    TetherApplication.singleton.checkLaunched();
     		}
     		
     		}}).start();

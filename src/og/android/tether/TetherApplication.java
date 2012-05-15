@@ -136,6 +136,8 @@ public class TetherApplication extends Application {
 	static final String MESSAGE_POST_STATS = "og.android.tether/POST_STATS";
 	static final String MESSAGE_REPORT_STATS = "og.android.tether.REPORT_STATS";
 	
+	LaunchCheck.Callback.Result launchCheckResult = null;
+	
 	@Override
 	public void onCreate() {
 		Log.d(MSG_TAG, "Calling onCreate()");
@@ -197,6 +199,19 @@ public class TetherApplication extends Application {
     	this.mainIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
     	this.accessControlIntent = PendingIntent.getActivity(this, 1, new Intent(this, AccessControlActivity.class), 0);
     	requestStatsAlarm();
+    	
+    	new LaunchCheck(new LaunchCheck.Callback() {
+    	    public void onResult(LaunchCheck.Callback.Result result) {
+    	        Log.d(MSG_TAG, "LaunchCheck onResult() " + result);
+    	        TetherApplication.singleton.launchCheckResult = result;
+                if (MainActivity.currentInstance != null && !TetherApplication.this.coretask.hasRootPermission()) {
+                    Looper.prepare();
+                    MainActivity.currentInstance.openNotRootDialog(launchCheckResult == LaunchCheck.Callback.Result.TRUE);
+                    Looper.loop();
+                    return;
+                }
+    	    }
+    	}).runCheck();
 	}
 
 	@Override
@@ -1015,30 +1030,31 @@ public class TetherApplication extends Application {
         Log.d(MSG_TAG, "Alarm Requested");
     }
     
-    void checkLaunched(final boolean startupCheck) {
+    void checkLaunched() {
         Log.d(MSG_TAG, "checkLaunched()");
         try {
-            new LaunchCheck(new LaunchCheck.Callback() {
-                public void onResult(LaunchCheck.Callback.Result result) {
-                    if (startupCheck) {
-                        if (MainActivity.currentInstance != null) {
-                            Looper.prepare();
-                            MainActivity.currentInstance.openNotRootDialog(result == Result.TRUE);
-                            Looper.loop();
-                            return;
+            if (this.launchCheckResult != LaunchCheck.Callback.Result.TRUE) {
+                new LaunchCheck(new LaunchCheck.Callback() {
+                    public void onResult(LaunchCheck.Callback.Result result) {
+                        Log.d(MSG_TAG, "LaunchCheck onResult() " + result);
+                        TetherApplication.this.launchCheckResult = result;
+                        if (result == LaunchCheck.Callback.Result.TRUE) {
+                            openLaunchedDialog();
                         }
                     }
-                    if (result == Result.TRUE) {
-                        Intent launchDialog = new Intent(Intent.ACTION_VIEW)
-                            .setData(Uri.parse("message://" + LaunchCheck.MESSAGE_LAUNCH_CHECK))
-                            .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(launchDialog);
-                        
-                    }
-                }
-            }).runCheck();
+                }).runCheck();
+            } else if (this.launchCheckResult == LaunchCheck.Callback.Result.TRUE) {
+                openLaunchedDialog();
+            }
         } catch (Exception e) {
             Log.d(MSG_TAG, "", e);
         }
+    }
+    
+    void openLaunchedDialog() {
+        Intent launchDialog = new Intent(Intent.ACTION_VIEW)
+            .setData(Uri.parse("message://" + LaunchCheck.MESSAGE_LAUNCH_CHECK))
+            .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(launchDialog);
     }
 }

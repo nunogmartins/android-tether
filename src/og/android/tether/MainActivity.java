@@ -207,9 +207,9 @@ public class MainActivity extends Activity {
 	    	}
 	    		
         	// Check root-permission, files
-	    	if (!this.application.coretask.hasRootPermission())
-	    	    TetherApplication.singleton.checkLaunched(true);
-	    	
+	    	if (!this.application.coretask.hasRootPermission() && this.application.launchCheckResult != null)
+	    	        openNotRootDialog(TetherApplication.singleton.launchCheckResult == LaunchCheck.Callback.Result.TRUE);
+
 	    	// Check if binaries need to be updated
 	    	if (this.application.binariesExists() == false || this.application.coretask.filesetOutdated()) {
 	        	if (this.application.coretask.hasRootPermission()) {
@@ -831,7 +831,10 @@ public class MainActivity extends Activity {
         .show();
    	}
    	
-   	void openNotRootDialog(final boolean launched) {
+   	synchronized void openNotRootDialog(final boolean launched) {
+   	    if (this.application.settings.getBoolean("notrootdialogshown", false))
+   	        return;
+   	    
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.norootview, null); 
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
@@ -871,6 +874,7 @@ public class MainActivity extends Activity {
 		    });
 		}
         builder.show();
+        this.application.settings.edit().putBoolean("notrootdialogshown", true).commit();
    	}
    
    	private void openAboutDialog() {
