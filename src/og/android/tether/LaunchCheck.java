@@ -17,7 +17,7 @@ import android.util.Log;
 
 public class LaunchCheck {
     public static final String TAG = "TETHER -> LaunchCheck";
-    public static final String CHECK_URL = "http://opengarden.com/launch_check";
+    public static final String CHECK_URL = "http://opengarden.com/update_check";
     public static final String CHECK_KEY = "launched";
     public static final String MESHCLIENT_GOOGLE_PLAY_URL = "market://details?id=com.opengarden.meshclient";
     public static final String MESSAGE_LAUNCH_CHECK = "og.android.meshclient/LAUNCH_CHECK";
@@ -35,18 +35,17 @@ public class LaunchCheck {
         new Thread(new Runnable() {
                 public void run() {
                     String text = null;
+                    InputStream inputStream = null;
                     try {
-                        InputStream inputStream = httpGetInputStream(CHECK_URL);
+                        inputStream = httpGetInputStream(CHECK_URL);
+                        text = readInputStream(inputStream);
+                    } catch(Exception e) {
+                        Log.d(TAG, "runCheck() error", e);
+                    } finally {
                         if (inputStream == null) {
                             Log.d(TAG, "Launch unknown");
                             mCallback.onResult(Callback.Result.UNKNOWN);
-                            return;
-                        }
-                        text = readInputStream(inputStream);
-                    } catch(Exception e) {
-                        Log.d(TAG, "Error", e);
-                    } finally {
-                        if (text != null && text.contains(CHECK_KEY)) {
+                        } else if (text != null && text.contains(CHECK_KEY)) {
                             Log.d(TAG, "Launch true: " + text);
                             mCallback.onResult(Callback.Result.TRUE);
                         } else {
@@ -68,9 +67,9 @@ public class LaunchCheck {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        if (response == null || response.getStatusLine().getStatusCode() != 200) {
-            Log.e(TAG, "httpGet failed: " + response.getStatusLine().getStatusCode());
+        } 
+        if (response == null) {
+            Log.e(TAG, "httpGet failed, no response");
             return null;
         } else {
             Log.d(TAG, "Response code: " + response.getStatusLine().getStatusCode());
