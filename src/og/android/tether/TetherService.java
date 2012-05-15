@@ -274,6 +274,7 @@ public class TetherService extends Service {
     		sendBroadcastState(TetherService.this.serviceState);
     		
     		if (!started || TetherService.this.serviceState != STATE_RUNNING) {
+    		    TetherService.this.enableWifi();
     		    TetherApplication.singleton.checkLaunched();
     		}
     		
