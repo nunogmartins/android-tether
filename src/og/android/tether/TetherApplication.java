@@ -1043,7 +1043,7 @@ public class TetherApplication extends Application {
                         }
                     }
                 }).runCheck();
-            } else if (this.launchCheckResult == LaunchCheck.Callback.Result.TRUE) {
+            } else {
                 openLaunchedDialog();
             }
         } catch (Exception e) {
