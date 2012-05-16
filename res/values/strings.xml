@@ -171,8 +171,8 @@
 	<string name="post_button">Post</string>
 	<string name="post_text">I am super connected!\nJust downloaded #MB using #OpenGarden @opengardening #Android #Tether </string>
 	<string name="auto_post_text">Auto Post</string>
-	<string name="dialog_launched_title">Device Not Root Enabled!</string>
-	<string name="dialog_launched_text">This app can\'t run on your phone, but our new app probably will. We can install it right now.</string>
+	<string name="dialog_launched_title">Install Open Garden</string>
+	<string name="dialog_launched_text">This app can\'t run on your phone, but our new app probably will. We can install it right now.\n\nOn the next screen, tap \"Install.\"</string>
 	
 
     <string-array name="notificationmodenames">  
