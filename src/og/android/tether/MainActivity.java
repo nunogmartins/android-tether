@@ -842,16 +842,16 @@ public class MainActivity extends Activity {
         .setView(view);
 		
 		if (launched) {
-            ((TextView)view.findViewById(R.id.noroottext1))
-                .setText(getString(R.string.dialog_launched_text));
-            ((TextView)view.findViewById(R.id.noroottext2))
-                .setText("");
-		    builder.setPositiveButton(getString(R.string.main_activity_yes), new DialogInterface.OnClickListener() {
+		    builder.setIcon(R.drawable.og_app_icon);
+		    builder.setTitle(getString(R.string.dialog_launched_title));
+            ((TextView)view.findViewById(R.id.noroottext1)).setText(getString(R.string.dialog_launched_text));
+            ((TextView)view.findViewById(R.id.noroottext2)).setText("");
+		    builder.setPositiveButton(getString(R.string.main_activity_ok), new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int whichButton) {
 		            startGooglePlayMeshclient();
 		        }
 		    })
-	        .setNeutralButton(getString(R.string.main_activity_ignore), new DialogInterface.OnClickListener() {
+	        .setNeutralButton(getString(R.string.main_activity_cancel), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     Log.d(MSG_TAG, "Ignore pressed");
                     MainActivity.this.application.installFiles();
@@ -981,7 +981,7 @@ public class MainActivity extends Activity {
         Dialog dialog = new AlertDialog.Builder(this)
         .setMessage(R.string.dialog_launched_text)
         .setTitle(getString(R.string.dialog_launched_title))
-        .setIcon(drawable.ic_dialog_info)
+        .setIcon(R.drawable.og_app_icon)
         .setCancelable(false)
         .setOnKeyListener(new DialogInterface.OnKeyListener() {
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
@@ -993,12 +993,12 @@ public class MainActivity extends Activity {
                     return false;
             }
         })
-        .setPositiveButton(getString(R.string.main_activity_yes), new DialogInterface.OnClickListener() {
+        .setPositiveButton(getString(R.string.main_activity_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 startGooglePlayMeshclient();
             }
         })
-        .setNegativeButton(getString(R.string.main_activity_no), new DialogInterface.OnClickListener() {
+        .setNegativeButton(getString(R.string.main_activity_cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 
             }
