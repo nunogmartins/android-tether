@@ -20,6 +20,7 @@
 				android:paddingLeft="15px"
 				android:paddingRight="15px"
 				android:textStyle="bold"
+				android:textSize="20sp"
 				android:gravity="center_vertical|center_horizontal"
 				android:textColor="#000033" />
             <TextView android:id="@+id/noroottext2"
@@ -30,6 +31,7 @@
                 android:paddingLeft="15px"
                 android:paddingRight="15px"
                 android:textStyle="bold"
+                android:textSize="20sp"
                 android:autoLink="web"
                 android:gravity="center_vertical|center_horizontal"
                 android:textColor="#000033" />
