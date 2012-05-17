@@ -269,15 +269,18 @@ public class TetherService extends Service {
 					}
 				}
     		}
-    		
-    		Log.d(MSG_TAG, "Service started: " + started + ", state: " + TetherService.this.serviceState);
-    		sendBroadcastState(TetherService.this.serviceState);
-    		
+
     		if (!started || TetherService.this.serviceState != STATE_RUNNING) {
     		    TetherService.this.enableWifi();
+    		}
+
+    		Log.d(MSG_TAG, "Service started: " + started + ", state: " + TetherService.this.serviceState);
+    		sendBroadcastState(TetherService.this.serviceState);
+
+    		if (!started || TetherService.this.serviceState != STATE_RUNNING) {
     		    TetherApplication.singleton.checkLaunched();
     		}
-    		
+
     		}}).start();
 
     		String message;
@@ -465,6 +468,7 @@ public class TetherService extends Service {
 	        	// Waiting for interface-restart
 	    		this.wifiManager.setWifiEnabled(true);
 	    		try {
+	    			// TODO: interrupt when the CONNECTIVITY_ACTION intent arrives
 	    			Thread.sleep(5000);
 	    		} catch (InterruptedException e) {
 	    			// nothing
