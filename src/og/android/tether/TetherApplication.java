@@ -60,7 +60,7 @@ import android.widget.Toast;
 public class TetherApplication extends Application {
 
 	public static final String MSG_TAG = "TETHER -> TetherApplication";
-    public static final String MESHCLIENT_GOOGLE_PLAY_URL = "market://details?id=com.opengarden.meshclient";
+    public static final String MESHCLIENT_GOOGLE_PLAY_URL = "market://details?id=com.opengarden.android.MeshClient";
     public static final String MESSAGE_LAUNCH_CHECK = "og.android.meshclient/LAUNCH_CHECK";
     
 	public final String DEFAULT_PASSPHRASE = "abcdefghijklm";
