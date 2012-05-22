@@ -173,7 +173,7 @@ public class MainActivity extends Activity {
         }
 
         this.application.reportStats(-1);
-
+        
         // Startup-Check
         if (this.application.startupCheckPerformed == false) {
 	        this.application.startupCheckPerformed = true;
@@ -205,11 +205,7 @@ public class MainActivity extends Activity {
 	    			this.application.whitelist.remove();
 	    		}
 	    	}
-	    		
-        	// Check root-permission, files
-	    	if (!this.application.coretask.hasRootPermission())
-	    	        openLaunchedDialog();
-
+	    	
 	    	// Check if binaries need to be updated
 	    	if (this.application.binariesExists() == false || this.application.coretask.filesetOutdated()) {
 	        	if (this.application.coretask.hasRootPermission()) {
@@ -224,6 +220,10 @@ public class MainActivity extends Activity {
 			this.application.checkForUpdate();
         }
        
+        // Check root-permission, files
+        if (!this.application.coretask.hasRootPermission())
+                openLaunchedDialog();
+        
         this.rssReader = new RSSReader(getApplicationContext(), TetherApplication.FORUM_RSS_URL);
         this.rssView = (ListView)findViewById(R.id.RSSView);
         this.rssAdapter = new ArrayAdapter<Spanned>(this, R.layout.rss_item);
