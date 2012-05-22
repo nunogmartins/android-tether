@@ -102,6 +102,7 @@ public class MainActivity extends Activity {
 	private JSONArray jsonRssArray = null;
 	private Panel rssPanel = null;
 	private TextView communityText = null;
+	private TextView anchorLink = null;
 	
 	private static int ID_DIALOG_STARTING = 0;
 	private static int ID_DIALOG_STOPPING = 1;
@@ -264,6 +265,13 @@ public class MainActivity extends Activity {
             }
         });
         hideCommunityText(!this.rssPanel.isOpen());
+        
+        this.anchorLink = (TextView) findViewById(R.id.anchorLink);
+        this.anchorLink.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                startGooglePlayMeshclient();
+            }
+        });
         
         // Start Button
         this.startBtn = (ImageView) findViewById(R.id.startTetherBtn);
@@ -725,6 +733,7 @@ public class MainActivity extends Activity {
 		Log.d(MSG_TAG, "TOGGLE: RUNNING");
     		this.startTblRow.setVisibility(View.GONE);
     		this.stopTblRow.setVisibility(View.VISIBLE);
+    		this.anchorLink.setVisibility(View.INVISIBLE);
     		// Animation
     		if (this.animation != null)
     			this.stopBtn.startAnimation(this.animation);
@@ -760,6 +769,7 @@ public class MainActivity extends Activity {
     		this.startTblRow.setVisibility(View.VISIBLE);
     		this.stopTblRow.setVisibility(View.GONE);
     		this.trafficRow.setVisibility(View.INVISIBLE);
+    		this.anchorLink.setVisibility(View.VISIBLE);
     		//??? this.application.trafficCounterEnable(false);
     		// Animation
     		if (this.animation != null)

@@ -189,7 +189,15 @@
 			</TableRow> 
 		</TableLayout>
 	</ScrollView>
-
+    <TextView android:id="@+id/anchorLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/anchor_link"
+        android:textColor="#0000FF"
+        android:textSize="14sp"
+        android:layout_margin="5dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom" />
 	<RelativeLayout android:id="@+id/trafficRow"
 		android:gravity="bottom"
 	    android:layout_width="fill_parent"
