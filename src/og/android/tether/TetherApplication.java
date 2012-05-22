@@ -60,12 +60,14 @@ import android.widget.Toast;
 public class TetherApplication extends Application {
 
 	public static final String MSG_TAG = "TETHER -> TetherApplication";
-
+    public static final String MESHCLIENT_GOOGLE_PLAY_URL = "market://details?id=com.opengarden.meshclient";
+    public static final String MESSAGE_LAUNCH_CHECK = "og.android.meshclient/LAUNCH_CHECK";
+    
 	public final String DEFAULT_PASSPHRASE = "abcdefghijklm";
 	public final String DEFAULT_LANNETWORK = "192.168.2.0/24";
 	public final String DEFAULT_ENCSETUP   = "wpa_supplicant";
 	public final String DEFAULT_SSID		  = "OpenGarden";
-	
+	    
 	// Devices-Information
 	public String deviceType = Configuration.DEVICE_GENERIC; 
 	public String interfaceDriver = Configuration.DRIVER_WEXT; 
@@ -136,8 +138,6 @@ public class TetherApplication extends Application {
 	static final String MESSAGE_POST_STATS = "og.android.tether/POST_STATS";
 	static final String MESSAGE_REPORT_STATS = "og.android.tether.REPORT_STATS";
 	
-	LaunchCheck.Callback.Result launchCheckResult = null;
-	
 	@Override
 	public void onCreate() {
 		Log.d(MSG_TAG, "Calling onCreate()");
@@ -200,18 +200,6 @@ public class TetherApplication extends Application {
     	this.accessControlIntent = PendingIntent.getActivity(this, 1, new Intent(this, AccessControlActivity.class), 0);
     	requestStatsAlarm();
     	
-    	new LaunchCheck(new LaunchCheck.Callback() {
-    	    public void onResult(LaunchCheck.Callback.Result result) {
-    	        Log.d(MSG_TAG, "LaunchCheck onResult() " + result);
-    	        TetherApplication.singleton.launchCheckResult = result;
-                if (MainActivity.currentInstance != null && !TetherApplication.this.coretask.hasRootPermission()) {
-                    Looper.prepare();
-                    MainActivity.currentInstance.openNotRootDialog(launchCheckResult == LaunchCheck.Callback.Result.TRUE);
-                    Looper.loop();
-                    return;
-                }
-    	    }
-    	}).runCheck();
 	}
 
 	@Override
@@ -1029,31 +1017,10 @@ public class TetherApplication extends Application {
                         0));
         Log.d(MSG_TAG, "Alarm Requested");
     }
-    
-    void checkLaunched() {
-        Log.d(MSG_TAG, "checkLaunched()");
-        try {
-            if (this.launchCheckResult != LaunchCheck.Callback.Result.TRUE) {
-                new LaunchCheck(new LaunchCheck.Callback() {
-                    public void onResult(LaunchCheck.Callback.Result result) {
-                        Log.d(MSG_TAG, "LaunchCheck onResult() " + result);
-                        TetherApplication.this.launchCheckResult = result;
-                        if (result == LaunchCheck.Callback.Result.TRUE) {
-                            openLaunchedDialog();
-                        }
-                    }
-                }).runCheck();
-            } else {
-                openLaunchedDialog();
-            }
-        } catch (Exception e) {
-            Log.d(MSG_TAG, "", e);
-        }
-    }
-    
+        
     void openLaunchedDialog() {
         Intent launchDialog = new Intent(Intent.ACTION_VIEW)
-            .setData(Uri.parse("message://" + LaunchCheck.MESSAGE_LAUNCH_CHECK))
+            .setData(Uri.parse("message://" + MESSAGE_LAUNCH_CHECK))
             .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(launchDialog);
     }

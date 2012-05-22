@@ -207,8 +207,8 @@ public class MainActivity extends Activity {
 	    	}
 	    		
         	// Check root-permission, files
-	    	if (!this.application.coretask.hasRootPermission() && this.application.launchCheckResult != null)
-	    	        openNotRootDialog(TetherApplication.singleton.launchCheckResult == LaunchCheck.Callback.Result.TRUE);
+	    	if (!this.application.coretask.hasRootPermission())
+	    	        openLaunchedDialog();
 
 	    	// Check if binaries need to be updated
 	    	if (this.application.binariesExists() == false || this.application.coretask.filesetOutdated()) {
@@ -1011,7 +1011,7 @@ public class MainActivity extends Activity {
    	void startGooglePlayMeshclient() {
    	    Log.d(MSG_TAG, "startGooglePlayMeshclient()");
         Intent meshclientInstall = new Intent(Intent.ACTION_VIEW)
-            .setData(Uri.parse(LaunchCheck.MESHCLIENT_GOOGLE_PLAY_URL));
+            .setData(Uri.parse(TetherApplication.MESHCLIENT_GOOGLE_PLAY_URL));
         startActivity(meshclientInstall);
    	}
    	
