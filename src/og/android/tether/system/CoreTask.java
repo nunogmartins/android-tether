@@ -499,18 +499,22 @@ public class CoreTask {
     }
 
     public boolean hasRootPermission() {
-    	boolean rooted = true;
+    	boolean rooted = false;
 		try {
-			File su = new File("/system/bin/su");
-			if (su.exists() == false) {
-				su = new File("/system/xbin/su");
-				if (su.exists() == false) {
-					rooted = false;
-				}
-			}
+		    String path = System.getenv("PATH");
+		    if (path == null || path.length() < 3) {
+		        path = "/system/bin:/system/xbin:/system/sbin";
+		    }
+		    Log.d(MSG_TAG, "hasRootPermissions() " + path );
+		    for(String dir : path.split("[:;]")) {
+		        File su = new File(dir + "/su");    
+		        if (su.exists()) {
+		            rooted = true;
+		            break;
+		        }
+		    }
 		} catch (Exception e) {
 			Log.d(MSG_TAG, "Can't obtain root - Here is what I know: "+e.getMessage());
-			rooted = false;
 		}
 		return rooted;
     }
